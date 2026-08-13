@@ -639,6 +639,24 @@ details.fs-frame>summary:focus-visible{outline:2px solid var(--main);outline-off
 .fs-hint{font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted-2);letter-spacing:0}
 details[open]>summary .fs-hint{display:none}
 /* 접기 / 펼치기 — 상태가 바뀌어도 폭이 변하지 않아야 함(헤더의 PAGE CODE 열 정렬 유지) */
+/* 변경 이력 — 검색 · 더보기 */
+.fs-logbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+.fs-logsearch{flex:1 1 260px;display:flex;align-items:center;gap:8px;min-height:44px;padding:0 14px;
+  background:var(--surface);border:1px solid var(--line-2);border-radius:12px}
+.fs-logsearch svg{width:15px;height:15px;flex:0 0 auto;stroke:var(--muted-2);stroke-width:2;fill:none;stroke-linecap:round}
+.fs-logsearch input{flex:1 1 auto;min-width:0;border:0;background:none;outline:none;
+  font:inherit;font-size:12.5px;color:var(--text);padding:11px 0}
+.fs-logsearch input::placeholder{color:var(--muted-2)}
+.fs-logsearch:focus-within{border-color:var(--main-mid)}
+.fs-logcnt{font-size:11.5px;font-weight:700;color:var(--muted);flex:0 0 auto}
+.fs-logmore{margin-top:12px;text-align:center}
+.fs-logmore button{min-height:44px;padding:0 22px;border-radius:12px;border:1px solid var(--line-2);
+  background:var(--surface);font:inherit;font-size:12.5px;font-weight:700;color:var(--text);cursor:pointer}
+.fs-logmore button:hover{border-color:var(--main-mid);color:var(--main)}
+.fs-logmore em{font-style:normal;font-weight:700;color:var(--muted)}
+.fs-lognone{margin-top:14px;padding:18px;text-align:center;font-size:12.5px;color:var(--muted);
+  background:var(--bg);border:1px dashed var(--line-2);border-radius:12px}
+.fs-loghit{background:rgba(91,75,225,.14);border-radius:3px}
 .fs-fold{display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:0 16px;
   border-left:1px solid var(--line);width:86px;box-sizing:border-box;
   font-size:11px;font-weight:700;color:var(--muted);flex-shrink:0;background:var(--surface)}
@@ -1344,27 +1362,32 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
 <div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div>
-<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>D~G 영역 명세 추가</em></div><div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>미확정 ID 충돌 해소 (O-18 · O-19 분리) · 탭 순서 재배치</em></div><div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>프로토타입 동작 대조 — 누락 명세 보완</em></div></div></div>
-</article></div><div class="fs-sub on" id="fs-sub-design"><details class="fs-frame" id="fs-log"><summary class="fs-fhead"><div class="fs-fname"><i></i>변경 이력<em class="fs-fix">10건</em><em class="fs-hint">최근 26.08.13 · 결정 대기 3건</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>D~G 영역 명세 추가</em></div><div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>미확정 ID 충돌 해소 (O-18 · O-19 분리) · 탭 순서 재배치</em></div><div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>프로토타입 동작 대조 — 누락 명세 보완</em></div><div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>경고 메시지 통합 정의 · 변경 이력 검색/더보기</em></div></div></div>
+</article></div><div class="fs-sub on" id="fs-sub-design"><details class="fs-frame" id="fs-log"><summary class="fs-fhead"><div class="fs-fname"><i></i>변경 이력<em class="fs-fix">12건</em><em class="fs-hint">최근 26.08.13 · 결정 대기 3건</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
 <div class="fs-fbody">
 <div class="fs-fmain">
 <div class="fs-state">
+<div class="fs-logbar"><label class="fs-logsearch"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="20" y1="20" x2="16.65" y2="16.65"/></svg><input type="search" id="fs-logq" placeholder="변경 이력 검색 — 일자 · 구분 · 영역 · 내용 · 작성자" aria-label="변경 이력 검색" oninput="fsLogFind()" onkeydown="if(event.key==='Escape'){this.value='';fsLogFind();}"></label><span class="fs-logcnt" id="fs-logcnt" role="status" aria-live="polite"></span></div>
 <table class="fs-logtbl">
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
-<tr><td class="dt">26.08.06</td><td><span class="fs-kind new">신규</span></td><td class="tg">PAGE INFORMATION · A · B · C</td><td>화면설계서 생성 — 기본 정보와 헤더 · 타이틀 · TAB 영역 명세 작성</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">D · E · F · G</td><td>목록 컨트롤 · 요금제 목록 카드 · FOOT STICKY · Modal Bottom Sheet 영역 명세 작성</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">전체</td><td>영역 체계를 PAGE INDEX 기준으로 재정의 — 필터 패널을 D에 통합, 요금제 목록을 E, Sticky 바를 F, 비교 시트를 G로 이관</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">화면 구성</td><td>전체 화면 구성 도면 추가 — 기본 화면 · 비교 시트 노출 · 요금제 0건(EX-02) 3종</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind del">삭제</span></td><td class="tg">전체</td><td>디자인 시안 영역(색상 · 타이포그래피 · radius · 그림자 · 요소 치수) 삭제 — 디자인 시안 단계 이전 문서로 범위 조정</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">문서 구성</td><td>문서를 문서정보 · 화면설계 · 부록으로 분리, 역할별 보기 삭제</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">전체</td><td>영역별 레이아웃을 화면(좌) · 명세(우) 2열로 변경, 화면은 스크롤 시 고정</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">C · D · E · F · 부록</td><td>배포된 프로토타입 동작을 전수 대조해 누락 항목 보완 — 탭 전환 시 선택·필터 조건 유지, 정렬 옵션 3개 구조, 비교 토스트 문구 분기, 점진 렌더 동작, 방향키 이동+선택·순환, 비활성 CTA의 aria-disabled 처리, 주간 BEST 탭 내 필터·정렬 적용 규칙, 보조기술 라벨</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">문서 구성</td><td>리포트 탭 순서를 <b>화면설계 · 프로토타입 · 기능정의 · 요구사항 정의서 · 개선안</b>으로 재배치(위치 기준 재번호, 화면설계가 기본 진입 탭), 문서 구성 하위 순서를 <b>화면설계 · 문서정보 · 부록</b>으로 변경</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">C · D · E · F · G · 부록</td><td>Worning / Error Message를 <b>F 영역 공통 컴포넌트로 통합</b> — 확정 1건 + 비교 3건(0개 · 1개 · 상한 초과) 문구·규칙 정의. G 비교 시트 선택 버튼의 미선택 / 선택됨 상태 설명 추가, E 점진 렌더 안내 문구 명세화, 탭 선택 상태 · 컨트롤 이름 등 접근성 요건 보강</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">변경 이력</td><td>변경 이력 정렬을 <b>작성일자 역순</b>으로 변경, <b>검색</b>과 <b>20건 단위 더보기</b> 추가</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">E · G</td><td>미확정 ID 충돌 해소 — 요구사항 정의서의 O-18(카드 정보 밀도)을 본 문서가 비교 시트 목업에 중복 부여하고 있어, 비교 시트 목업을 <b>O-19</b>로 분리하고 O-18(카드 정보 밀도)을 E 영역 결정 대기로 복원</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">문서 구성</td><td>리포트 탭 순서를 <b>화면설계 · 프로토타입 · 기능정의 · 요구사항 정의서 · 개선안</b>으로 재배치(위치 기준 재번호, 화면설계가 기본 진입 탭), 문서 구성 하위 순서를 <b>화면설계 · 문서정보 · 부록</b>으로 변경</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">C · D · E · F · 부록</td><td>배포된 프로토타입 동작을 전수 대조해 누락 항목 보완 — 탭 전환 시 선택·필터 조건 유지, 정렬 옵션 3개 구조, 비교 토스트 문구 분기, 점진 렌더 동작, 방향키 이동+선택·순환, 비활성 CTA의 aria-disabled 처리, 주간 BEST 탭 내 필터·정렬 적용 규칙, 보조기술 라벨</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">전체</td><td>영역별 레이아웃을 화면(좌) · 명세(우) 2열로 변경, 화면은 스크롤 시 고정</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">문서 구성</td><td>문서를 문서정보 · 화면설계 · 부록으로 분리, 역할별 보기 삭제</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind del">삭제</span></td><td class="tg">전체</td><td>디자인 시안 영역(색상 · 타이포그래피 · radius · 그림자 · 요소 치수) 삭제 — 디자인 시안 단계 이전 문서로 범위 조정</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">화면 구성</td><td>전체 화면 구성 도면 추가 — 기본 화면 · 비교 시트 노출 · 요금제 0건(EX-02) 3종</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">전체</td><td>영역 체계를 PAGE INDEX 기준으로 재정의 — 필터 패널을 D에 통합, 요금제 목록을 E, Sticky 바를 F, 비교 시트를 G로 이관</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">D · E · F · G</td><td>목록 컨트롤 · 요금제 목록 카드 · FOOT STICKY · Modal Bottom Sheet 영역 명세 작성</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.06</td><td><span class="fs-kind new">신규</span></td><td class="tg">PAGE INFORMATION · A · B · C</td><td>화면설계서 생성 — 기본 정보와 헤더 · 타이틀 · TAB 영역 명세 작성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
+<div class="fs-logmore" id="fs-logmore" hidden><button type="button" onclick="fsLogMore()">더보기 <em id="fs-logrest"></em></button></div>
+<div class="fs-lognone" id="fs-lognone" hidden>검색 결과가 없습니다. 다른 키워드로 검색해 주세요.</div>
 <div class="fs-cond" style="margin-top:18px"><dt>결정 대기</dt><ul><li><span class="cid d">O-17</span> E. 요금제 목록 카드 — 프로모션 적용 기간 표기 — 적용 기간과 종료 후 금액이 없음. 표시·광고 규제 검토 필요 <b>(기획 · 법무)</b></li><li><span class="cid d">O-18</span> E. 요금제 목록 카드 — 카드 정보 밀도 — 첫 화면 동시 노출 수가 부족해 비교 시트 의존도가 높음. 스펙 면·혜택 면 압축 범위 결정 필요 <b>(기획 · 디자인)</b></li><li><span class="cid d">O-19</span> G. Modal Bottom Sheet — 비교 시트 상세 목업 별도 정의 필요 <b>(기획)</b></li></ul></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>이력 기준</dt>
@@ -1477,7 +1500,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-rows">
 <div class="fs-row">
 <div class="fs-no">01</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>Filter Chips (Single-select)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>필터 선택 (*선택된 옵션 일 경우, NO ACTION)</p><p>선택한 결과 반영<br>반영 범위 : D. 목록 컨트롤, E. 요금제 목록 카드</p><p>탭 전환 시 목록 재구성 + 스크롤 최상단 이동 (리로드 없음)</p><p><b>선택한 요금제는 탭을 이동해도 유지</b> — 탭 전환으로 선택이 해제되지 않음</p><p>적용된 <b>필터 조건은 유지</b>하고 필터 패널만 접힘</p><p>점진 렌더 카운트는 초기값으로 되돌림 <span class="cid">C-39</span></p></dd></div><div><dt>Value</dt><dd><p>주간 BEST (*Default), 전체, LTE, 5G</p></dd></div><div><dt>Memo</dt><dd><p>VALUE 정의<br>- 주간 BEST : 주간 단위 요금제 개통률로 지정되는 순위를 반영해 TOP 10 요금제 노출<br>- 전체 : 상품 유형에 맞는 요금제 노출 (단말, USIM/eSIM)<br>- LTE : 네트웍 LTE 요금제 노출<br>- 5G : 네트웍 5G 요금제 노출</p><p>주간 BEST 집계 : 매주 월요일 갱신 <span class="cid">C-14</span> · 집계 실패 시 직전 주 데이터 유지 (미고지) <span class="cid">C-29</span></p><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p></dd></div></div></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>Filter Chips (Single-select)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>필터 선택 (*선택된 옵션 일 경우, NO ACTION)</p><p>선택한 결과 반영<br>반영 범위 : D. 목록 컨트롤, E. 요금제 목록 카드</p><p>탭 전환 시 목록 재구성 + 스크롤 최상단 이동 (리로드 없음)</p><p><b>선택한 요금제는 탭을 이동해도 유지</b> — 탭 전환으로 선택이 해제되지 않음</p><p>적용된 <b>필터 조건은 유지</b>하고 필터 패널만 접힘</p><p>점진 렌더 카운트는 초기값으로 되돌림 <span class="cid">C-39</span></p></dd></div><div><dt>Value</dt><dd><p>주간 BEST (*Default), 전체, LTE, 5G</p></dd></div><div><dt>Memo</dt><dd><p>VALUE 정의<br>- 주간 BEST : 주간 단위 요금제 개통률로 지정되는 순위를 반영해 TOP 10 요금제 노출<br>- 전체 : 상품 유형에 맞는 요금제 노출 (단말, USIM/eSIM)<br>- LTE : 네트웍 LTE 요금제 노출<br>- 5G : 네트웍 5G 요금제 노출</p><p>주간 BEST 집계 : 매주 월요일 갱신 <span class="cid">C-14</span> · 집계 실패 시 직전 주 데이터 유지 (미고지) <span class="cid">C-29</span></p><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p><p>단일 선택 그룹이므로 <b>선택된 탭이 보조기술에 전달</b>되어야 함 — 시각적 강조만으로는 어느 탭이 선택되었는지 알 수 없음 <span class="cid">WCAG 4.1.2</span></p><p>주간 BEST 탭의 "BEST" 표기는 장식 — 탭 이름의 일부로 읽히지 않게 처리</p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-mock" style="width:360px"><div style="position:relative"><b class="fs-cal">01</b><div class="tabbar" style="position:static;padding:0;margin:0"><button type="button" tabindex="-1" class="">주간<span class="bst">BEST</span></button><button type="button" tabindex="-1" class="on">전체</button><button type="button" tabindex="-1" class="">LTE</button><button type="button" tabindex="-1" class="">5G</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>주간(BEST) 외 탭 선택 시</li></ul></div>
@@ -1505,10 +1528,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Toggle)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>필터 패널 인라인 펼침 · 접힘 (화면 이동 없음)</p><p>chevron 180° 회전</p></dd></div><div><dt>Value</dt><dd><p>필터 / 필터 · N (적용된 조건 수)</p></dd></div><div><dt>Memo</dt><dd><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p><p>aria-expanded · aria-controls 필수</p><p>패널은 목록을 덮지 않고 밀어냄</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">03</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SELECT</p></dd></div><div><dt>Interaction</dt><dd><p>CHANGE</p></dd></div><div><dt>Action</dt><dd><p>목록 재정렬 — 클라이언트 처리 · 리로드 없음</p><p>목록 전체 재생성 금지 <span class="cid">C-42</span></p></dd></div><div><dt>Value</dt><dd><p>옵션 <b>3개</b> — 첫 옵션은 탭에 따라 라벨이 전환됨</p><p>① 주간 순위순 (주간 BEST 탭) / 추천순 (그 외 탭) — Default</p><p>② 낮은 가격순</p><p>③ 데이터 많은순</p></dd></div><div><dt>Memo</dt><dd><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p><p>주간 순위순은 주간 BEST 탭 고유 옵션 <span class="cid">C-27</span> — 별도 옵션을 추가하지 않고 첫 옵션의 라벨만 전환</p><p>정렬 변경 시 점진 렌더 카운트를 초기값으로 되돌려 목록 상단부터 다시 채움 <span class="cid">C-39</span></p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SELECT</p></dd></div><div><dt>Interaction</dt><dd><p>CHANGE</p></dd></div><div><dt>Action</dt><dd><p>목록 재정렬 — 클라이언트 처리 · 리로드 없음</p><p>목록 전체 재생성 금지 <span class="cid">C-42</span></p></dd></div><div><dt>Value</dt><dd><p>옵션 <b>3개</b> — 첫 옵션은 탭에 따라 라벨이 전환됨</p><p>① 주간 순위순 (주간 BEST 탭) / 추천순 (그 외 탭) — Default</p><p>② 낮은 가격순</p><p>③ 데이터 많은순</p></dd></div><div><dt>Memo</dt><dd><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p><p>주간 순위순은 주간 BEST 탭 고유 옵션 <span class="cid">C-27</span> — 별도 옵션을 추가하지 않고 첫 옵션의 라벨만 전환</p><p>정렬 변경 시 점진 렌더 카운트를 초기값으로 되돌려 목록 상단부터 다시 채움 <span class="cid">C-39</span></p><p>보이는 라벨이 없는 셀렉트이므로 <b>접근 가능한 이름 필요</b> — aria-label="정렬" 등. 현재 값만 읽히면 무엇을 고르는 컨트롤인지 알 수 없음 <span class="cid">WCAG 4.1.2</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">04</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Counter)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>비교 대상 2개 충족 시 : G. Modal Bottom Sheet 노출</p><p>2개 미충족 시 : 안내 토스트 노출 (시트 미노출) — 담긴 수에 따라 문구 분기</p><p>· 0개 : "카드에서 비교할 요금제를 담아 주세요 (최대 2개)"</p><p>· 1개 : "1개 더 담으면 비교할 수 있습니다"</p></dd></div><div><dt>Value</dt><dd><p>비교 0/2 → 1/2 → 2/2</p></dd></div><div><dt>Memo</dt><dd><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p><p>비교 대상 최대 2개 · 담긴 수 실시간 반영</p><p>E 카드에서 비교 담기 해제 시 카운트 즉시 감소</p><p>탭 이동해도 담긴 항목 유지 <span class="cid">C-35</span></p></dd></div></div></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Counter)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>비교 대상 2개 충족 시 : G. Modal Bottom Sheet 노출</p><p>2개 미충족 시 : 안내 토스트 노출 (시트 미노출) — 담긴 수에 따라 문구 분기</p><p>· 0개 : "카드에서 비교할 요금제를 담아 주세요 (최대 2개)"</p><p>· 1개 : "1개 더 담으면 비교할 수 있습니다"</p><p>문구 · 노출 규칙은 <b>F. FOOT STICKY의 Worning / Error Message</b>에 통합 정의</p></dd></div><div><dt>Value</dt><dd><p>비교 0/2 → 1/2 → 2/2</p></dd></div><div><dt>Memo</dt><dd><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p><p>비교 대상 최대 2개 · 담긴 수 실시간 반영</p><p>E 카드에서 비교 담기 해제 시 카운트 즉시 감소</p><p>탭 이동해도 담긴 항목 유지 <span class="cid">C-35</span></p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-mock" style="width:360px"><div class="filterbox open" style="margin:0"><div class="fb-head" style="position:relative"><b class="fs-cal o">01</b><b>필터 조건</b></div><div class="fb-fields"><label style="position:relative"><b class="fs-cal o">02</b><span>데이터 제공량</span><span class="fs-sel">전체<svg class="chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span></label><label style="position:relative"><b class="fs-cal o">03</b><span>월 기본료</span><span class="fs-sel">전체<svg class="chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span></label></div><div class="fb-act"><button type="button" tabindex="-1" class="fb-reset" disabled style="position:relative"><b class="fs-cal o">04</b>초기화</button><button type="button" tabindex="-1" class="fb-done" style="position:relative"><b class="fs-cal">05</b>결과 10개 보기</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>필터 클릭 시 패널 펼침 (인라인 확장 · 화면 이동 없음)</li></ul></div>
@@ -1567,7 +1590,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>[Circle Radio-unchecked]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p><p>SPACE</p></dd></div><div><dt>Action</dt><dd><p>해당 요금제 선택 (목록 내 단일 선택)</p></dd></div><div><dt>Memo</dt><dd><p>우측 상단 배치 · 터치 타깃 44px 이상</p><p>role="radio" + aria-checked="false"</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">09</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Toggle)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>비교 목록에 담기 · 해제 → D. 비교 카운트 갱신</p><p>2개 담긴 상태에서 추가 시도 : 토스트 안내 (담기지 않음)</p></dd></div><div><dt>Value</dt><dd><p>[비교담기-OFF] 비교 담기 / [비교담기-ON] 비교 담김</p></dd></div><div><dt>Memo</dt><dd><p>카드 우측 하단 · 터치 타깃 44px 이상</p><p>카드 선택 버튼과 형제 요소로 분리 — 버튼 중첩 없음 (키보드 도달 가능)</p><p>aria-pressed로 담김 상태 전달 · aria-label="{요금제명} 비교 담기" — 목록에 같은 라벨의 버튼이 반복되므로 요금제명을 포함</p></dd></div></div></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Toggle)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>비교 목록에 담기 · 해제 → D. 비교 카운트 갱신</p><p>2개 담긴 상태에서 추가 시도 : 토스트 안내 (담기지 않음) — "비교는 최대 2개까지 담을 수 있습니다"</p><p>문구 · 노출 규칙은 <b>F. FOOT STICKY의 Worning / Error Message</b>에 통합 정의</p></dd></div><div><dt>Value</dt><dd><p>[비교담기-OFF] 비교 담기 / [비교담기-ON] 비교 담김</p></dd></div><div><dt>Memo</dt><dd><p>카드 우측 하단 · 터치 타깃 44px 이상</p><p>카드 선택 버튼과 형제 요소로 분리 — 버튼 중첩 없음 (키보드 도달 가능)</p><p>aria-pressed로 담김 상태 전달 · aria-label="{요금제명} 비교 담기" — 목록에 같은 라벨의 버튼이 반복되므로 요금제명을 포함</p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">10</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (점진 렌더 안내)</p></dd></div><div><dt>Action</dt><dd><p>목록 하단에 노출 — 아직 표시되지 않은 건이 남아 있음을 알림</p><p>다음 묶음이 붙으면 진행 수치가 갱신되고, 전부 표시되면 <b>영역 자체가 사라짐</b></p></dd></div><div><dt>Value</dt><dd><p>스크롤하면 이어서 표시됩니다 ({표시된 건수}/{전체 건수})</p></dd></div><div><dt>Memo</dt><dd><p>목록 끝이 아니라는 신호 — 이 표기가 없으면 남은 요금제가 있어도 목록이 끝난 것으로 읽힘</p><p>페이징 · 무한스크롤 UI가 아니므로 <b>조작 요소가 아님</b> — 버튼 · 링크로 만들지 않음</p><p>주간 BEST 탭은 TOP 10 고정이라 미노출</p><p>진행 수치 갱신이 보조기술에도 전달되어야 함 — 목록 하단 상태 안내로 처리</p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative">1</span><span class="badges" style="position:relative"><b class="fs-cal">01</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 스페셜 플러스</span><span class="prices" style="position:relative"><span class="p-old">46,600원</span><span class="p-new">38,200원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>100GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">최대 5M bps 속도로 데이터 무제한</span></span></button><div class="cmprow"><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>배지가 2개 부여되고 추가 혜택이 없는 요금제</li></ul></div>
@@ -1644,11 +1670,23 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Action</dt><dd><p>선택 요금제를 신청서 세션에 승계 <span class="cid">C-36</span></p></dd></div><div><dt>Memo</dt><dd><p>S-03에서 뒤로가기 복귀 시 직전 선택 복원 <span class="cid">C-43</span></p><p>첫 페이지 재진입은 미복원 <span class="cid">C-32</span> — 별도 경로</p><p>선택 변경 시 최종 선택으로 갱신</p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-mock" style="width:360px"><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal">01</b>요금제를 먼저 선택해 주세요</div><div style="height:10px"></div><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum idle" style="position:relative">요금제를 선택해 주세요.</div><button type="button" tabindex="-1" class="cta off" style="position:relative">신청서 작성하기 <span>&#8594;</span></button></div></div></div>
-<div class="fs-cond"><dt>노출 조건</dt><ul><li>미선택 상태에서 확정을 시도한 경우 (Worning / Error Message)</li></ul></div>
+<div class="fs-cond"><dt>노출 조건</dt><ul><li>확정 또는 비교 조작이 <b>불가한 상황에서 사유를 안내</b>해야 하는 경우 (Worning / Error Message)</li><li>토스트는 F 영역의 <b>공통 컴포넌트</b> — D. 목록 컨트롤 · E. 요금제 목록 카드 · G. Modal Bottom Sheet에서 발생한 안내도 이 자리에 노출</li><li>발생 지점과 무관하게 <b>동시에 1개만</b> 노출</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
 <div class="fs-no">01</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>TOAST [Error MSG]</p></dd></div><div><dt>Interaction</dt><dd><p>비활성 CTA CLICK</p></dd></div><div><dt>Action</dt><dd><p>확정 불가 사유 안내 — 화면 이동 없음</p></dd></div><div><dt>Value</dt><dd><p>요금제를 먼저 선택해 주세요</p></dd></div><div><dt>Memo</dt><dd><p>Alert 미사용 · 하단 고정 바 상단에 노출 후 자동 소멸 (약 2초)</p><p>소멸 전 재시도 시 타이머를 재시작하고 문구를 교체 — 토스트가 중첩되지 않음</p><p>role="status" + aria-live="polite" <span class="cid">WCAG 4.1.3</span></p></dd></div></div></div></div></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TOAST [Error MSG]</p></dd></div><div><dt>Interaction</dt><dd><p>비활성 CTA CLICK</p></dd></div><div><dt>Action</dt><dd><p>확정 불가 사유 안내 — 화면 이동 없음</p></dd></div><div><dt>Value</dt><dd><p>요금제를 먼저 선택해 주세요</p></dd></div><div><dt>Memo</dt><dd><p>확정 단계의 Error MSG — 진행을 막는 유일한 조건이므로 문구에 다음 행동(요금제 선택)을 명시</p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">02</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TOAST [Worning MSG]</p></dd></div><div><dt>Interaction</dt><dd><p>D. 비교 버튼 CLICK</p></dd></div><div><dt>Action</dt><dd><p>담긴 항목이 <b>0개</b>일 때 — 비교 시트 미노출 · 화면 이동 없음</p></dd></div><div><dt>Value</dt><dd><p>카드에서 비교할 요금제를 담아 주세요 (최대 2개)</p></dd></div><div><dt>Memo</dt><dd><p>비교 버튼을 비활성으로 두지 않고 <b>누르면 사유를 안내</b> — 담는 방법을 모르는 사용자가 다음 행동을 알 수 있어야 함</p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">03</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TOAST [Worning MSG]</p></dd></div><div><dt>Interaction</dt><dd><p>D. 비교 버튼 CLICK</p></dd></div><div><dt>Action</dt><dd><p>담긴 항목이 <b>1개</b>일 때 — 비교 시트 미노출 · 담긴 항목은 유지</p></dd></div><div><dt>Value</dt><dd><p>1개 더 담으면 비교할 수 있습니다</p></dd></div><div><dt>Memo</dt><dd><p>비교는 2개가 성립 조건 — 부족한 <b>수량을 문구에 명시</b>해 몇 개가 더 필요한지 알 수 있게 함</p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">04</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TOAST [Worning MSG]</p></dd></div><div><dt>Interaction</dt><dd><p>E. 비교 담기 CLICK</p></dd></div><div><dt>Action</dt><dd><p>이미 2개가 담긴 상태에서 <b>3번째를 담으려 한 경우</b> — 담기지 않음 · 해당 카드 상태 변화 없음 · 기존 2개 유지</p></dd></div><div><dt>Value</dt><dd><p>비교는 최대 2개까지 담을 수 있습니다</p></dd></div><div><dt>Memo</dt><dd><p>상한 <span class="cid">C-15</span>을 넘는 조작이므로 <b>버튼을 비활성화하지 않고</b> 상한을 안내 — 어떤 카드를 눌러도 같은 문구</p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">05</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (토스트 공통)</p></dd></div><div><dt>Memo</dt><dd><p>Alert 미사용 · 하단 고정 바 상단에 노출 후 자동 소멸 (약 2초)</p><p>소멸 전 재시도 시 타이머를 재시작하고 문구를 교체 — 토스트가 중첩되지 않음</p><p>토스트는 <b>정보 안내 전용</b> — 목록 · 선택 · 담긴 항목 등 화면 상태를 바꾸지 않음</p><p>role="status" + aria-live="polite" <span class="cid">WCAG 4.1.3</span> — 포커스를 빼앗지 않음</p></dd></div></div></div></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
 <div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div>
@@ -1688,7 +1726,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TABLE (비교 항목)</p></dd></div><div><dt>Value</dt><dd><p>월 요금 / 판매가 / 데이터 / QOS / 통화 · 문자</p></dd></div><div><dt>Memo</dt><dd><p>열 = 요금제 (최대 2개) · 행 = 비교 항목</p><p>항목 순서 고정 · 요금제 마스터 값 그대로 노출</p><p>프로모션가 없는 요금제는 판매가 행에 "-" 표기</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">05</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (선택 매핑)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>해당 요금제 선택 + 시트 닫힘</p><p>E. 요금제 목록 카드 선택 상태 동기화</p><p>F. FOOT STICKY 선택 요약 갱신</p></dd></div><div><dt>Value</dt><dd><p>요금제 선택 / 선택됨</p></dd></div><div><dt>Memo</dt><dd><p>각 열 하단에 배치 — 어느 쪽을 고르는지 버튼 위치로 명시</p><p>aria-pressed로 선택 상태 전달</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (선택 매핑)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>해당 요금제 선택 + 시트 닫힘</p><p>E. 요금제 목록 카드 선택 상태 동기화</p><p>F. FOOT STICKY 선택 요약 갱신</p></dd></div><div><dt>Value</dt><dd><p><b>[미선택]</b> "요금제 선택" — 아직 선택되지 않은 요금제. 누르면 이 요금제로 선택됨</p><p><b>[선택됨]</b> 체크 + "선택됨" — 현재 선택된 요금제. 다시 눌러도 해제되지 않음(선택은 단일 필수)</p><p>두 열은 <b>항상 각각 상태를 가짐</b> — 한쪽이 선택되면 다른 쪽은 미선택으로 표시</p></dd></div><div><dt>Memo</dt><dd><p>각 열 하단에 배치 — 어느 쪽을 고르는지 버튼 위치로 명시</p><p>선택 전 진입 시에는 <b>두 열 모두 미선택</b> 상태로 열림 — 어느 쪽도 기본 선택하지 않음</p><p>라벨이 두 열에 반복되므로 보조기술용 이름에 요금제명 포함 — aria-label="{요금제명} 선택" / "{요금제명} 선택됨"</p><p>aria-pressed로 선택 상태 전달 <span class="cid">WCAG 4.1.2</span></p><p>E. 카드에서 이미 선택한 요금제를 담아 시트를 연 경우, 해당 열은 <b>열자마자 선택됨</b>으로 표시 — 시트와 목록의 선택 상태는 항상 동일</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">06</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>비교 목록 전체 해제 + 시트 닫힘</p><p>D. 비교 카운트 0/2로 갱신</p></dd></div><div><dt>Value</dt><dd><p>비교 목록 비우기</p></dd></div></div></div>
@@ -1834,9 +1872,17 @@ details.fs-frame:not([open])>summary{border-radius:19px}
         
 <tr><td>선택 상태 인지</td><td>색상 단독 금지 — <b>보더 + 채움 + 라디오</b> 3중 단서</td><td>WCAG 1.4.1</td></tr>
         
+<tr><td>탭 선택 상태</td><td>단일 선택 탭 그룹의 <b>선택된 탭</b>을 보조기술에 전달 (시각 강조만으로는 부족)</td><td>WCAG 4.1.2</td></tr>
+        
+<tr><td>컨트롤 이름</td><td>보이는 라벨이 없는 컨트롤에 <b>접근 가능한 이름</b> — 정렬 셀렉트 · 비교 카운터 · 목록에 반복되는 비교 담기 / 비교 시트 선택 버튼(요금제명 포함)</td><td>WCAG 4.1.2</td></tr>
+        
 <tr><td>토글 버튼</td><td>비교 담기에 <code class="k">aria-pressed</code></td><td>WCAG 4.1.2</td></tr>
         
-<tr><td>상태 변경 알림</td><td>토스트에 <code class="k">role="status"</code> + <code class="k">aria-live="polite"</code></td><td>WCAG 4.1.3</td></tr>
+<tr><td>상태 변경 알림</td><td>토스트에 <code class="k">role="status"</code> + <code class="k">aria-live="polite"</code> — 확정 1건 · 비교 3건 전부 동일 컴포넌트</td><td>WCAG 4.1.3</td></tr>
+        
+<tr><td>비활성 컨트롤</td><td>사유를 안내해야 하는 컨트롤은 <code class="k">disabled</code> 대신 <code class="k">aria-disabled="true"</code> — 확정 CTA · 비교 버튼 · 비교 담기</td><td><span class="cid">C-41</span></td></tr>
+        
+<tr><td>점진 렌더 안내</td><td>남은 건수 표기의 갱신이 보조기술에도 전달 — 목록이 끝난 것으로 읽히지 않게</td><td><span class="cid">C-39</span></td></tr>
         
 <tr><td>터치 타깃</td><td>화면 내 <b>상시 노출 컨트롤 전부 44px 이상</b> — 탭 · 칩 · 셀렉트 · 시트 닫기 포함 <span class="cid">C-38</span></td><td>WCAG 2.5.5</td></tr>
       
@@ -2668,6 +2714,47 @@ function showTab(id){
 
 <script>
 /* sticky 툴바 오프셋 — 탭바·툴바 실제 높이를 측정해 CSS 변수로 반영 (앵커 스크롤 여백 공용) */
+/* 변경 이력 — 검색 + 20건 단위 더보기 (정렬은 작성일자 역순으로 마크업에 고정) */
+var FS_LOG_PAGE = 20, fsLogShown = FS_LOG_PAGE;
+
+function fsLogRows(){
+  var t = document.querySelector('.fs-logtbl tbody');
+  return t ? [].slice.call(t.rows) : [];
+}
+function fsLogNorm(s){ return (s || '').toLowerCase().replace(/[\s.\u00b7-]/g, ''); }
+
+function fsLogPaint(){
+  var q = document.getElementById('fs-logq');
+  var key = fsLogNorm(q ? q.value : '');
+  var rows = fsLogRows(), hit = 0, total = rows.length;
+  for(var i=0;i<rows.length;i++){
+    var r = rows[i];
+    var match = !key || fsLogNorm(r.textContent).indexOf(key) >= 0;
+    if(match){
+      hit++;
+      r.style.display = (hit <= fsLogShown) ? '' : 'none';
+    }else{
+      r.style.display = 'none';
+    }
+  }
+  var cnt = document.getElementById('fs-logcnt');
+  if(cnt) cnt.textContent = key
+    ? '검색 결과 ' + hit + '건 / 전체 ' + total + '건'
+    : '전체 ' + total + '건';
+
+  var rest = hit - fsLogShown;
+  var more = document.getElementById('fs-logmore');
+  if(more){
+    more.hidden = rest <= 0;
+    var em = document.getElementById('fs-logrest');
+    if(em) em.textContent = rest > 0 ? '(' + Math.min(rest, FS_LOG_PAGE) + '건 / 남은 ' + rest + '건)' : '';
+  }
+  var none = document.getElementById('fs-lognone');
+  if(none) none.hidden = hit !== 0;
+}
+function fsLogFind(){ fsLogShown = FS_LOG_PAGE; fsLogPaint(); }
+function fsLogMore(){ fsLogShown += FS_LOG_PAGE; fsLogPaint(); }
+
 function fsSyncSticky(){
   var root = document.documentElement;
   var tb = document.querySelector('.r-tabsbar');
@@ -2676,6 +2763,8 @@ function fsSyncSticky(){
   if(tl && tl.offsetHeight) root.style.setProperty('--tlh', tl.offsetHeight + 'px');
 }
 /* 문서 구성 탭 — 화면설계 · 문서정보 · 부록 */
+fsLogPaint();
+
 function fsSub(name){
   var tb = document.querySelector('.fs-toolbar');
   if(tb) tb.setAttribute('data-sub', name);
