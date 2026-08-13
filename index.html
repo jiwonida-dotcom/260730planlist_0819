@@ -494,7 +494,12 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-subtabs button:hover:not(.on){color:var(--text);border-color:var(--main-mid)}
 .fs-subtabs button.on{background:var(--main);border-color:var(--main);color:#fff;box-shadow:0 4px 12px rgba(91,75,225,.24)}
 .fs-sub{display:none}
-.fs-sub.on{display:block;animation:fadeIn .22s ease}
+/* 화면설계 탭은 sticky 요소를 포함 — 진입 애니메이션에 transform을 쓰면
+   변환된 조상이 sticky 기준을 바꿔 툴바·화면이 순간적으로 흔들린다. 불투명도만 사용 */
+#rt-spec.r-view.on{animation:fsFade .22s ease}
+.fs-sub{overflow-anchor:none}
+.fs-sub.on{display:block;animation:fsFade .22s ease}
+@keyframes fsFade{from{opacity:0}to{opacity:1}}
 /* 영역 이동은 화면설계 구성에서만 의미가 있으므로 그 외에는 감춘다 */
 .fs-toolbar:not([data-sub="design"]) .fs-nav{display:none}
 .fs-toolbar .fs-nav{border:none;border-radius:0;box-shadow:none;margin:0;padding:9px 15px;background:var(--bg);
@@ -565,9 +570,11 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-mock .fs-sel{flex:1;min-width:0;padding:0 11px;border:1px solid var(--line-2);border-radius:10px;font-size:12.5px;
   font-weight:700;background:#fff;color:var(--text);min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:8px}
 .fs-mock .fs-sel svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.3;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+/* 화면에 그려지는 요소가 없는 행 — 번호 대신 SYS (화면 넘버링과 1:1 대응하지 않음) */
+.fs-no.sys{color:var(--muted-2);font-size:9.5px;letter-spacing:.03em}
 .fs-cal{position:absolute;left:-12px;top:-12px;width:23px;height:23px;border-radius:50%;background:#E5484D;color:#fff;
   font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;z-index:8;
-  box-shadow:0 2px 7px rgba(0,0,0,.2);letter-spacing:-.03em;line-height:1}
+  box-shadow:0 0 0 2px var(--surface),0 2px 7px rgba(0,0,0,.22);letter-spacing:-.03em;line-height:1}
 .fs-cal.r{left:auto;right:-12px}
 .fs-cal.up{left:50%;margin-left:-11.5px;top:-20px}
 .fs-cal.o{left:-32px}
@@ -1333,6 +1340,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
         
 <tr><td><span class="cid n">실측</span></td><td>배포된 프로토타입에서 계측한 값</td></tr>
         
+<tr><td><b style="font-size:10px;color:var(--muted-2)">SYS</b></td><td>화면에 그려지는 요소가 없는 <b>시스템 · 공통 규칙</b> 행 — 번호를 붙이지 않으므로 SCREEN의 빨간 번호와 대응하지 않습니다. 그 외 번호는 SCREEN의 번호와 <b>1:1로 대응</b>합니다</td></tr>
 <tr><td><span class="cid">C-nn</span></td><td>요구사항 정의서의 <b>확정</b> 항목 — 변경 시 요구사항 정의서와 함께 개정. 상세 정의는 44건 중 <b>38건이 「05 개선안」 탭, 6건이 「04 요구사항 정의서」 탭</b>에 있습니다 (본 문서는 참조만 하며 정의를 두지 않습니다)</td></tr>
         
 <tr><td><span class="cid d">O-nn</span></td><td><b>미확정</b> 항목 — 결정 대기, 개발 착수 전 확정 필요</td></tr>
@@ -1361,9 +1369,9 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </table></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
-<div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div>
-<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>D~G 영역 명세 추가</em></div><div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>미확정 ID 충돌 해소 (O-18 · O-19 분리) · 탭 순서 재배치</em></div><div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>프로토타입 동작 대조 — 누락 명세 보완</em></div><div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>경고 메시지 통합 정의 · 변경 이력 검색/더보기</em></div></div></div>
-</article></div><div class="fs-sub on" id="fs-sub-design"><details class="fs-frame" id="fs-log"><summary class="fs-fhead"><div class="fs-fname"><i></i>변경 이력<em class="fs-fix">12건</em><em class="fs-hint">최근 26.08.13 · 결정 대기 3건</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
+</div></div>
+</article></div><div class="fs-sub on" id="fs-sub-design"><details class="fs-frame" id="fs-log"><summary class="fs-fhead"><div class="fs-fname"><i></i>변경 이력<em class="fs-fix">1건</em><em class="fs-hint">최근 26.08.13 · 결정 대기 3건</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
 <div class="fs-fbody">
 <div class="fs-fmain">
 <div class="fs-state">
@@ -1372,18 +1380,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">C · D · E · F · G · 부록</td><td>Worning / Error Message를 <b>F 영역 공통 컴포넌트로 통합</b> — 확정 1건 + 비교 3건(0개 · 1개 · 상한 초과) 문구·규칙 정의. G 비교 시트 선택 버튼의 미선택 / 선택됨 상태 설명 추가, E 점진 렌더 안내 문구 명세화, 탭 선택 상태 · 컨트롤 이름 등 접근성 요건 보강</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">변경 이력</td><td>변경 이력 정렬을 <b>작성일자 역순</b>으로 변경, <b>검색</b>과 <b>20건 단위 더보기</b> 추가</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">E · G</td><td>미확정 ID 충돌 해소 — 요구사항 정의서의 O-18(카드 정보 밀도)을 본 문서가 비교 시트 목업에 중복 부여하고 있어, 비교 시트 목업을 <b>O-19</b>로 분리하고 O-18(카드 정보 밀도)을 E 영역 결정 대기로 복원</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">문서 구성</td><td>리포트 탭 순서를 <b>화면설계 · 프로토타입 · 기능정의 · 요구사항 정의서 · 개선안</b>으로 재배치(위치 기준 재번호, 화면설계가 기본 진입 탭), 문서 구성 하위 순서를 <b>화면설계 · 문서정보 · 부록</b>으로 변경</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">C · D · E · F · 부록</td><td>배포된 프로토타입 동작을 전수 대조해 누락 항목 보완 — 탭 전환 시 선택·필터 조건 유지, 정렬 옵션 3개 구조, 비교 토스트 문구 분기, 점진 렌더 동작, 방향키 이동+선택·순환, 비활성 CTA의 aria-disabled 처리, 주간 BEST 탭 내 필터·정렬 적용 규칙, 보조기술 라벨</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">전체</td><td>영역별 레이아웃을 화면(좌) · 명세(우) 2열로 변경, 화면은 스크롤 시 고정</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">문서 구성</td><td>문서를 문서정보 · 화면설계 · 부록으로 분리, 역할별 보기 삭제</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind del">삭제</span></td><td class="tg">전체</td><td>디자인 시안 영역(색상 · 타이포그래피 · radius · 그림자 · 요소 치수) 삭제 — 디자인 시안 단계 이전 문서로 범위 조정</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">화면 구성</td><td>전체 화면 구성 도면 추가 — 기본 화면 · 비교 시트 노출 · 요금제 0건(EX-02) 3종</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind mod">변경</span></td><td class="tg">전체</td><td>영역 체계를 PAGE INDEX 기준으로 재정의 — 필터 패널을 D에 통합, 요금제 목록을 E, Sticky 바를 F, 비교 시트를 G로 이관</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.13</td><td><span class="fs-kind add">추가</span></td><td class="tg">D · E · F · G</td><td>목록 컨트롤 · 요금제 목록 카드 · FOOT STICKY · Modal Bottom Sheet 영역 명세 작성</td><td class="wr">허지원 책임</td></tr>
-<tr><td class="dt">26.08.06</td><td><span class="fs-kind new">신규</span></td><td class="tg">PAGE INFORMATION · A · B · C</td><td>화면설계서 생성 — 기본 정보와 헤더 · 타이틀 · TAB 영역 명세 작성</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
 <div class="fs-logmore" id="fs-logmore" hidden><button type="button" onclick="fsLogMore()">더보기 <em id="fs-logrest"></em></button></div>
@@ -1473,7 +1470,8 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>ICON BUTTON</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>CLOSE PAGE</p></dd></div><div><dt>Memo</dt><dd><p>신청서 이탈 — 원천(www) 복귀 경로는 현행 준용</p></dd></div></div></div></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
-<div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div></div></div>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
+</div></div>
 </article>
 <article class="fs-frame r-sec" id="fs-b">
 <div class="fs-fhead"><div class="fs-fname"><i></i>B. 타이틀<em class="fs-fix">스크롤</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02_B</b></div></div>
@@ -1488,21 +1486,22 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT</p></dd></div><div><dt>Value</dt><dd><p>페이지 디스크립션 - 고정</p></dd></div><div><dt>Memo</dt><dd><p>문구 : 가입하실 요금제를 선택해 주세요.</p><p>"요금제를 선택" 부분 강조 — 강조 표현은 디자인 시안에서 확정</p><p>서브 타이틀 미사용 (비노출 처리)</p></dd></div></div></div></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
-<div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div></div></div>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
+</div></div>
 </article>
 <article class="fs-frame r-sec" id="fs-c">
 <div class="fs-fhead"><div class="fs-fname"><i></i>C. TAB<em class="fs-fix">상단 STICKY</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02_C</b></div></div>
 <div class="fs-fbody">
 <div class="fs-fmain">
 <div class="fs-state sp">
-<div class="fs-screen"><div class="fs-mock" style="width:360px"><div style="position:relative"><b class="fs-cal">01</b><div class="tabbar" style="position:static;padding:0;margin:0"><button type="button" tabindex="-1" class="on">주간<span class="bst">BEST</span></button><button type="button" tabindex="-1" class="">전체</button><button type="button" tabindex="-1" class="">LTE</button><button type="button" tabindex="-1" class="">5G</button></div></div></div></div>
+<div class="fs-screen"><div class="fs-mock" style="width:360px"><div style="position:relative"><b class="fs-cal o">01</b><div class="tabbar" style="position:static;padding:0;margin:0"><button type="button" tabindex="-1" class="on">주간<span class="bst">BEST</span></button><button type="button" tabindex="-1" class="">전체</button><button type="button" tabindex="-1" class="">LTE</button><button type="button" tabindex="-1" class="">5G</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>화면 진입 시 상시 노출</li><li>상단 STICKY (헤더 하단에 붙어 고정)</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
 <div class="fs-no">01</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>Filter Chips (Single-select)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>필터 선택 (*선택된 옵션 일 경우, NO ACTION)</p><p>선택한 결과 반영<br>반영 범위 : D. 목록 컨트롤, E. 요금제 목록 카드</p><p>탭 전환 시 목록 재구성 + 스크롤 최상단 이동 (리로드 없음)</p><p><b>선택한 요금제는 탭을 이동해도 유지</b> — 탭 전환으로 선택이 해제되지 않음</p><p>적용된 <b>필터 조건은 유지</b>하고 필터 패널만 접힘</p><p>점진 렌더 카운트는 초기값으로 되돌림 <span class="cid">C-39</span></p></dd></div><div><dt>Value</dt><dd><p>주간 BEST (*Default), 전체, LTE, 5G</p></dd></div><div><dt>Memo</dt><dd><p>VALUE 정의<br>- 주간 BEST : 주간 단위 요금제 개통률로 지정되는 순위를 반영해 TOP 10 요금제 노출<br>- 전체 : 상품 유형에 맞는 요금제 노출 (단말, USIM/eSIM)<br>- LTE : 네트웍 LTE 요금제 노출<br>- 5G : 네트웍 5G 요금제 노출</p><p>주간 BEST 집계 : 매주 월요일 갱신 <span class="cid">C-14</span> · 집계 실패 시 직전 주 데이터 유지 (미고지) <span class="cid">C-29</span></p><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p><p>단일 선택 그룹이므로 <b>선택된 탭이 보조기술에 전달</b>되어야 함 — 시각적 강조만으로는 어느 탭이 선택되었는지 알 수 없음 <span class="cid">WCAG 4.1.2</span></p><p>주간 BEST 탭의 "BEST" 표기는 장식 — 탭 이름의 일부로 읽히지 않게 처리</p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
-<div class="fs-screen"><div class="fs-mock" style="width:360px"><div style="position:relative"><b class="fs-cal">01</b><div class="tabbar" style="position:static;padding:0;margin:0"><button type="button" tabindex="-1" class="">주간<span class="bst">BEST</span></button><button type="button" tabindex="-1" class="on">전체</button><button type="button" tabindex="-1" class="">LTE</button><button type="button" tabindex="-1" class="">5G</button></div></div></div></div>
+<div class="fs-screen"><div class="fs-mock" style="width:360px"><div style="position:relative"><b class="fs-cal o">01</b><div class="tabbar" style="position:static;padding:0;margin:0"><button type="button" tabindex="-1" class="">주간<span class="bst">BEST</span></button><button type="button" tabindex="-1" class="on">전체</button><button type="button" tabindex="-1" class="">LTE</button><button type="button" tabindex="-1" class="">5G</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>주간(BEST) 외 탭 선택 시</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
@@ -1510,7 +1509,8 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>Filter Chips (Single-select)</p></dd></div><div><dt>Value</dt><dd><p>[Tab-Selected] 선택한 탭 (전체 / LTE / 5G)</p><p>[Tab-Abled] 주간 BEST 포함 나머지 탭</p></dd></div><div><dt>Action</dt><dd><p>정렬 기본값 : 주간 순위순 → 추천순으로 변경 <span class="cid">C-27</span></p><p>순위 배지 미노출 — 주간 BEST 탭 전용</p></dd></div><div><dt>Memo</dt><dd><p>주간 순위 배지는 주간 탭 기준으로 부여 — 필터·정렬 후에도 순위 값 불변</p><p>비교 담은 항목은 탭 이동해도 유지 <span class="cid">C-35</span></p><p>주간 탭은 TOP 10 고정이므로 점진 렌더 미적용</p></dd></div></div></div></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
-<div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div></div></div>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
+</div></div>
 </article>
 <article class="fs-frame r-sec" id="fs-d">
 <div class="fs-fhead"><div class="fs-fname"><i></i>D. 목록 컨트롤<em class="fs-fix">스크롤</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02_D</b></div></div>
@@ -1553,15 +1553,15 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Primary CTA)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>필터 적용 + 패널 접힘</p></dd></div><div><dt>Value</dt><dd><p>결과 N개 보기</p></dd></div><div><dt>Memo</dt><dd><p>모바일 전체 폭 / PC 우측 정렬</p><p>결과 0건이어도 Alert 노출 없음 — 목록 영역만 빈 상태로 전환</p></dd></div></div></div></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
-<div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div>
-<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>영역 명세 작성</em></div></div></div>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
+</div></div>
 </article>
 <article class="fs-frame r-sec" id="fs-e">
 <div class="fs-fhead"><div class="fs-fname"><i></i>E. 요금제 목록 카드<em class="fs-fix">스크롤</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02_E</b></div></div>
 <div class="fs-fbody">
 <div class="fs-fmain">
 <div class="fs-state sp">
-<div class="fs-screen"><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative"><b class="fs-cal o">01</b>2</span><span class="badges" style="position:relative"><b class="fs-cal">02</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><b class="fs-cal r o">08</b><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative"><b class="fs-cal o">03</b>LTE 스페셜</span><span class="prices" style="position:relative"><b class="fs-cal o">04</b><span class="p-old">49,390원</span><span class="p-new">32,990원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><b class="fs-cal o">05</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>11GB+일2GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative"><b class="fs-cal o">06</b>최대 3M bps 속도로 데이터 무제한</span></span><span class="benefit" style="position:relative"><b class="fs-cal o">07</b><span class="gi">&#127873;</span>매월 다이소 5천원 혜택 (24개월)</span></button><div class="cmprow"><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><b class="fs-cal r o">09</b><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
+<div class="fs-screen"><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative"><b class="fs-cal o">01</b>2</span><span class="badges" style="position:relative"><b class="fs-cal">02</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><b class="fs-cal r o">08</b><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative"><b class="fs-cal o">03</b>LTE 스페셜</span><span class="prices" style="position:relative"><b class="fs-cal o">04</b><span class="p-old">49,390원</span><span class="p-new">32,990원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><b class="fs-cal o">05</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>11GB+일2GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative"><b class="fs-cal o">06</b>최대 3M bps 속도로 데이터 무제한</span></span><span class="benefit" style="position:relative"><b class="fs-cal o">07</b><span class="gi">&#127873;</span>매월 다이소 5천원 혜택 (24개월)</span></button><div class="cmprow"><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><b class="fs-cal r o">09</b><span class="cb">&#10003;</span>비교 담기</button></div></div><div class="loading" style="position:relative;margin-top:12px"><b class="fs-cal o">10</b>스크롤하면 이어서 표시됩니다 (8/10)</div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>요금제 데이터의 사용 여부 = '사용' 인 요금제 <span class="cid">C-40</span></li><li>확정된 개통 방법을 지원하는 요금제 (목록 결과 1건 이상)</li><li>그룹핑 없음 <span class="cid">C-21</span> · 점진 렌더 <span class="cid">C-39</span></li><li>점진 렌더 : 진입 시 일부만 렌더하고 목록 하단 근접 시 다음 묶음을 이어 붙임 — 페이징 · 무한스크롤 UI 없음</li><li>주간 BEST 탭은 TOP 10 고정이므로 점진 렌더 미적용</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
@@ -1595,7 +1595,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-no">10</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (점진 렌더 안내)</p></dd></div><div><dt>Action</dt><dd><p>목록 하단에 노출 — 아직 표시되지 않은 건이 남아 있음을 알림</p><p>다음 묶음이 붙으면 진행 수치가 갱신되고, 전부 표시되면 <b>영역 자체가 사라짐</b></p></dd></div><div><dt>Value</dt><dd><p>스크롤하면 이어서 표시됩니다 ({표시된 건수}/{전체 건수})</p></dd></div><div><dt>Memo</dt><dd><p>목록 끝이 아니라는 신호 — 이 표기가 없으면 남은 요금제가 있어도 목록이 끝난 것으로 읽힘</p><p>페이징 · 무한스크롤 UI가 아니므로 <b>조작 요소가 아님</b> — 버튼 · 링크로 만들지 않음</p><p>주간 BEST 탭은 TOP 10 고정이라 미노출</p><p>진행 수치 갱신이 보조기술에도 전달되어야 함 — 목록 하단 상태 안내로 처리</p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
-<div class="fs-screen"><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative">1</span><span class="badges" style="position:relative"><b class="fs-cal">01</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 스페셜 플러스</span><span class="prices" style="position:relative"><span class="p-old">46,600원</span><span class="p-new">38,200원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>100GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">최대 5M bps 속도로 데이터 무제한</span></span></button><div class="cmprow"><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
+<div class="fs-screen"><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative">1</span><span class="badges" style="position:relative"><b class="fs-cal">01</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 스페셜 플러스</span><span class="prices" style="position:relative"><span class="p-old">46,600원</span><span class="p-new">38,200원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>100GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">최대 5M bps 속도로 데이터 무제한</span></span></button><div class="cmprow" style="position:relative"><b class="fs-cal o">02</b><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>배지가 2개 부여되고 추가 혜택이 없는 요금제</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
@@ -1615,16 +1615,16 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-no">02</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (카드)</p></dd></div><div><dt>Action</dt><dd><p>선택 단서 3중 적용 : 보더 + 채움 + 라디오 (색상 단독 금지) <span class="cid">WCAG 1.4.1</span></p></dd></div><div><dt>Memo</dt><dd><p>선택 전후 카드 크기가 변하지 않아야 함 — 목록이 미세하게 흔들리는 것을 방지</p><p>hover · press 상태 제공 (포인터 환경) — 표현은 디자인 시안에서 확정</p><p>포커스 표시는 선택 상태 표시와 겹치지 않게 구분 <span class="cid">WCAG 2.4.7</span></p></dd></div></div></div>
 <div class="fs-row">
-<div class="fs-no">03</div>
+<div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Action</dt><dd><p>스크롤 위치 유지 <span class="cid">C-18</span></p><p>목록 전체 재생성 금지 <span class="cid">C-42</span></p><p>F. FOOT STICKY 선택 요약 즉시 갱신</p></dd></div><div><dt>Memo</dt><dd><p>교체 범위는 해당 카드 + F. FOOT STICKY로 한정</p></dd></div></div></div>
 <div class="fs-row">
-<div class="fs-no">04</div>
+<div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Interaction</dt><dd><p>같은 카드 재선택</p></dd></div><div><dt>Action</dt><dd><p>무동작 — 해제되지 않음 (선택은 단일 필수)</p></dd></div></div></div>
 <div class="fs-row">
-<div class="fs-no">05</div>
+<div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (접근성)</p></dd></div><div><dt>Memo</dt><dd><p>목록 role="radiogroup" · 각 카드 role="radio" + aria-checked <span class="cid">WCAG 4.1.2</span></p><p>roving tabindex — 선택 항목만 tabindex="0" · 나머지는 tabindex="-1"</p><p>방향키(↑↓←→)는 <b>이동과 동시에 선택</b>되고 목록 끝에서 반대쪽 끝으로 <b>순환</b> · Home/End로 처음·마지막 이동 <span class="cid">WCAG 2.1.1</span></p><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
-<div class="fs-screen"><div class="fs-mock" style="width:340px"><div class="empty" style="padding:34px 16px;position:relative"><div class="eicon" style="position:relative"><b class="fs-cal">01</b>&#9888;</div><p style="position:relative"><b class="fs-cal">02</b>조건에 맞는 요금제가 없습니다.</p><button type="button" tabindex="-1" style="position:relative"><b class="fs-cal">03</b>필터 초기화</button></div></div></div>
+<div class="fs-screen"><div class="fs-mock" style="width:340px"><div class="empty" style="padding:34px 16px;position:relative"><div class="eicon">&#9888;</div><p style="position:relative"><b class="fs-cal o">01</b>조건에 맞는 요금제가 없습니다.</p><button type="button" tabindex="-1" style="position:relative"><b class="fs-cal o">02</b>필터 초기화</button></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>조회 · 필터 결과가 0건인 경우 (EX-02)</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
@@ -1634,12 +1634,12 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-no">02</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>필터 조건 전체 해제 + 목록 복구 (별도 화면 이동 없음)</p></dd></div><div><dt>Value</dt><dd><p>필터 초기화</p></dd></div><div><dt>Memo</dt><dd><p>터치 타깃 44px 이상 확보 <span class="cid">C-38</span></p></dd></div></div></div>
 <div class="fs-row">
-<div class="fs-no">03</div>
+<div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p>빈 상태는 목록 영역에만 적용 — C. TAB · D. 목록 컨트롤은 그대로 유지</p><p>요금제 개수 표기 0개로 갱신</p><p>F. FOOT STICKY 유지 — CTA 비활성</p></dd></div></div></div></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
-<div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div>
-<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>영역 명세 작성</em></div></div></div>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
+</div></div>
 </article>
 <article class="fs-frame r-sec" id="fs-f">
 <div class="fs-fhead"><div class="fs-fname"><i></i>F. FOOT STICKY<em class="fs-fix">하단 고정</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02_F</b></div></div>
@@ -1666,10 +1666,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-no">02</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON [Bottom Button-ON]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>사용 여부 재검증 → S-03 상품 정보 입력으로 이동 <span class="cid">C-19</span></p></dd></div><div><dt>Value</dt><dd><p>신청서 작성하기 (Abled)</p></dd></div><div><dt>Memo</dt><dd><p>활성 상태 제공</p></dd></div></div></div>
 <div class="fs-row">
-<div class="fs-no">03</div>
+<div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Action</dt><dd><p>선택 요금제를 신청서 세션에 승계 <span class="cid">C-36</span></p></dd></div><div><dt>Memo</dt><dd><p>S-03에서 뒤로가기 복귀 시 직전 선택 복원 <span class="cid">C-43</span></p><p>첫 페이지 재진입은 미복원 <span class="cid">C-32</span> — 별도 경로</p><p>선택 변경 시 최종 선택으로 갱신</p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
-<div class="fs-screen"><div class="fs-mock" style="width:360px"><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal">01</b>요금제를 먼저 선택해 주세요</div><div style="height:10px"></div><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum idle" style="position:relative">요금제를 선택해 주세요.</div><button type="button" tabindex="-1" class="cta off" style="position:relative">신청서 작성하기 <span>&#8594;</span></button></div></div></div>
+<div class="fs-screen"><div class="fs-mock" style="width:360px"><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">01</b>요금제를 먼저 선택해 주세요</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">02</b>카드에서 비교할 요금제를 담아 주세요 (최대 2개)</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">03</b>1개 더 담으면 비교할 수 있습니다</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">04</b>비교는 최대 2개까지 담을 수 있습니다</div><div style="height:12px"></div><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum idle" style="position:relative">요금제를 선택해 주세요.</div><button type="button" tabindex="-1" class="cta off" style="position:relative">신청서 작성하기 <span>&#8594;</span></button></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>확정 또는 비교 조작이 <b>불가한 상황에서 사유를 안내</b>해야 하는 경우 (Worning / Error Message)</li><li>토스트는 F 영역의 <b>공통 컴포넌트</b> — D. 목록 컨트롤 · E. 요금제 목록 카드 · G. Modal Bottom Sheet에서 발생한 안내도 이 자리에 노출</li><li>발생 지점과 무관하게 <b>동시에 1개만</b> 노출</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
@@ -1685,19 +1685,19 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-no">04</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TOAST [Worning MSG]</p></dd></div><div><dt>Interaction</dt><dd><p>E. 비교 담기 CLICK</p></dd></div><div><dt>Action</dt><dd><p>이미 2개가 담긴 상태에서 <b>3번째를 담으려 한 경우</b> — 담기지 않음 · 해당 카드 상태 변화 없음 · 기존 2개 유지</p></dd></div><div><dt>Value</dt><dd><p>비교는 최대 2개까지 담을 수 있습니다</p></dd></div><div><dt>Memo</dt><dd><p>상한 <span class="cid">C-15</span>을 넘는 조작이므로 <b>버튼을 비활성화하지 않고</b> 상한을 안내 — 어떤 카드를 눌러도 같은 문구</p></dd></div></div></div>
 <div class="fs-row">
-<div class="fs-no">05</div>
+<div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (토스트 공통)</p></dd></div><div><dt>Memo</dt><dd><p>Alert 미사용 · 하단 고정 바 상단에 노출 후 자동 소멸 (약 2초)</p><p>소멸 전 재시도 시 타이머를 재시작하고 문구를 교체 — 토스트가 중첩되지 않음</p><p>토스트는 <b>정보 안내 전용</b> — 목록 · 선택 · 담긴 항목 등 화면 상태를 바꾸지 않음</p><p>role="status" + aria-live="polite" <span class="cid">WCAG 4.1.3</span> — 포커스를 빼앗지 않음</p></dd></div></div></div></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
-<div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div>
-<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>영역 명세 작성</em></div></div></div>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
+</div></div>
 </article>
 <article class="fs-frame r-sec" id="fs-g">
 <div class="fs-fhead"><div class="fs-fname"><i></i>G. Modal Bottom Sheet<em class="fs-fix">Modal</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02_G</b></div></div>
 <div class="fs-fbody">
 <div class="fs-fmain"><p class="fs-note">비교 담기 · 비교 시트 — 모바일 하단 시트 / PC 중앙 모달</p>
 <div class="fs-state sp">
-<div class="fs-screen"><div class="fs-mock" style="width:360px"><div class="sheet on" style="position:relative;transform:none;border:1px solid var(--line);box-shadow:var(--shadow-m);max-height:none"><div class="grab" style="position:relative"><b class="fs-cal">01</b><i></i></div><div class="sheet-h"><b style="position:relative"><b class="fs-cal">02</b>요금제 비교</b><button type="button" tabindex="-1" style="position:relative"><b class="fs-cal r">03</b>&#215;</button></div><div class="sheet-b" style="overflow:visible"><div style="position:relative"><b class="fs-cal">04</b>
+<div class="fs-screen"><div class="fs-mock" style="width:360px"><div class="sheet on" style="position:relative;transform:none;border:1px solid var(--line);box-shadow:var(--shadow-m);max-height:none"><div class="grab" style="position:relative"><b class="fs-cal o">01</b><i></i></div><div class="sheet-h"><b style="position:relative"><b class="fs-cal">02</b>요금제 비교</b><button type="button" tabindex="-1" style="position:relative"><b class="fs-cal r">03</b>&#215;</button></div><div class="sheet-b" style="overflow:visible"><div style="position:relative"><b class="fs-cal">04</b>
 <table class="ctable">
 <thead>
 <tr><th></th><th>LTE 스페셜 플러스</th><th>LTE 스페셜</th></tr></thead>
@@ -1731,15 +1731,15 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-no">06</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>비교 목록 전체 해제 + 시트 닫힘</p><p>D. 비교 카운트 0/2로 갱신</p></dd></div><div><dt>Value</dt><dd><p>비교 목록 비우기</p></dd></div></div></div>
 <div class="fs-row">
-<div class="fs-no">07</div>
+<div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p>비교 대상이 2개 미만이 되면 시트 자동 닫힘 — 열린 채 남으면 오류 발생</p><p>탭 전환 시에도 비교 담은 항목 유지 <span class="cid">C-35</span></p><p>PC : 하단 시트 대신 중앙 모달로 전환</p></dd></div></div></div>
 <div class="fs-row">
-<div class="fs-no">08</div>
+<div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (미확정)</p></dd></div><div><dt>Memo</dt><dd><p>비교 시트 상세 목업 별도 정의 필요 <span class="cid d">O-19</span> — 기획 확정 대기</p></dd></div></div></div></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
-<div class="fs-hrow"><span>26.08.06</span><b>허지원 책임</b><em>페이지 생성</em></div>
-<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>영역 명세 작성</em></div></div></div>
+<div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
+</div></div>
 </article></div><div class="fs-sub" id="fs-sub-appendix">
 <div class="fs-divider" id="fs-appendix"><b>부록 · 공통 기준</b><span>영역별 명세가 공통으로 참조하는 규격 · 상태 · 정책 정의</span></div><div class="r-sec">
   <h2><span class="no">1</span>레이아웃 규격</h2>
@@ -2765,7 +2765,36 @@ function fsSyncSticky(){
 /* 문서 구성 탭 — 화면설계 · 문서정보 · 부록 */
 fsLogPaint();
 
+/* 툴바를 이미 지나쳐 스크롤한 상태인지 — sticky면 탭바 바로 아래에 붙어 있고,
+   static(좁은 폭)이면 뷰포트 위로 올라가 있다. 두 경우 모두 되돌려야 한다 */
+function fsToolbarPassed(){
+  var tl = document.querySelector('.fs-toolbar');
+  var tb = document.querySelector('.r-tabsbar');
+  if(!tl) return false;
+  var off = tb ? tb.offsetHeight : 0;
+  return tl.getBoundingClientRect().top <= off + 1;
+}
+/* 툴바 상단을 탭바 바로 아래로 되돌림 — 구성 전환 시 툴바가 화면에서 움직이지 않게 */
+function fsPinToolbar(){
+  var tl = document.querySelector('.fs-toolbar');
+  var tb = document.querySelector('.r-tabsbar');
+  if(!tl) return;
+  var off = tb ? tb.offsetHeight : 0;
+  var y = Math.max(0, Math.round(window.pageYOffset + tl.getBoundingClientRect().top - off));
+  if(Math.abs(y - window.pageYOffset) < 1) return;
+  /* html{scroll-behavior:smooth} 때문에 기본 스크롤은 애니메이션된다 —
+     구성 전환은 위치 보정이므로 즉시 이동해야 툴바가 움직이지 않는다 */
+  try{ window.scrollTo({top:y, left:0, behavior:'instant'}); }
+  catch(e){ var hb = document.documentElement.style.scrollBehavior;
+            document.documentElement.style.scrollBehavior = 'auto';
+            window.scrollTo(0, y);
+            document.documentElement.style.scrollBehavior = hb; }
+}
+
 function fsSub(name){
+  /* 전환 전 위치를 먼저 판정 — 전환 후에는 판정할 수 없음 */
+  var passed = fsToolbarPassed();
+
   var tb = document.querySelector('.fs-toolbar');
   if(tb) tb.setAttribute('data-sub', name);
   var btns = document.querySelectorAll('.fs-subtabs button');
@@ -2778,8 +2807,19 @@ function fsSub(name){
   for(var j=0;j<subs.length;j++){
     subs[j].className = 'fs-sub' + (subs[j].id === 'fs-sub-' + name ? ' on' : '');
   }
-  setTimeout(fsSyncSticky, 50);
-  window.scrollTo({top:0, behavior:'smooth'});
+
+  /* 구성마다 툴바 높이가 달라지므로(영역 이동 줄 유무) 즉시 재측정 */
+  fsSyncSticky();
+
+  if(passed){
+    /* 짧은 구성으로 바꾸면 문서가 짧아져 스크롤이 잘리고 툴바가 떨어짐 —
+       레이아웃 확정 후 툴바를 다시 탭바 아래로 붙인다 */
+    fsPinToolbar();
+    requestAnimationFrame(function(){ fsPinToolbar(); fsSyncSticky(); });
+  }else{
+    /* 아직 툴바 위(헤더 영역)를 보고 있으면 스크롤을 건드리지 않는다 */
+    requestAnimationFrame(fsSyncSticky);
+  }
 }
 /* 접힌 프레임으로 이동할 때는 먼저 펼친다 */
 (function(){
