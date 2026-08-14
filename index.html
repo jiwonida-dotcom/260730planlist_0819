@@ -572,6 +572,14 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-tip em{display:block;font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted-2);margin-top:6px}
 .fs-tip p{margin:7px 0 0;font-size:12px;line-height:1.65;color:var(--muted)}
 .fs-tip>div.more{margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
+.fs-tip .go{display:block;margin-top:9px;font-size:11px;font-weight:800;color:var(--main)}
+.fs-tip .go span{font-weight:700;color:var(--muted-2)}
+.fs-tip p b.req{display:inline;font-size:12px;font-weight:800;color:var(--ink);background:none;border:0;padding:0;margin:0 5px 0 0}
+@keyframes fsHit{0%{background:var(--main-ghost);box-shadow:inset 0 0 0 2px var(--main-weak)}70%{background:var(--main-ghost);box-shadow:inset 0 0 0 2px var(--main-weak)}100%{background:transparent;box-shadow:inset 0 0 0 2px transparent}}
+.fs-hit>td{animation:fsHit 2.4s ease-out}
+.fs-back{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:9998;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:#fff;background:var(--ink);border:0;border-radius:999px;padding:11px 18px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.fs-back[hidden]{display:none}
+.fs-back em{font-style:normal;font-weight:700;opacity:.7}
 @media (max-width:768px){.fs-tip{max-width:calc(100vw - 24px)}}
 @media (max-width:768px){.fs-dev{left:9px;top:8px;font-size:9.5px;padding:3px 8px}}
 .fs-mock .tabbar{position:static!important;background:none!important;backdrop-filter:none}
@@ -1371,7 +1379,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td><b>PAGE CODE</b></td><td>영역 식별자 <code class="k">S-02_A</code> ~ <code class="k">S-02_G</code> — 피그마 프레임 코드와 동일</td></tr>
         
 <tr><td><b>SCREEN</b></td><td>해당 영역의 실제 UI. 빨간 번호는 아래 요소 명세의 <b>번호와 1:1 대응</b>. 좌측 상단 라벨로 기기를 구분합니다 — <span class="fs-dev" style="position:static;display:inline-flex;vertical-align:middle">MOBILE <em>394</em></span> <span class="fs-dev pc" style="position:static;display:inline-flex;vertical-align:middle">PC <em>700</em></span></td></tr>
-<tr><td><b>코드 칩</b></td><td><span class="cid">C-38</span> <span class="cid d">O-20</span> 처럼 표기된 코드는 <b>커서를 올리면(키보드는 Tab 포커스) 정의가 바로 뜹니다</b> — 04 요구사항 정의서 · 05 개선안의 정의 표에서 실시간으로 읽어오므로 항상 원문과 일치합니다. <span class="cid n">실측</span> · <span class="cid">WCAG 4.1.2</span> 처럼 정의 표에 없는 표기는 칩만 표시됩니다</td></tr>
+<tr><td><b>코드 칩</b></td><td><span class="cid">C-38</span> <span class="cid d">O-20</span> 처럼 표기된 코드는 <b>커서를 올리면(키보드는 Tab 포커스) 정의가 바로 뜨고, 클릭하면(키보드는 Enter) 정의가 있는 탭·구성으로 이동</b>합니다. <span class="cid">WCAG 4.1.2</span> 처럼 번호가 붙은 접근성 기준은 <b>부록 4 접근성 명세</b>의 해당 요건으로 이동합니다 — 이동하면 해당 행이 잠시 강조되고 화면 하단에 <b>원래 위치로</b> 버튼이 떠서 보던 자리로 정확히 되돌아옵니다. 정의는 04 요구사항 정의서 · 05 개선안의 정의 표에서 실시간으로 읽어오므로 항상 원문과 일치합니다. <span class="cid n">실측</span> · <span class="cid">WCAG 4.1.2</span> 처럼 정의 표에 없는 표기는 칩만 표시됩니다</td></tr>
         
 <tr><td><b>노출 조건</b></td><td>이 상태가 화면에 나타나는 조건. 상태가 여러 개인 영역은 조건별로 SCREEN을 분리. <b>PC 상태는 각 영역의 마지막 블록</b>에 두고, 모바일과 차이가 있는 영역(A · B · D · E · F · G)에만 둡니다 — C. TAB처럼 차이가 없는 영역은 모바일 명세에 "PC도 동일"로 표기</td></tr>
         
@@ -1403,7 +1411,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
         
 <tr><td><span class="cid d">O-nn</span></td><td><b>미확정</b> 항목 — 결정 대기, 개발 착수 전 확정 필요</td></tr>
         
-<tr><td><span class="cid">WCAG</span></td><td>웹 접근성 지침 준수 항목</td></tr>
+<tr><td><span class="cid">WCAG</span></td><td>웹 접근성 지침 준수 항목 — 번호가 붙은 표기(<b>WCAG 4.1.2</b> 등)는 커서를 올리면 <b>부록 4 접근성 명세</b>의 해당 요건이 뜨고, 클릭하면 그 위치로 이동합니다</td></tr>
       
 </tbody>
     
@@ -1451,7 +1459,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
-<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 · 코드 칩 호버 상세 — C-nn · O-nn 칩에 커서를 올리면 정의 표의 내용이 즉시 노출(칩 95개 연결), SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 · 코드 칩 상세·이동 — C-nn · O-nn · WCAG 칩에 커서를 올리면 정의가 노출되고 클릭 시 정의 위치로 이동(칩 106개 연결 · 부록 구성 자동 전환 · 원래 위치로 복귀 버튼 제공), SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
@@ -3053,12 +3061,32 @@ function fsTipBuild(){
     if(td.length >= 4){ title = td[1].textContent.trim(); owner = td[2].textContent.trim(); desc = td[3].textContent.trim(); }
     else if(td.length === 3){ title = td[1].textContent.trim(); desc = td[2].textContent.trim(); }
     else continue;
-    if(!map[code]) map[code] = { title: title, owner: owner, desc: desc };
+    if(!map[code]){
+      var view = tr.closest ? tr.closest('.r-view') : null;
+      if(tr && !tr.id) tr.id = 'def-' + code;
+      map[code] = { title: title, owner: owner, desc: desc, row: tr.id, view: view ? view.id.replace('rt-','') : '' };
+    }
+  }
+
+  /* 부록 4 접근성 명세 — 기준 칸이 WCAG 인 행을 코드별로 모은다 (한 기준에 적용 지점이 여럿) */
+  var trs = document.querySelectorAll('#fs-sub-appendix table tr');
+  for(var t=0;t<trs.length;t++){
+    var td = trs[t].children;
+    if(td.length < 3) continue;
+    var code = (td[td.length-1].textContent||'').trim();
+    if(!/^WCAG\s[\d.]+$/.test(code)) continue;
+    if(!trs[t].id) trs[t].id = 'def-' + code.replace(/[\s.]/g,'-');
+    if(!map[code]){
+      var v = trs[t].closest ? trs[t].closest('.r-view') : null;
+      var sub = trs[t].closest ? trs[t].closest('.fs-sub') : null;
+      map[code] = { title: '접근성 기준', items: [], row: trs[t].id, view: v ? v.id.replace('rt-','') : '', sub: sub ? sub.id : '' };
+    }
+    map[code].items.push({ req: (td[0].textContent||'').trim(), impl: (td[1].textContent||'').trim() });
   }
   return map;
 }
 function fsTipCodes(el){
-  var m = (el.textContent||'').match(/[A-Z]+-\d+/g) || [];
+  var m = (el.textContent||'').match(/WCAG\s\d+(?:\.\d+)+|[A-Z]+-\d+/g) || [];
   var out = [];
   for(var i=0;i<m.length;i++) if(FS_TIP_MAP[m[i]] && out.indexOf(m[i]) < 0) out.push(m[i]);
   return out;
@@ -3075,7 +3103,24 @@ function fsTipShow(el){
     var b = document.createElement('b'); b.textContent = codes[i]; sec.appendChild(b);
     var it = document.createElement('i'); it.textContent = d.title || ''; sec.appendChild(it);
     if(d.owner){ var em = document.createElement('em'); em.textContent = '담당 : ' + d.owner; sec.appendChild(em); }
-    var pp = document.createElement('p'); pp.textContent = d.desc || ''; sec.appendChild(pp);
+    if(d.items && d.items.length){
+      for(var q=0;q<d.items.length;q++){
+        var pi = document.createElement('p');
+        var strong = document.createElement('b'); strong.className = 'req'; strong.textContent = d.items[q].req;
+        pi.appendChild(strong); pi.appendChild(document.createTextNode(' ' + d.items[q].impl));
+        sec.appendChild(pi);
+      }
+    } else {
+      var pp = document.createElement('p'); pp.textContent = d.desc || ''; sec.appendChild(pp);
+    }
+    if(!i && d.row){
+      var go = document.createElement('span'); go.className = 'go';
+      go.appendChild(document.createTextNode('클릭 · Enter → 정의 위치로 이동 '));
+      var where = FS_TIP_TAB[d.view] || '';
+      if(d.sub === 'fs-sub-appendix') where += ' · 부록 4 접근성 명세';
+      var sp2 = document.createElement('span'); sp2.textContent = '(' + where + ')'; go.appendChild(sp2);
+      sec.appendChild(go);
+    }
     t.appendChild(sec);
   }
   t.hidden = false; t.setAttribute('aria-hidden','false');
@@ -3086,6 +3131,49 @@ function fsTipShow(el){
   if(y + tr.height > innerHeight - 12) y = Math.max(12, r.top - 8 - tr.height);
   t.style.left = Math.round(x) + 'px';
   t.style.top = Math.round(y) + 'px';
+}
+var FS_TIP_TAB = { spec:'01 화면설계', proto:'02 프로토타입', func:'03 기능정의', req:'04 요구사항 정의서', plan:'05 개선안' };
+var FS_BACK = null;
+function fsCurTab(){
+  for(var i=0;i<R_TABS.length;i++){ var v = document.getElementById('rt-'+R_TABS[i]); if(v && v.className.indexOf('on') >= 0) return R_TABS[i]; }
+  return R_TABS[0];
+}
+function fsTipGoto(el){
+  var codes = fsTipCodes(el);
+  if(!codes.length) return;
+  var d = FS_TIP_MAP[codes[0]];
+  if(!d || !d.row) return;
+  var row = document.getElementById(d.row);
+  if(!row) return;
+  FS_BACK = { tab: fsCurTab(), y: window.pageYOffset, sub: (document.querySelector('.fs-sub.on') || {}).id || '' };
+  fsTipHide();
+  if(d.view && d.view !== fsCurTab()) showTab(d.view);
+  if(d.sub && typeof fsSub === 'function'){
+    var cur = document.querySelector('.fs-sub.on');
+    if(!cur || cur.id !== d.sub) fsSub(d.sub.replace('fs-sub-',''));
+  }
+  var prev = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = 'auto';
+  setTimeout(function(){
+    var r = row.getBoundingClientRect();
+    window.scrollTo(0, Math.max(0, window.pageYOffset + r.top - Math.round(innerHeight * 0.34)));
+    document.documentElement.style.scrollBehavior = prev || '';
+    var rows = document.querySelectorAll('.fs-hit');
+    for(var i=0;i<rows.length;i++) rows[i].className = rows[i].className.replace(/\s*fs-hit/,'');
+    row.className += ' fs-hit';
+    var bk = document.getElementById('fs-back');
+    if(bk){ document.getElementById('fs-back-l').textContent = FS_TIP_TAB[FS_BACK.tab] || ''; bk.hidden = false; }
+  }, 40);
+}
+function fsTipBack(){
+  if(!FS_BACK) return;
+  var t = FS_BACK; FS_BACK = null;
+  document.getElementById('fs-back').hidden = true;
+  if(t.tab !== fsCurTab()) showTab(t.tab);
+  if(t.sub && typeof fsSub === 'function' && t.tab === 'spec'){ var m = t.sub.replace('fs-sub-',''); fsSub(m); }
+  var prev = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = 'auto';
+  setTimeout(function(){ window.scrollTo(0, t.y); document.documentElement.style.scrollBehavior = prev || ''; }, 40);
 }
 function fsTipHide(){ if(FS_TIP){ FS_TIP.hidden = true; FS_TIP.setAttribute('aria-hidden','true'); } }
 function fsTipInit(){
@@ -3101,8 +3189,14 @@ function fsTipInit(){
     if(!codes.length) continue;                                         /* 정의가 없는 표기(실측 · WCAG 등)는 제외 */
     c.className += ' has-tip';
     c.setAttribute('tabindex','0');
+    c.setAttribute('role','button');
     var lab = [];
-    for(var k=0;k<codes.length;k++) lab.push(codes[k] + ' ' + FS_TIP_MAP[codes[k]].title + ' — ' + FS_TIP_MAP[codes[k]].desc);
+    for(var k=0;k<codes.length;k++){
+      var dd = FS_TIP_MAP[codes[k]];
+      var txt = dd.desc || '';
+      if(dd.items) { var ar = []; for(var z=0;z<dd.items.length;z++) ar.push(dd.items[z].req + ' — ' + dd.items[z].impl); txt = ar.join(' / '); }
+      lab.push(codes[k] + ' ' + dd.title + ' — ' + txt);
+    }
     c.setAttribute('aria-label', lab.join(' / '));
     n++;
   }
@@ -3118,7 +3212,16 @@ function fsTipInit(){
     var el = e.target.closest ? e.target.closest('.cid.has-tip') : null;
     if(el) fsTipShow(el); else fsTipHide();
   });
-  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fsTipHide(); });
+  document.addEventListener('click', function(e){
+    var el = e.target.closest ? e.target.closest('.cid.has-tip') : null;
+    if(el){ e.preventDefault(); fsTipGoto(el); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ fsTipHide(); return; }
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    var el = document.activeElement;
+    if(el && el.className && el.className.indexOf('has-tip') >= 0){ e.preventDefault(); fsTipGoto(el); }
+  });
   window.addEventListener('scroll', fsTipHide, true);
   window.addEventListener('resize', fsTipHide);
   return n;
@@ -3126,5 +3229,6 @@ function fsTipInit(){
 window.addEventListener('load', fsTipInit);
 </script>
 <div class="fs-tip" id="fs-tip" role="tooltip" aria-hidden="true" hidden></div>
+<button type="button" class="fs-back" id="fs-back" hidden onclick="fsTipBack()">&#8592; 원래 위치로 <em id="fs-back-l"></em></button>
 </body>
 </html>
