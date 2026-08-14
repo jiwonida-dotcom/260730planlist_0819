@@ -599,6 +599,13 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .tc-t .pri.high{color:var(--err);background:var(--err-bg)}
 .tc-t .pri.mid{color:var(--main);background:var(--main-ghost)}
 .tc-t .pri.low{color:var(--muted-2);background:var(--bg)}
+.tc-link{display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0 20px;border-radius:12px;background:var(--main);color:#fff;font-size:12.5px;font-weight:800;text-decoration:none;box-shadow:0 4px 12px rgba(91,75,225,.24);transition:all .15s}
+.tc-link:hover{box-shadow:0 8px 20px rgba(91,75,225,.34);transform:translateY(-1px);color:#fff}
+.tc-link:active{transform:translateY(0)}
+.tc-link:focus-visible{outline:2px solid var(--main-deep);outline-offset:3px}
+.tc-link svg{width:15px;height:15px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tc-links{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:18px 0 26px}
+.tc-links .sub{font-size:11.5px;color:var(--muted);line-height:1.65}
 @media (max-width:768px){.tc-t{min-width:820px;font-size:11.5px}}
 @keyframes fsHit{0%{background:var(--main-ghost);box-shadow:inset 0 0 0 2px var(--main-weak)}70%{background:var(--main-ghost);box-shadow:inset 0 0 0 2px var(--main-weak)}100%{background:transparent;box-shadow:inset 0 0 0 2px transparent}}
 .fs-hit>td{animation:fsHit 2.4s ease-out}
@@ -854,7 +861,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <dl class="r-m"><dt>개선 범위</dt><dd>화면 전면 개선 + 프로세스 재배치</dd></dl>
       <dl class="r-m"><dt>분석 기간</dt><dd>2026-06-29 ~ 07-29 <em>30일</em></dd></dl>
       <dl class="r-m"><dt>근거</dt><dd>Clarity · 시안 · 워크스루</dd></dl>
-      <dl class="r-m ok"><dt>확정 상태</dt><dd>확정 44 · 미확정 3</dd></dl>
+      <dl class="r-m ok"><dt>확정 상태</dt><dd>확정 47 · 미확정 0 · 이월 1</dd></dl>
       <dl class="r-m"><dt>디바이스 기준</dt><dd>모바일 우선 <em>81%</em></dd></dl>
     </div>
   </div>
@@ -1403,6 +1410,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
   <div class="r-kpi warn"><div class="v">55</div><div class="l">우선순위 High — 배포 전 필수 확인</div></div>
   <div class="r-kpi ok"><div class="v">76</div><div class="l">프로토타입으로 지금 확인 가능 — 개발 착수 전 검증</div></div>
 </div>
+<div class="tc-links"><a class="tc-link" href="https://docs.google.com/spreadsheets/d/10Jh9dUlTqzRkrkvArDeJCm0lktahtaDPQDjNRHZm9CY/edit?gid=645480355#gid=645480355" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>수행 기록 시트 열기</a><span class="sub"><b>정의는 이 문서, 수행 기록은 시트</b>가 담당합니다 — 시트에는 수행일 · 수행자 · 결과 · 비고 열이 준비되어 있습니다.<br>명세가 바뀌면 이 탭을 먼저 고치고 시트의 A~I열을 갱신하세요. 수행 기록(J~M열)은 덮어쓰지 않습니다.</span></div>
 <div class="r-note" style="margin-bottom:26px"><b>읽는 법</b> — <b>프로토타입</b> 열이 ●인 케이스는 02 프로토타입 탭에서 지금 바로 확인할 수 있습니다. —인 케이스는 세션 승계 · 백오피스 연동 · 보조기술 확인처럼 구현 이후에만 검증됩니다. <b>우선순위</b>는 High(진행을 막거나 데이터가 어긋나는 것) · Mid(표기 · 상태 유지) · Low(문구 · 배치)로 나눴습니다.</div>
 <div class="r-sec">
 <h2><span class="no">1</span>기능 · 시퀀스</h2>
@@ -1552,6 +1560,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">전체</td><td>호버 스타일 보정 — 현재 영역 칩에 커서를 올리면 강조가 풀리고 연한 배경으로 덮이던 문제 수정(<code class="k">.fs-nav a:hover</code>가 <code class="k">.here</code>보다 뒤에 있어 배경을 덮어씀 → hover 규칙 뒤에서 재정의). 비활성 구성 탭 호버에 배경 톤 추가, 활성 탭·영역 칩 호버에 그림자 강화와 1px 리프트 적용</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">전체</td><td>호버 · 포커스 전수 정비 — 리포트 상단 탭에 배경 톤 추가(기존 글자색만 변경), 코드 칩을 보라 채움 + 흰 글자로 강화하고 커서를 pointer로 변경(클릭 시 정의로 이동하는 요소임을 명시), 「원래 위치로」 버튼에 호버·눌림 피드백 추가, 접이식 프레임 헤더 호버 시 접기/펼치기 힌트 강조, 문서 UI 전반에 키보드 포커스 링 통일 <span class="cid">WCAG 2.4.7</span></td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind new">신규</span></td><td class="tg">06 테스트 케이스</td><td>테스트 케이스 탭 신설 — 검증 시퀀스(STEP 1~14) · 예외(EX-02) · 영역별 요소 명세 · 접근성 명세 · PC 전환에서 <b>92건</b> 도출. 기능 25 · 예외 5 · 화면 41 · 접근성 13 · PC 8. 각 케이스에 근거 코드를 달아 확정 사항과 연결했고, 프로토타입으로 지금 확인 가능한 76건을 구분 표시. 구글 시트용 CSV를 함께 제공</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">06 테스트 케이스 · 전체</td><td>06 탭에 <b>수행 기록 시트 링크</b> 추가 — 정의는 문서, 수행 기록은 구글 시트로 역할 분리를 명시. 문서 헤더의 확정 상태 표기가 옛 값(확정 44 · 미확정 3)으로 남아 있어 <b>확정 47 · 미확정 0 · 이월 1</b>로 정정</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
