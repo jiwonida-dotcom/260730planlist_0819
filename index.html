@@ -561,6 +561,18 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-dev{position:absolute;left:13px;top:11px;z-index:2;display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.06em;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px 10px;line-height:1}
 .fs-dev em{font-style:normal;font-weight:700;letter-spacing:0;color:var(--muted-2)}
 .fs-dev.pc{color:var(--main);background:var(--main-ghost);border-color:var(--main-weak)}
+/* ===== 코드 칩 호버 상세 (C-nn · O-nn) ===== */
+.cid.has-tip{cursor:help;border-bottom:1px dashed currentColor}
+.cid.has-tip:hover,.cid.has-tip:focus-visible{filter:brightness(.92)}
+.cid.has-tip:focus-visible{outline:2px solid var(--main);outline-offset:2px}
+.fs-tip{position:fixed;z-index:9999;max-width:440px;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:12px 14px;pointer-events:none}
+.fs-tip[hidden]{display:none}
+.fs-tip b{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;color:var(--main);background:var(--main-ghost);border:1px solid var(--main-weak);border-radius:6px;padding:2px 7px;margin-right:7px}
+.fs-tip i{font-style:normal;font-size:12.5px;font-weight:800;color:var(--ink)}
+.fs-tip em{display:block;font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted-2);margin-top:6px}
+.fs-tip p{margin:7px 0 0;font-size:12px;line-height:1.65;color:var(--muted)}
+.fs-tip>div.more{margin-top:11px;padding-top:11px;border-top:1px dashed var(--line)}
+@media (max-width:768px){.fs-tip{max-width:calc(100vw - 24px)}}
 @media (max-width:768px){.fs-dev{left:9px;top:8px;font-size:9.5px;padding:3px 8px}}
 .fs-mock .tabbar{position:static!important;background:none!important;backdrop-filter:none}
 .fs-mock .card{animation:none}
@@ -1359,6 +1371,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td><b>PAGE CODE</b></td><td>영역 식별자 <code class="k">S-02_A</code> ~ <code class="k">S-02_G</code> — 피그마 프레임 코드와 동일</td></tr>
         
 <tr><td><b>SCREEN</b></td><td>해당 영역의 실제 UI. 빨간 번호는 아래 요소 명세의 <b>번호와 1:1 대응</b>. 좌측 상단 라벨로 기기를 구분합니다 — <span class="fs-dev" style="position:static;display:inline-flex;vertical-align:middle">MOBILE <em>394</em></span> <span class="fs-dev pc" style="position:static;display:inline-flex;vertical-align:middle">PC <em>700</em></span></td></tr>
+<tr><td><b>코드 칩</b></td><td><span class="cid">C-38</span> <span class="cid d">O-20</span> 처럼 표기된 코드는 <b>커서를 올리면(키보드는 Tab 포커스) 정의가 바로 뜹니다</b> — 04 요구사항 정의서 · 05 개선안의 정의 표에서 실시간으로 읽어오므로 항상 원문과 일치합니다. <span class="cid n">실측</span> · <span class="cid">WCAG 4.1.2</span> 처럼 정의 표에 없는 표기는 칩만 표시됩니다</td></tr>
         
 <tr><td><b>노출 조건</b></td><td>이 상태가 화면에 나타나는 조건. 상태가 여러 개인 영역은 조건별로 SCREEN을 분리. <b>PC 상태는 각 영역의 마지막 블록</b>에 두고, 모바일과 차이가 있는 영역(A · B · D · E · F · G)에만 둡니다 — C. TAB처럼 차이가 없는 영역은 모바일 명세에 "PC도 동일"로 표기</td></tr>
         
@@ -1438,7 +1451,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
-<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 — SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 · 코드 칩 호버 상세 — C-nn · O-nn 칩에 커서를 올리면 정의 표의 내용이 즉시 노출(칩 95개 연결), SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
@@ -3024,6 +3037,94 @@ window.addEventListener('resize', fsSyncSticky);
   var btns = document.querySelectorAll('.r-tabs button');
   for(var i=0;i<btns.length;i++) btns[i].addEventListener('click', function(){ setTimeout(fsSyncSticky, 60); });
 })();
+
+/* ===== 코드 칩 호버 상세 =====
+ * 04 요구사항 정의서 · 05 개선안의 정의 표에서 C-nn / O-nn 설명을 실시간으로 읽어와
+ * 본문에 흩어진 코드 칩에 붙인다. 정의를 문서에 중복 작성하지 않으므로 원본이 한 곳으로 유지된다. */
+var FS_TIP = null, FS_TIP_MAP = null;
+function fsTipBuild(){
+  var map = {};
+  var cells = document.querySelectorAll('td.id > span.cid');
+  for(var i=0;i<cells.length;i++){
+    var sp = cells[i], code = (sp.textContent||'').trim();
+    var tr = sp.parentNode && sp.parentNode.parentNode;
+    if(!tr || tr.tagName !== 'TR' || !code) continue;
+    var td = tr.children, title = '', owner = '', desc = '';
+    if(td.length >= 4){ title = td[1].textContent.trim(); owner = td[2].textContent.trim(); desc = td[3].textContent.trim(); }
+    else if(td.length === 3){ title = td[1].textContent.trim(); desc = td[2].textContent.trim(); }
+    else continue;
+    if(!map[code]) map[code] = { title: title, owner: owner, desc: desc };
+  }
+  return map;
+}
+function fsTipCodes(el){
+  var m = (el.textContent||'').match(/[A-Z]+-\d+/g) || [];
+  var out = [];
+  for(var i=0;i<m.length;i++) if(FS_TIP_MAP[m[i]] && out.indexOf(m[i]) < 0) out.push(m[i]);
+  return out;
+}
+function fsTipShow(el){
+  var codes = fsTipCodes(el);
+  if(!codes.length) return;
+  var t = FS_TIP;
+  while(t.firstChild) t.removeChild(t.firstChild);
+  for(var i=0;i<codes.length;i++){
+    var d = FS_TIP_MAP[codes[i]];
+    var sec = document.createElement('div');
+    if(i) sec.className = 'more';
+    var b = document.createElement('b'); b.textContent = codes[i]; sec.appendChild(b);
+    var it = document.createElement('i'); it.textContent = d.title || ''; sec.appendChild(it);
+    if(d.owner){ var em = document.createElement('em'); em.textContent = '담당 : ' + d.owner; sec.appendChild(em); }
+    var pp = document.createElement('p'); pp.textContent = d.desc || ''; sec.appendChild(pp);
+    t.appendChild(sec);
+  }
+  t.hidden = false; t.setAttribute('aria-hidden','false');
+  t.style.left = '0px'; t.style.top = '0px';
+  var r = el.getBoundingClientRect(), tr = t.getBoundingClientRect();
+  var x = r.left, y = r.bottom + 8;
+  if(x + tr.width > innerWidth - 12) x = Math.max(12, innerWidth - 12 - tr.width);
+  if(y + tr.height > innerHeight - 12) y = Math.max(12, r.top - 8 - tr.height);
+  t.style.left = Math.round(x) + 'px';
+  t.style.top = Math.round(y) + 'px';
+}
+function fsTipHide(){ if(FS_TIP){ FS_TIP.hidden = true; FS_TIP.setAttribute('aria-hidden','true'); } }
+function fsTipInit(){
+  FS_TIP = document.getElementById('fs-tip');
+  if(!FS_TIP) return;
+  FS_TIP_MAP = fsTipBuild();
+  var chips = document.querySelectorAll('span.cid');
+  var n = 0;
+  for(var i=0;i<chips.length;i++){
+    var c = chips[i];
+    if(c.parentNode && c.parentNode.className === 'id') continue;      /* 정의 표의 코드 자신은 제외 */
+    var codes = fsTipCodes(c);
+    if(!codes.length) continue;                                         /* 정의가 없는 표기(실측 · WCAG 등)는 제외 */
+    c.className += ' has-tip';
+    c.setAttribute('tabindex','0');
+    var lab = [];
+    for(var k=0;k<codes.length;k++) lab.push(codes[k] + ' ' + FS_TIP_MAP[codes[k]].title + ' — ' + FS_TIP_MAP[codes[k]].desc);
+    c.setAttribute('aria-label', lab.join(' / '));
+    n++;
+  }
+  document.addEventListener('mouseover', function(e){
+    var el = e.target.closest ? e.target.closest('.cid.has-tip') : null;
+    if(el) fsTipShow(el);
+  });
+  document.addEventListener('mouseout', function(e){
+    var el = e.target.closest ? e.target.closest('.cid.has-tip') : null;
+    if(el) fsTipHide();
+  });
+  document.addEventListener('focusin', function(e){
+    var el = e.target.closest ? e.target.closest('.cid.has-tip') : null;
+    if(el) fsTipShow(el); else fsTipHide();
+  });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') fsTipHide(); });
+  window.addEventListener('scroll', fsTipHide, true);
+  window.addEventListener('resize', fsTipHide);
+  return n;
+}
+window.addEventListener('load', fsTipInit);
 </script>
+<div class="fs-tip" id="fs-tip" role="tooltip" aria-hidden="true" hidden></div>
 </body>
 </html>
