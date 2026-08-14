@@ -7,7 +7,7 @@ U+유모바일 가입신청서 요금제 선택 화면 UX 개선 프로젝트의
 배포 URL로 접속하면 바로 열립니다. 별도 설치나 빌드가 필요 없습니다.
 
 ```
-https://<계정>.github.io/<저장소명>/
+https://jiwonida-dotcom.github.io/260730planlist_3/
 ```
 
 ## 리포트 구성

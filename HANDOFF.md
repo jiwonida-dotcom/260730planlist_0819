@@ -14,8 +14,8 @@ U+유모바일 가입신청서의 **요금제 선택 화면(S-02)** UX 개선 �
 
 | 항목 | 값 |
 |---|---|
-| 배포 | https://jiwonida-dotcom.github.io/260730planlist_2/ |
-| 레포 | https://github.com/jiwonida-dotcom/260730planlist_2 (`index.html` 단일 파일) |
+| 배포 | https://jiwonida-dotcom.github.io/260730planlist_3/ |
+| 레포 | https://github.com/jiwonida-dotcom/260730planlist_3 (`index.html` 단일 파일) |
 | 현재 파일 | **411KB · 2,993줄** (기준 커밋 `febb81a`) |
 | 원본 피그마 | https://www.figma.com/design/SRasUqBc8lp9g0VT5mvjCu/2026.03-가입신청서?node-id=40005698-6576 |
 | 피그마 file key | `SRasUqBc8lp9g0VT5mvjCu` / 화면설계서 캔버스 `40005698:6576` |
@@ -219,10 +219,16 @@ Chromium은 `/opt/pw-browsers/chromium`에 있습니다(Playwright 브라우저 
 
 ## 10. 커밋 · 배포
 
-이전 세션에서는 레포가 세션 승인 목록에 없어 **push가 불가**했습니다(git proxy 403).
-새 세션에서 이 레포를 소스에 추가하면 Claude가 직접 push할 수 있습니다. 그렇지 않으면 수동 반영하세요.
+**클라우드 세션에서는 push 불가** — git proxy가 세션 승인 저장소 외 쓰기를 차단합니다. `git push`·`api.github.com` 모두 403이며 개인 토큰으로도 우회되지 않습니다(읽기 clone/fetch만 허용).
 
-수동 반영: `index.html`을 레포 루트에 덮어쓰고 커밋 → GitHub Pages가 1~2분 내 자동 배포. 브라우저 캐시로 이전 버전이 보이면 URL 뒤에 `?v=2`.
+**반영 경로 (2026-08-14 확립)** — 로컬 폴더 `C:\Users\Administrator\Desktop\요금제 개편` 가 이 레포의 작업 트리입니다(`main` ↔ `origin/main` 추적). Cowork 폴더 연결을 통해 Claude가 파일 수정 · `git commit`까지 처리하고, 작성자는 PowerShell에서 push 한 줄만 실행합니다.
+
+```powershell
+cd "C:\Users\Administrator\Desktop\요금제 개편"
+git push
+```
+
+push 후 GitHub Pages가 1~2분 내 자동 배포됩니다. 브라우저 캐시로 이전 버전이 보이면 URL 뒤에 `?v=2`.
 
 커밋 메시지 형식 — `docs(05):` / `fix(05):` / `feat(05):` 접두어 + 변경 항목 불릿.
 
