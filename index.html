@@ -917,6 +917,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id"><span class="cid">C-04</span></td><td>핵심 행동 신호</td><td>요금제 확정 직후 화면 Quick Back 16,257건(74.6%) — 2위(셀프인증 3,526건)의 4.6배</td></tr>
       <tr><td class="id"><span class="cid">C-05</span></td><td>인접 지표</td><td>가입자유형 체류 14.5초·이탈 16.3% / 가입유형 11.2초·15.7% / 스크롤 심도 96~97%</td></tr>
       <tr><td class="id"><span class="cid">C-06</span></td><td>개선 범위</td><td>요금제 선택 화면 + 프로세스 재배치. 상품·가격 정책과 타 단계 UI는 제외</td></tr>
+          <tr><td class="id"><span class="cid">C-46</span></td><td>브레이크포인트</td><td><b>769px 이상 = PC 레이아웃</b> 단일 기준. 목록 2열 · 필터 조건 2열 · 비교 중앙 모달이 <b>같은 지점에서 동시 전환</b>. PC는 오버레이 위 <b>700px 고정 팝업</b>이라 뷰포트가 더 넓어져도 내부 폭이 변하지 않으므로 추가 분기를 두지 않음. <b>26.08.14 확정</b> — O-20 해소</td></tr>
     </tbody>
   </table>
 
@@ -1072,6 +1073,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id"><span class="cid">C-30</span></td><td>가격 노출</td><td>판매가 + 프로모션가 구조. 프로모션가 <b>有</b>: 판매가 취소선 + 프로모션가 / <b>無</b>: 판매가만(할인 표기 없음)</td></tr>
       <tr><td class="id"><span class="cid">C-34</span></td><td>유형 정보 내재화</td><td>제약·유형 정보는 <b>요금제명에 포함</b>되어 전달(예: 청소년 요금제). 카드에 별도 안내 문구 없음</td></tr>
       <tr><td class="id"><span class="cid">C-29</span></td><td>주간(BEST) 배치</td><td>기실행 집계 로직 재사용. 실패 시 재배치, 미갱신 시 <b>직전 데이터 유지</b>(사용자 고지 없음)</td></tr>
+          <tr><td class="id"><span class="cid">C-45</span></td><td>프로모션 지급 개월</td><td><b>배너 형태로 지급 개월만 표기</b>. 적용 기간 · 종료 후 금액 등 추가 정보는 노출하지 않음 — 가격은 <b>판매가 취소선 + 프로모션가</b> 구조 유지 <span class="cid">C-30</span>. <b>26.08.14 확정</b> — O-17 해소</td></tr>
     </tbody>
   </table>
 
@@ -1259,8 +1261,8 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </section>
   <section id="rt-req" class="r-view">
 <div class="r-grid r-g3" style="margin-bottom:30px">
-  <div class="r-kpi ok"><div class="v">44</div><div class="l">확정 사항 (C-01 ~ C-44) — 상세 정의 38건은 05 개선안 · 6건은 본 탭</div></div>
-  <div class="r-kpi"><div class="v">4</div><div class="l">미확정 사항 — 기획 결정 대기 (O-17 · O-18 · O-19 · O-20)</div></div>
+  <div class="r-kpi ok"><div class="v">46</div><div class="l">확정 사항 (C-01 ~ C-46) — 상세 정의 40건은 05 개선안 · 6건은 본 탭</div></div>
+  <div class="r-kpi"><div class="v">1</div><div class="l">미확정 사항 — 기획 결정 대기 (O-19) · 해소 O-17 · O-20 · 이월 O-18</div></div>
   <div class="r-kpi"><div class="v">5</div><div class="l">핵심 페인포인트 (P1 ~ P5) — 전건 해소</div></div>
   <div class="r-kpi"><div class="v">6</div><div class="l">개선 원칙 (G-01 ~ G-06)</div></div>
 </div>
@@ -1318,10 +1320,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
   <table class="r-t">
     <thead><tr><th>ID</th><th>항목</th><th>Owner</th><th>배경 · 막히는 것</th></tr></thead>
     <tbody>
-      <tr><td class="id"><span class="cid d">O-17</span></td><td>프로모션 적용 기간 표기</td><td>기획 / 법무</td><td>C-30은 판매가·프로모션가 구조만 정했고 <b>적용 기간과 종료 후 금액을 다루지 않는다.</b> 혜택 면에는 "(24개월)"이 표기되는데 가격에는 없어 표기 기준이 어긋난다. P5의 '가격 근거 불명'이 실질 미해소이며, 요금 재확인 욕구는 Quick Back의 유력한 동인. 표시·광고 규제 검토 필요</td></tr>
-      <tr><td class="id"><span class="cid d">O-18</span></td><td>카드 정보 밀도</td><td>기획 / 디자인</td><td>카드 높이 약 300px로 첫 화면에 1~2개만 보인다. 비교·판단이 목적인 화면인데 동시 비교가 어려워 비교 시트 의존도가 높아진다. 스펙 면·혜택 면 압축으로 240px대까지 줄이면 2개 노출이 가능하나 정보량 축소 범위는 결정 필요. <b>26.08.13 실측 : 혜택 없는 카드 298px · 혜택 있는 카드 353px로 미해소 상태</b></td></tr>
+      <tr><td class="id"><span class="cid d">O-17</span></td><td>프로모션 적용 기간 표기</td><td>기획 / 법무</td><td>C-30은 판매가·프로모션가 구조만 정했고 <b>적용 기간과 종료 후 금액을 다루지 않는다.</b> 혜택 면에는 "(24개월)"이 표기되는데 가격에는 없어 표기 기준이 어긋난다. P5의 '가격 근거 불명'이 실질 미해소이며, 요금 재확인 욕구는 Quick Back의 유력한 동인. 표시·광고 규제 검토 필요</td> <b>26.08.14 해소 — 배너로 지급 개월만 표기하는 것으로 확정 (C-45). 추가 정보 불필요</b></tr>
+      <tr><td class="id"><span class="cid d">O-18</span></td><td>카드 정보 밀도</td><td>기획 / 디자인</td><td>카드 높이 약 300px로 첫 화면에 1~2개만 보인다. 비교·판단이 목적인 화면인데 동시 비교가 어려워 비교 시트 의존도가 높아진다. 스펙 면·혜택 면 압축으로 240px대까지 줄이면 2개 노출이 가능하나 정보량 축소 범위는 결정 필요. <b>26.08.13 실측 : 혜택 없는 카드 298px · 혜택 있는 카드 353px로 미해소 상태</b></td> <b>26.08.14 이월 — 화면설계는 목업 단계 기준 유지, 압축 범위는 디자인 시안 단계에서 검토</b></tr>
       <tr><td class="id"><span class="cid d">O-19</span></td><td>비교 시트 상세 목업</td><td>기획</td><td>G. Modal Bottom Sheet(비교 시트)의 항목 구성·순서·PC 중앙 모달 전환 형태가 확정되지 않아 화면설계서 G 영역은 구조 수준까지만 정의되어 있다. 상세 목업 확정 후 05 화면설계 탭 G 프레임 교체 필요. <b>26.08.13 신규 — 05 재구성 시 O-18로 잘못 부여되어 O-19로 분리</b></td></tr>
-      <tr><td class="id"><span class="cid d">O-20</span></td><td>브레이크포인트 단일 기준</td><td>기획 / 퍼블리싱</td><td>모바일 · PC 레이아웃 전환 기준이 확정되지 않았다. 원 서비스 미디어쿼리 실측 분기점이 <b>674 · 720 · 768 · 769 · 1440</b>으로 여러 개여서, 2열 격자 · 필터 2열 · 중앙 모달이 어느 폭부터 적용되는지 퍼블리싱이 판단해야 하는 상태. 본 설계서는 <b>769px 이상을 PC 레이아웃</b>으로 기술하되 단일 기준 확정 필요. <b>26.08.14 신규</b></td></tr>
+      <tr><td class="id"><span class="cid d">O-20</span></td><td>브레이크포인트 단일 기준</td><td>기획 / 퍼블리싱</td><td>모바일 · PC 레이아웃 전환 기준이 확정되지 않았다. 원 서비스 미디어쿼리 실측 분기점이 <b>674 · 720 · 768 · 769 · 1440</b>으로 여러 개여서, 2열 격자 · 필터 2열 · 중앙 모달이 어느 폭부터 적용되는지 퍼블리싱이 판단해야 하는 상태. 본 설계서는 <b>769px 이상을 PC 레이아웃</b>으로 기술하되 단일 기준 확정 필요. <b>26.08.14 신규</b></td> <b>26.08.14 해소 — 769px 단일 기준으로 확정 (C-46)</b></tr>
     </tbody>
   </table>
 
@@ -1466,12 +1468,13 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tbody>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 · 코드 칩 상세·이동 — C-nn · O-nn · WCAG 칩에 커서를 올리면 정의가 노출되고 클릭 시 정의 위치로 이동(칩 106개 연결 · 부록 구성 자동 전환 · 원래 위치로 복귀 버튼 제공), SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">D · 전체</td><td>화면 표시 보정 — D 영역 PC 필터 패널 목업의 라벨·셀렉트 간격 오류 수정(콜아웃이 첫 자식이 되면서 <code class="k">:first-child</code> 규칙이 빗나가 라벨이 82px 블록으로 렌더됨), 상단 「영역 이동」에 현재 보고 있는 영역 표시 추가, 스티키 툴바 뒤 배경 밴드 추가로 뒤로 지나가는 콘텐츠가 모서리 옆에 비치는 현상 제거</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">E · 부록 1 · 04 요구사항</td><td>미확정 사항 정리 — <b>O-17 해소</b>(프로모션 지급 개월을 배너로만 표기, 추가 정보 불필요 → C-45 확정), <b>O-20 해소</b>(769px 단일 기준으로 확정 → C-46, 목록 2열 · 필터 2열 · 중앙 모달 동시 전환), <b>O-18 이월</b>(화면설계는 목업 단계 기준 유지, 압축 범위는 디자인 시안 단계 검토). 미확정 4 → 1건(O-19)</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
 <div class="fs-logmore" id="fs-logmore" hidden><button type="button" onclick="fsLogMore()">더보기 <em id="fs-logrest"></em></button></div>
 <div class="fs-lognone" id="fs-lognone" hidden>검색 결과가 없습니다. 다른 키워드로 검색해 주세요.</div>
-<div class="fs-cond" style="margin-top:18px"><dt>결정 대기</dt><ul><li><span class="cid d">O-17</span> E. 요금제 목록 카드 — 프로모션 적용 기간 표기 — 적용 기간과 종료 후 금액이 없음. 표시·광고 규제 검토 필요 <b>(기획 · 법무)</b></li><li><span class="cid d">O-18</span> E. 요금제 목록 카드 — 카드 정보 밀도 — 첫 화면 동시 노출 수가 부족해 비교 시트 의존도가 높음. 스펙 면·혜택 면 압축 범위 결정 필요 <b>(기획 · 디자인)</b></li><li><span class="cid d">O-19</span> G. Modal Bottom Sheet — 비교 시트 상세 목업 별도 정의 필요 <b>(기획)</b></li><li><span class="cid d">O-20</span> 부록 1 레이아웃 규격 — 모바일 · PC 전환 브레이크포인트 단일 기준 — 원 서비스 실측 분기점이 5개(674 · 720 · 768 · 769 · 1440)로 흩어져 있음. 본 설계서는 769px 이상을 PC로 보되 확정 필요 <b>(기획 · 퍼블리싱)</b></li></ul></div></div></div></div>
+<div class="fs-cond" style="margin-top:18px"><dt>결정 대기</dt><ul><li><span class="cid d">O-18</span> E. 요금제 목록 카드 — 카드 정보 밀도 — 화면설계는 목업 단계 기준 유지, 압축 범위는 <b>디자인 시안 단계에서 검토</b> <b>(이월)</b></li><li><span class="cid d">O-19</span> G. Modal Bottom Sheet — 비교 시트 상세 목업 별도 정의 필요 <b>(기획)</b></li></ul></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>이력 기준</dt>
 <div class="fs-legend">영역별 이력은 각 프레임 하단 <b>HISTORY</b>에, 문서 단위 이력은 <b>문서정보</b>의 PAGE INFORMATION에 표기합니다.</div></div></div></details><details class="fs-frame" id="fs-index" open><summary class="fs-fhead"><div class="fs-fname"><i></i>화면 구성 · INDEX<em class="fs-fix">영역 A ~ G</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
@@ -1723,7 +1726,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (요금제명)</p></dd></div><div><dt>Value</dt><dd><p>요금제 마스터 명칭</p></dd></div><div><dt>Memo</dt><dd><p>가입자 유형 제약은 요금제명에 내재 <span class="cid">C-34</span> — 사전 필터링하지 않음 <span class="cid">C-28</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">04</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (가격)</p></dd></div><div><dt>Value</dt><dd><p>판매가 (취소선) + 프로모션가 / 월</p></dd></div><div><dt>Memo</dt><dd><p>프로모션가 없으면 판매가만 노출 — 할인율·할인액 표기 없음 <span class="cid">C-30</span></p><p>프로모션 적용 기간 표기 미확정 <span class="cid d">O-17</span></p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (가격)</p></dd></div><div><dt>Value</dt><dd><p>판매가 (취소선) + 프로모션가 / 월</p></dd></div><div><dt>Memo</dt><dd><p>프로모션가 없으면 판매가만 노출 — 할인율·할인액 표기 없음 <span class="cid">C-30</span></p><p>프로모션 지급 개월은 <b>배너로 표기</b> — 적용 기간 · 종료 후 금액 등 추가 정보 없음 <span class="cid">C-45</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">05</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (제공량 면)</p></dd></div><div><dt>Value</dt><dd><p>데이터 / 통화 / 문자</p></dd></div><div><dt>Memo</dt><dd><p>3열 1행 고정 · 아이콘 상단 / 값 하단</p><p>데이터 열을 상대적으로 넓게 배분 — 값 길이에 따라 줄바꿈되지 않게 고정</p><p>요금제 마스터 문자열 그대로 노출 (가공 없음)</p><p>아이콘만으로는 항목 구분이 전달되지 않으므로 각 값에 보조기술용 라벨 필요 — aria-label="데이터 {값}" · "통화 {값}" · "문자 {값}"</p></dd></div></div></div>
@@ -1751,7 +1754,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BADGE (혜택)</p></dd></div><div><dt>Value</dt><dd><p>배지 2개까지만 노출</p></dd></div><div><dt>Memo</dt><dd><p>등록 순서 기준 — 3개 이상은 미노출 <span class="cid">C-37</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">02</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (혜택 면)</p></dd></div><div><dt>Value</dt><dd><p>미노출</p></dd></div><div><dt>Memo</dt><dd><p>혜택 면 미해당 시 카드 높이 축소</p><p>제공량 면 · 라디오 · 비교 담기는 동일하게 유지</p><p>PC 2열에서는 카드 내용을 상단 정렬로 고정 — 여백은 하단에 모아 옆 카드와 가로 정렬 유지</p><p>카드 정보 밀도(첫 화면 동시 노출 수) 미확정 <span class="cid d">O-18</span> — 스펙 면 · 혜택 면 압축 범위 기획 · 디자인 결정 대기</p></dd></div></div></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (혜택 면)</p></dd></div><div><dt>Value</dt><dd><p>미노출</p></dd></div><div><dt>Memo</dt><dd><p>혜택 면 미해당 시 카드 높이 축소</p><p>제공량 면 · 라디오 · 비교 담기는 동일하게 유지</p><p>PC 2열에서는 카드 내용을 상단 정렬로 고정 — 여백은 하단에 모아 옆 카드와 가로 정렬 유지</p><p>카드 정보 밀도(첫 화면 동시 노출 수)는 <b>목업 단계 기준 유지</b> — 스펙 면 · 혜택 면 압축 범위는 <b>디자인 시안 단계에서 검토</b> <span class="cid d">O-18</span></p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:340px"><div class="card sel" style="position:relative"><b class="fs-cal o">02</b><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative">2</span><span class="badges" style="position:relative"><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><b class="fs-cal r o">01</b><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 스페셜</span><span class="prices" style="position:relative"><span class="p-old">49,390원</span><span class="p-new">32,990원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>11GB+일2GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">최대 3M bps 속도로 데이터 무제한</span></span><span class="benefit" style="position:relative"><span class="gi">&#127873;</span>매월 다이소 5천원 혜택 (24개월)</span></button><div class="cmprow"><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>카드 선택 시 (목록 내 단일 선택 · 선택 필수)</li></ul></div>
@@ -1973,7 +1976,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td>방향키 이동 순서</td><td>1열 순차</td><td><b>좌→우, 다음 행</b></td><td>보이는 순서를 따름 — 2열 격자 기준</td></tr>
 <tr><td>빈 상태 (EX-02)</td><td>목록 영역 단일 블록</td><td><b>격자 해제 후 단일 블록</b></td><td>C. TAB · D. 목록 컨트롤은 유지 — 모바일과 동일</td></tr>
         
-<tr><td>브레이크포인트</td><td colspan="2"><b>769px 이상 = PC</b> <span class="cid d">O-20</span></td><td>원 서비스 미디어쿼리 <span class="cid n">실측</span>은 674 · 720 · 768 · 769 · 1440으로 분기점이 여러 개 — 본 설계서는 <b>769px 이상을 PC 레이아웃</b>으로 보되 <b>단일 기준은 결정 대기</b></td></tr>
+<tr><td>브레이크포인트</td><td colspan="2"><b>769px 이상 = PC</b> <span class="cid">C-46</span></td><td>목록 2열 · 필터 2열 · 중앙 모달이 같은 지점에서 동시 전환 — PC는 700px 고정 팝업이라 추가 분기 불필요. 원 서비스 미디어쿼리 <span class="cid n">실측</span> 674 · 720 · 768 · 769 · 1440 중 769를 기준으로 채택</td></tr>
       
 </tbody>
     
