@@ -387,8 +387,9 @@ body{background:linear-gradient(180deg,#F3F3F8 0%,#EBEBF2 240px,#F3F3F8 100%)}
 
 .r-tabsbar{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
 .r-tabs{max-width:1280px;margin:0 auto;padding:0 28px;display:flex;gap:2px;overflow-x:auto}
-.r-tabs button{position:relative;padding:15px 18px;font-size:13.5px;font-weight:700;color:var(--muted);white-space:nowrap;transition:color .15s}
-.r-tabs button:hover{color:var(--text)}
+.r-tabs button{position:relative;padding:15px 18px;font-size:13.5px;font-weight:700;color:var(--muted);white-space:nowrap;transition:color .15s,background .15s;border-radius:10px 10px 0 0}
+.r-tabs button:hover{color:var(--text);background:rgba(91,75,225,.06)}
+.r-tabs button.on:hover{color:var(--main);background:rgba(91,75,225,.09)}
 .r-tabs button.on{color:var(--main)}
 .r-tabs button.on:after{content:'';position:absolute;left:14px;right:14px;bottom:-1px;height:2.5px;background:var(--main);border-radius:2px}
 .r-tabs .n{display:inline-block;font-size:10.5px;font-weight:800;color:var(--muted-2);margin-right:6px}
@@ -518,6 +519,8 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-nav a.here{box-shadow:0 2px 8px rgba(79,70,229,.28)}
 .fs-nav a.here:hover{box-shadow:0 4px 14px rgba(79,70,229,.4);transform:translateY(-1px)}
 .fs-nav a.here i,.fs-nav a.here:hover i{background:rgba(255,255,255,.22);color:#fff}
+/* 키보드 포커스 — 문서 UI에도 동일 기준 적용 (WCAG 2.4.7) */
+.fs-nav a:focus-visible,.fs-subtabs button:focus-visible,.r-tabs button:focus-visible,.fs-logmore button:focus-visible,.fs-logsearch input:focus-visible{outline:2px solid var(--main);outline-offset:2px}
 .fs-nav a i{font-style:normal;font-weight:800;color:var(--main);font-size:10.5px}
 
 .fs-frame{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-s);
@@ -571,8 +574,9 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-dev em{font-style:normal;font-weight:700;letter-spacing:0;color:var(--muted-2)}
 .fs-dev.pc{color:var(--main);background:var(--main-ghost);border-color:var(--main-weak)}
 /* ===== 코드 칩 호버 상세 (C-nn · O-nn) ===== */
-.cid.has-tip{cursor:help;border-bottom:1px dashed currentColor}
-.cid.has-tip:hover,.cid.has-tip:focus-visible{filter:brightness(.92)}
+.cid.has-tip{cursor:pointer;border-bottom:1px dashed currentColor;transition:background .13s,color .13s,box-shadow .13s}
+.cid.has-tip{cursor:pointer}
+.cid.has-tip:hover,.cid.has-tip:focus-visible{background:var(--main);color:#fff;border-bottom-color:transparent;box-shadow:0 2px 8px rgba(91,75,225,.3)}
 .cid.has-tip:focus-visible{outline:2px solid var(--main);outline-offset:2px}
 .fs-tip{position:fixed;z-index:9999;max-width:440px;background:var(--surface);border:1px solid var(--line-2);border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.14);padding:12px 14px;pointer-events:none}
 .fs-tip[hidden]{display:none}
@@ -589,6 +593,10 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-back{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:9998;display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:#fff;background:var(--ink);border:0;border-radius:999px;padding:11px 18px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.22)}
 .fs-back[hidden]{display:none}
 .fs-back em{font-style:normal;font-weight:700;opacity:.7}
+.fs-back{transition:transform .15s,box-shadow .15s,background .15s}
+.fs-back:hover{background:#000;box-shadow:0 12px 30px rgba(0,0,0,.3);transform:translateX(-50%) translateY(-2px)}
+.fs-back:active{transform:translateX(-50%) translateY(0)}
+.fs-back:focus-visible{outline:2px solid var(--main);outline-offset:3px}
 @media (max-width:768px){.fs-tip{max-width:calc(100vw - 24px)}}
 @media (max-width:768px){.fs-dev{left:9px;top:8px;font-size:9.5px;padding:3px 8px}}
 .fs-mock .tabbar{position:static!important;background:none!important;backdrop-filter:none}
@@ -714,7 +722,9 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 details.fs-frame>summary{list-style:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 details.fs-frame>summary::-webkit-details-marker{display:none}
 details.fs-frame>summary::marker{content:''}
+details.fs-frame>summary{transition:background .15s}
 details.fs-frame>summary:hover{background:var(--main-ghost)}
+details.fs-frame>summary:hover .fs-fold{color:var(--main);border-color:var(--main-mid)}
 details.fs-frame>summary:focus-visible{outline:2px solid var(--main);outline-offset:-2px}
 .fs-hint{font-style:normal;font-size:11.5px;font-weight:600;color:var(--muted-2);letter-spacing:0}
 details[open]>summary .fs-hint{display:none}
@@ -1478,6 +1488,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">변경 이력</td><td>전수 재검사 후 보정 — 변경 이력 헤더의 건수 · 최근 일자 · 결정 대기 수치가 옛 값으로 남아 있어 <b>표와 결정 대기 목록에서 자동 계산</b>하도록 변경. 이후 이력을 추가하거나 미확정 상태가 바뀌어도 헤더가 어긋나지 않음</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">G · 부록 1 · 04 요구사항</td><td><b>O-19 해소</b> — 비교 시트 상세 확정(C-47) : 항목 5행 고정 · 혜택 비노출 · 요금제명 표 헤더 유지, 값이 길면 줄바꿈, 두 요금제의 다른 값을 강조하지 않고 동일 위계, PC는 폭 520px 중앙 모달 · 최대 높이 88% · 본문만 스크롤, 전환은 프로토타입 기준 0.26s. PC 목업도 중앙 모달로 렌더하도록 보정. <b>결정 대기 0건</b></td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">전체</td><td>호버 스타일 보정 — 현재 영역 칩에 커서를 올리면 강조가 풀리고 연한 배경으로 덮이던 문제 수정(<code class="k">.fs-nav a:hover</code>가 <code class="k">.here</code>보다 뒤에 있어 배경을 덮어씀 → hover 규칙 뒤에서 재정의). 비활성 구성 탭 호버에 배경 톤 추가, 활성 탭·영역 칩 호버에 그림자 강화와 1px 리프트 적용</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">전체</td><td>호버 · 포커스 전수 정비 — 리포트 상단 탭에 배경 톤 추가(기존 글자색만 변경), 코드 칩을 보라 채움 + 흰 글자로 강화하고 커서를 pointer로 변경(클릭 시 정의로 이동하는 요소임을 명시), 「원래 위치로」 버튼에 호버·눌림 피드백 추가, 접이식 프레임 헤더 호버 시 접기/펼치기 힌트 강조, 문서 UI 전반에 키보드 포커스 링 통일 <span class="cid">WCAG 2.4.7</span></td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
