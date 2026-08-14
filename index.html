@@ -1457,7 +1457,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-hist"><dt>HISTORY</dt>
 <div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
 </div></div>
-</article></div><div class="fs-sub on" id="fs-sub-design"><details class="fs-frame" id="fs-log"><summary class="fs-fhead"><div class="fs-fname"><i></i>변경 이력<em class="fs-fix">1건</em><em class="fs-hint">최근 26.08.13 · 결정 대기 3건</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
+</article></div><div class="fs-sub on" id="fs-sub-design"><details class="fs-frame" id="fs-log"><summary class="fs-fhead"><div class="fs-fname"><i></i>변경 이력<em class="fs-fix" id="fs-log-cnt">—</em><em class="fs-hint" id="fs-log-hint">—</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
 <div class="fs-fbody">
 <div class="fs-fmain">
 <div class="fs-state">
@@ -1469,6 +1469,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 · 코드 칩 상세·이동 — C-nn · O-nn · WCAG 칩에 커서를 올리면 정의가 노출되고 클릭 시 정의 위치로 이동(칩 106개 연결 · 부록 구성 자동 전환 · 원래 위치로 복귀 버튼 제공), SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">D · 전체</td><td>화면 표시 보정 — D 영역 PC 필터 패널 목업의 라벨·셀렉트 간격 오류 수정(콜아웃이 첫 자식이 되면서 <code class="k">:first-child</code> 규칙이 빗나가 라벨이 82px 블록으로 렌더됨), 상단 「영역 이동」에 현재 보고 있는 영역 표시 추가, 스티키 툴바 뒤 배경 밴드 추가로 뒤로 지나가는 콘텐츠가 모서리 옆에 비치는 현상 제거</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">E · 부록 1 · 04 요구사항</td><td>미확정 사항 정리 — <b>O-17 해소</b>(프로모션 지급 개월을 배너로만 표기, 추가 정보 불필요 → C-45 확정), <b>O-20 해소</b>(769px 단일 기준으로 확정 → C-46, 목록 2열 · 필터 2열 · 중앙 모달 동시 전환), <b>O-18 이월</b>(화면설계는 목업 단계 기준 유지, 압축 범위는 디자인 시안 단계 검토). 미확정 4 → 1건(O-19)</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">변경 이력</td><td>전수 재검사 후 보정 — 변경 이력 헤더의 건수 · 최근 일자 · 결정 대기 수치가 옛 값으로 남아 있어 <b>표와 결정 대기 목록에서 자동 계산</b>하도록 변경. 이후 이력을 추가하거나 미확정 상태가 바뀌어도 헤더가 어긋나지 않음</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
@@ -3273,6 +3274,32 @@ window.addEventListener('scroll', fsSpyQueue, true);
 window.addEventListener('resize', fsSpyQueue);
 window.addEventListener('load', function(){ setTimeout(fsSpy, 120); });
 document.addEventListener('click', function(){ setTimeout(fsSpy, 260); }, true);
+
+/* ===== 변경 이력 헤더 요약 — 표와 결정 대기 목록에서 자동 계산 =====
+ * 이력을 추가하거나 미확정 상태가 바뀌어도 헤더 수치가 어긋나지 않게 한다. */
+function fsLogHead(){
+  var cnt = document.getElementById('fs-log-cnt'), hint = document.getElementById('fs-log-hint');
+  if(!cnt || !hint) return;
+  var rows = document.querySelectorAll('.fs-logtbl tbody tr');
+  var latest = '';
+  for(var i=0;i<rows.length;i++){
+    var d = rows[i].querySelector('td.dt');
+    var v = d ? d.textContent.trim() : '';
+    if(v && v > latest) latest = v;
+  }
+  var wait = 0, defer = 0;
+  var lis = document.querySelectorAll('#fs-log .fs-cond ul li');
+  for(var j=0;j<lis.length;j++){
+    if(/이월/.test(lis[j].textContent)) defer++; else wait++;
+  }
+  cnt.textContent = rows.length + '건';
+  var parts = [];
+  if(latest) parts.push('최근 ' + latest);
+  if(wait) parts.push('결정 대기 ' + wait + '건');
+  if(defer) parts.push('이월 ' + defer + '건');
+  hint.textContent = parts.join(' · ');
+}
+window.addEventListener('load', fsLogHead);
 </script>
 <div class="fs-tip" id="fs-tip" role="tooltip" aria-hidden="true" hidden></div>
 <button type="button" class="fs-back" id="fs-back" hidden onclick="fsTipBack()">&#8592; 원래 위치로 <em id="fs-back-l"></em></button>
