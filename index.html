@@ -489,13 +489,12 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-toolbar{position:sticky;top:var(--tbh,49px);z-index:60;background:var(--surface);border:1px solid var(--line);isolation:isolate;
   border-radius:16px;box-shadow:var(--shadow-m);margin:0 0 22px;overflow:hidden}
 .fs-toolbar:before{content:"";position:absolute;inset:-10px -16px;background:#F3F3F8;border-radius:22px;z-index:-1}
-.fs-nav a.here{background:var(--main);border-color:var(--main);color:#fff;box-shadow:0 2px 8px rgba(79,70,229,.28)}
-.fs-nav a.here i{background:rgba(255,255,255,.22);color:#fff}
-.fs-nav a.here:hover{color:#fff}
 .fs-subtabs{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 15px}
 .fs-subtabs button{padding:9px 18px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);
   font-size:12.5px;font-weight:700;color:var(--muted);min-height:44px;transition:all .15s}
-.fs-subtabs button:hover:not(.on){color:var(--text);border-color:var(--main-mid)}
+.fs-subtabs button:hover:not(.on){color:var(--main);border-color:var(--main-mid);background:var(--main-ghost)}
+.fs-subtabs button.on:hover{box-shadow:0 6px 16px rgba(91,75,225,.34)}
+.fs-subtabs button:active{transform:translateY(1px)}
 .fs-subtabs button.on{background:var(--main);border-color:var(--main);color:#fff;box-shadow:0 4px 12px rgba(91,75,225,.24)}
 .fs-sub{display:none}
 /* 화면설계 탭은 sticky 요소를 포함 — 진입 애니메이션에 transform을 쓰면
@@ -512,7 +511,13 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-toolbar .fs-nav a{padding:6px 11px}
 .fs-nav a{display:inline-flex;align-items:center;gap:5px;padding:7px 12px;border:1px solid var(--line-2);border-radius:99px;
   font-size:11.5px;font-weight:700;color:var(--muted);background:var(--surface);transition:all .15s;text-decoration:none}
-.fs-nav a:hover{color:var(--main);border-color:var(--main-mid);background:var(--main-ghost)}
+.fs-nav a:hover{color:var(--main);border-color:var(--main-mid);background:var(--main-ghost);box-shadow:0 2px 8px rgba(91,75,225,.14);transform:translateY(-1px)}
+.fs-nav a:active{transform:translateY(0);box-shadow:none}
+/* 현재 보고 있는 영역 — 호버해도 강조가 풀리지 않게 hover 규칙 뒤에 정의 */
+.fs-nav a.here,.fs-nav a.here:hover{background:var(--main);border-color:var(--main);color:#fff}
+.fs-nav a.here{box-shadow:0 2px 8px rgba(79,70,229,.28)}
+.fs-nav a.here:hover{box-shadow:0 4px 14px rgba(79,70,229,.4);transform:translateY(-1px)}
+.fs-nav a.here i,.fs-nav a.here:hover i{background:rgba(255,255,255,.22);color:#fff}
 .fs-nav a i{font-style:normal;font-weight:800;color:var(--main);font-size:10.5px}
 
 .fs-frame{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-s);
@@ -1472,6 +1477,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">E · 부록 1 · 04 요구사항</td><td>미확정 사항 정리 — <b>O-17 해소</b>(프로모션 지급 개월을 배너로만 표기, 추가 정보 불필요 → C-45 확정), <b>O-20 해소</b>(769px 단일 기준으로 확정 → C-46, 목록 2열 · 필터 2열 · 중앙 모달 동시 전환), <b>O-18 이월</b>(화면설계는 목업 단계 기준 유지, 압축 범위는 디자인 시안 단계 검토). 미확정 4 → 1건(O-19)</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">변경 이력</td><td>전수 재검사 후 보정 — 변경 이력 헤더의 건수 · 최근 일자 · 결정 대기 수치가 옛 값으로 남아 있어 <b>표와 결정 대기 목록에서 자동 계산</b>하도록 변경. 이후 이력을 추가하거나 미확정 상태가 바뀌어도 헤더가 어긋나지 않음</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">G · 부록 1 · 04 요구사항</td><td><b>O-19 해소</b> — 비교 시트 상세 확정(C-47) : 항목 5행 고정 · 혜택 비노출 · 요금제명 표 헤더 유지, 값이 길면 줄바꿈, 두 요금제의 다른 값을 강조하지 않고 동일 위계, PC는 폭 520px 중앙 모달 · 최대 높이 88% · 본문만 스크롤, 전환은 프로토타입 기준 0.26s. PC 목업도 중앙 모달로 렌더하도록 보정. <b>결정 대기 0건</b></td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">전체</td><td>호버 스타일 보정 — 현재 영역 칩에 커서를 올리면 강조가 풀리고 연한 배경으로 덮이던 문제 수정(<code class="k">.fs-nav a:hover</code>가 <code class="k">.here</code>보다 뒤에 있어 배경을 덮어씀 → hover 규칙 뒤에서 재정의). 비활성 구성 탭 호버에 배경 톤 추가, 활성 탭·영역 칩 호버에 그림자 강화와 1px 리프트 적용</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
