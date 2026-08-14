@@ -10,6 +10,7 @@ Set-Location -LiteralPath $PSScriptRoot
 Get-ChildItem -Path .git -Recurse -Force -ErrorAction SilentlyContinue |
     Where-Object { $_.Name -like '*.lock' -or $_.Name -like 'tmp_obj_*' } |
     Remove-Item -Force -ErrorAction SilentlyContinue
+if (Test-Path .git\_stale) { Remove-Item .git\_stale -Recurse -Force -ErrorAction SilentlyContinue }
 Write-Host "[1/3] 잠금 파일 정리 완료" -ForegroundColor Cyan
 
 # 2) 변경분이 있으면 커밋
