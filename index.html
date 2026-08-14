@@ -1074,6 +1074,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id"><span class="cid">C-34</span></td><td>유형 정보 내재화</td><td>제약·유형 정보는 <b>요금제명에 포함</b>되어 전달(예: 청소년 요금제). 카드에 별도 안내 문구 없음</td></tr>
       <tr><td class="id"><span class="cid">C-29</span></td><td>주간(BEST) 배치</td><td>기실행 집계 로직 재사용. 실패 시 재배치, 미갱신 시 <b>직전 데이터 유지</b>(사용자 고지 없음)</td></tr>
           <tr><td class="id"><span class="cid">C-45</span></td><td>프로모션 지급 개월</td><td><b>배너 형태로 지급 개월만 표기</b>. 적용 기간 · 종료 후 금액 등 추가 정보는 노출하지 않음 — 가격은 <b>판매가 취소선 + 프로모션가</b> 구조 유지 <span class="cid">C-30</span>. <b>26.08.14 확정</b> — O-17 해소</td></tr>
+          <tr><td class="id"><span class="cid">C-47</span></td><td>비교 시트 상세</td><td>항목 <b>5행 고정</b>(월 요금 · 판매가 · 데이터 · QOS · 통화/문자) — <b>혜택(배지 · 추가 혜택)은 비노출</b>, 요금제명은 표 헤더 유지. 값이 길면 <b>줄바꿈</b>으로 처리(말줄임 · 글자 축소 없음). 두 요금제의 다른 값을 <b>강조하지 않고 전부 같은 위계</b>로 표기. PC는 <b>폭 520px 중앙 모달</b> · 최대 높이 팝업의 88% · 표가 길면 <b>본문만 스크롤</b>(헤더 · 하단 액션 고정). 전환은 프로토타입 기준 <b>0.26s</b> — 모바일은 아래에서 슬라이드, 담긴 항목이 2개 미만이 되면 같은 모션으로 자동 닫힘. <b>26.08.14 확정</b> — O-19 해소</td></tr>
     </tbody>
   </table>
 
@@ -1261,8 +1262,8 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </section>
   <section id="rt-req" class="r-view">
 <div class="r-grid r-g3" style="margin-bottom:30px">
-  <div class="r-kpi ok"><div class="v">46</div><div class="l">확정 사항 (C-01 ~ C-46) — 상세 정의 40건은 05 개선안 · 6건은 본 탭</div></div>
-  <div class="r-kpi"><div class="v">1</div><div class="l">미확정 사항 — 기획 결정 대기 (O-19) · 해소 O-17 · O-20 · 이월 O-18</div></div>
+  <div class="r-kpi ok"><div class="v">47</div><div class="l">확정 사항 (C-01 ~ C-47) — 상세 정의 41건은 05 개선안 · 6건은 본 탭</div></div>
+  <div class="r-kpi ok"><div class="v">0</div><div class="l">미확정 사항 — 결정 대기 없음 · 해소 O-17 · O-19 · O-20 · 이월 O-18</div></div>
   <div class="r-kpi"><div class="v">5</div><div class="l">핵심 페인포인트 (P1 ~ P5) — 전건 해소</div></div>
   <div class="r-kpi"><div class="v">6</div><div class="l">개선 원칙 (G-01 ~ G-06)</div></div>
 </div>
@@ -1322,7 +1323,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
     <tbody>
       <tr><td class="id"><span class="cid d">O-17</span></td><td>프로모션 적용 기간 표기</td><td>기획 / 법무</td><td>C-30은 판매가·프로모션가 구조만 정했고 <b>적용 기간과 종료 후 금액을 다루지 않는다.</b> 혜택 면에는 "(24개월)"이 표기되는데 가격에는 없어 표기 기준이 어긋난다. P5의 '가격 근거 불명'이 실질 미해소이며, 요금 재확인 욕구는 Quick Back의 유력한 동인. 표시·광고 규제 검토 필요</td> <b>26.08.14 해소 — 배너로 지급 개월만 표기하는 것으로 확정 (C-45). 추가 정보 불필요</b></tr>
       <tr><td class="id"><span class="cid d">O-18</span></td><td>카드 정보 밀도</td><td>기획 / 디자인</td><td>카드 높이 약 300px로 첫 화면에 1~2개만 보인다. 비교·판단이 목적인 화면인데 동시 비교가 어려워 비교 시트 의존도가 높아진다. 스펙 면·혜택 면 압축으로 240px대까지 줄이면 2개 노출이 가능하나 정보량 축소 범위는 결정 필요. <b>26.08.13 실측 : 혜택 없는 카드 298px · 혜택 있는 카드 353px로 미해소 상태</b></td> <b>26.08.14 이월 — 화면설계는 목업 단계 기준 유지, 압축 범위는 디자인 시안 단계에서 검토</b></tr>
-      <tr><td class="id"><span class="cid d">O-19</span></td><td>비교 시트 상세 목업</td><td>기획</td><td>G. Modal Bottom Sheet(비교 시트)의 항목 구성·순서·PC 중앙 모달 전환 형태가 확정되지 않아 화면설계서 G 영역은 구조 수준까지만 정의되어 있다. 상세 목업 확정 후 05 화면설계 탭 G 프레임 교체 필요. <b>26.08.13 신규 — 05 재구성 시 O-18로 잘못 부여되어 O-19로 분리</b></td></tr>
+      <tr><td class="id"><span class="cid d">O-19</span></td><td>비교 시트 상세 목업</td><td>기획</td><td>G. Modal Bottom Sheet(비교 시트)의 항목 구성·순서·PC 중앙 모달 전환 형태가 확정되지 않아 화면설계서 G 영역은 구조 수준까지만 정의되어 있다. 상세 목업 확정 후 05 화면설계 탭 G 프레임 교체 필요. <b>26.08.13 신규 — 05 재구성 시 O-18로 잘못 부여되어 O-19로 분리</b></td> <b>26.08.14 해소 — 항목 5행 고정(혜택 비노출) · 값 줄바꿈 · 동일 위계 · PC 520px 중앙 모달 · 프로토타입 기준 전환으로 확정 (C-47)</b></tr>
       <tr><td class="id"><span class="cid d">O-20</span></td><td>브레이크포인트 단일 기준</td><td>기획 / 퍼블리싱</td><td>모바일 · PC 레이아웃 전환 기준이 확정되지 않았다. 원 서비스 미디어쿼리 실측 분기점이 <b>674 · 720 · 768 · 769 · 1440</b>으로 여러 개여서, 2열 격자 · 필터 2열 · 중앙 모달이 어느 폭부터 적용되는지 퍼블리싱이 판단해야 하는 상태. 본 설계서는 <b>769px 이상을 PC 레이아웃</b>으로 기술하되 단일 기준 확정 필요. <b>26.08.14 신규</b></td> <b>26.08.14 해소 — 769px 단일 기준으로 확정 (C-46)</b></tr>
     </tbody>
   </table>
@@ -1470,12 +1471,13 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">D · 전체</td><td>화면 표시 보정 — D 영역 PC 필터 패널 목업의 라벨·셀렉트 간격 오류 수정(콜아웃이 첫 자식이 되면서 <code class="k">:first-child</code> 규칙이 빗나가 라벨이 82px 블록으로 렌더됨), 상단 「영역 이동」에 현재 보고 있는 영역 표시 추가, 스티키 툴바 뒤 배경 밴드 추가로 뒤로 지나가는 콘텐츠가 모서리 옆에 비치는 현상 제거</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">E · 부록 1 · 04 요구사항</td><td>미확정 사항 정리 — <b>O-17 해소</b>(프로모션 지급 개월을 배너로만 표기, 추가 정보 불필요 → C-45 확정), <b>O-20 해소</b>(769px 단일 기준으로 확정 → C-46, 목록 2열 · 필터 2열 · 중앙 모달 동시 전환), <b>O-18 이월</b>(화면설계는 목업 단계 기준 유지, 압축 범위는 디자인 시안 단계 검토). 미확정 4 → 1건(O-19)</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">변경 이력</td><td>전수 재검사 후 보정 — 변경 이력 헤더의 건수 · 최근 일자 · 결정 대기 수치가 옛 값으로 남아 있어 <b>표와 결정 대기 목록에서 자동 계산</b>하도록 변경. 이후 이력을 추가하거나 미확정 상태가 바뀌어도 헤더가 어긋나지 않음</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">G · 부록 1 · 04 요구사항</td><td><b>O-19 해소</b> — 비교 시트 상세 확정(C-47) : 항목 5행 고정 · 혜택 비노출 · 요금제명 표 헤더 유지, 값이 길면 줄바꿈, 두 요금제의 다른 값을 강조하지 않고 동일 위계, PC는 폭 520px 중앙 모달 · 최대 높이 88% · 본문만 스크롤, 전환은 프로토타입 기준 0.26s. PC 목업도 중앙 모달로 렌더하도록 보정. <b>결정 대기 0건</b></td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
 <div class="fs-logmore" id="fs-logmore" hidden><button type="button" onclick="fsLogMore()">더보기 <em id="fs-logrest"></em></button></div>
 <div class="fs-lognone" id="fs-lognone" hidden>검색 결과가 없습니다. 다른 키워드로 검색해 주세요.</div>
-<div class="fs-cond" style="margin-top:18px"><dt>결정 대기</dt><ul><li><span class="cid d">O-18</span> E. 요금제 목록 카드 — 카드 정보 밀도 — 화면설계는 목업 단계 기준 유지, 압축 범위는 <b>디자인 시안 단계에서 검토</b> <b>(이월)</b></li><li><span class="cid d">O-19</span> G. Modal Bottom Sheet — 비교 시트 상세 목업 별도 정의 필요 <b>(기획)</b></li></ul></div></div></div></div>
+<div class="fs-cond" style="margin-top:18px"><dt>결정 대기</dt><ul><li><span class="cid d">O-18</span> E. 요금제 목록 카드 — 카드 정보 밀도 — 화면설계는 목업 단계 기준 유지, 압축 범위는 <b>디자인 시안 단계에서 검토</b> <b>(이월)</b></li></ul></div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>이력 기준</dt>
 <div class="fs-legend">영역별 이력은 각 프레임 하단 <b>HISTORY</b>에, 문서 단위 이력은 <b>문서정보</b>의 PAGE INFORMATION에 표기합니다.</div></div></div></details><details class="fs-frame" id="fs-index" open><summary class="fs-fhead"><div class="fs-fname"><i></i>화면 구성 · INDEX<em class="fs-fix">영역 A ~ G</em></div><div class="fs-fcode"><span>PAGE CODE</span><b>S-02</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
@@ -1908,7 +1910,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>ICON BUTTON</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>시트 닫힘 (딤 영역 CLICK도 동일)</p></dd></div><div><dt>Memo</dt><dd><p>터치 타깃 44px 이상 <span class="cid">C-38</span> · aria-label="비교 닫기"</p><p>배경 딤 처리 · role="dialog" + aria-modal="true"</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">04</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>TABLE (비교 항목)</p></dd></div><div><dt>Value</dt><dd><p>월 요금 / 판매가 / 데이터 / QOS / 통화 · 문자</p></dd></div><div><dt>Memo</dt><dd><p>열 = 요금제 (최대 2개) · 행 = 비교 항목</p><p>항목 순서 고정 · 요금제 마스터 값 그대로 노출</p><p>프로모션가 없는 요금제는 판매가 행에 "-" 표기</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TABLE (비교 항목)</p></dd></div><div><dt>Value</dt><dd><p>월 요금 / 판매가 / 데이터 / QOS / 통화 · 문자</p></dd></div><div><dt>Memo</dt><dd><p>열 = 요금제 (최대 2개) · 행 = 비교 항목</p><p>항목 순서 고정 · <b>5행 고정</b> — 혜택(배지 · 추가 혜택)은 비노출 <span class="cid">C-47</span></p><p>요금제명은 <b>표 헤더</b>에 유지 · 요금제 마스터 값 그대로 노출</p><p>값이 길면 <b>줄바꿈</b> — 말줄임 · 글자 축소 없음</p><p>두 요금제의 다른 값을 <b>강조하지 않음</b> — 전부 같은 위계로 표기</p><p>프로모션가 없는 요금제는 판매가 행에 "-" 표기</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">05</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (선택 매핑)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>해당 요금제 선택 + 시트 닫힘</p><p>E. 요금제 목록 카드 선택 상태 동기화</p><p>F. FOOT STICKY 선택 요약 갱신</p></dd></div><div><dt>Value</dt><dd><p><b>[미선택]</b> "요금제 선택" — 아직 선택되지 않은 요금제. 누르면 이 요금제로 선택됨</p><p><b>[선택됨]</b> 체크 + "선택됨" — 현재 선택된 요금제. 다시 눌러도 해제되지 않음(선택은 단일 필수)</p><p>두 열은 <b>항상 각각 상태를 가짐</b> — 한쪽이 선택되면 다른 쪽은 미선택으로 표시</p></dd></div><div><dt>Memo</dt><dd><p>각 열 하단에 배치 — 어느 쪽을 고르는지 버튼 위치로 명시</p><p>선택 전 진입 시에는 <b>두 열 모두 미선택</b> 상태로 열림 — 어느 쪽도 기본 선택하지 않음</p><p>라벨이 두 열에 반복되므로 보조기술용 이름에 요금제명 포함 — aria-label="{요금제명} 선택" / "{요금제명} 선택됨"</p><p>aria-pressed로 선택 상태 전달 <span class="cid">WCAG 4.1.2</span></p><p>E. 카드에서 이미 선택한 요금제를 담아 시트를 연 경우, 해당 열은 <b>열자마자 선택됨</b>으로 표시 — 시트와 목록의 선택 상태는 항상 동일</p></dd></div></div></div>
@@ -1920,8 +1922,8 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p>비교 대상이 2개 미만이 되면 시트 자동 닫힘 — 열린 채 남으면 오류 발생</p><p>탭 전환 시에도 비교 담은 항목 유지 <span class="cid">C-35</span></p><p>PC : 하단 시트 대신 중앙 모달로 전환</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (미확정)</p></dd></div><div><dt>Memo</dt><dd><p>비교 시트 상세 목업 별도 정의 필요 <span class="cid d">O-19</span> — 기획 확정 대기</p></dd></div></div></div></div></div><div class="fs-state more pcst">
-<div class="fs-screen"><div class="fs-dev pc">PC <em>700</em></div><div class="fs-mock pc"><div style="position:relative;padding-top:6px"><b class="fs-cal o">01</b><div class="sheet on" style="position:relative;transform:none;border:1px solid var(--line);box-shadow:var(--shadow-m);max-height:none;margin:0 auto"><div class="sheet-h"><b style="position:relative"><b class="fs-cal o">02</b>요금제 비교</b><button type="button" tabindex="-1" style="position:relative"><b class="fs-cal r">03</b>&#215;</button></div><div class="sheet-b" style="overflow:visible"><div style="position:relative"><b class="fs-cal o">04</b><table class="ctable"><thead><tr><th></th><th>LTE 스페셜 플러스</th><th>LTE 스페셜</th></tr></thead><tbody><tr><td>월 요금</td><td class="big">38,200원</td><td class="big">32,990원</td></tr><tr><td>판매가</td><td><span class="sm">46,600원</span></td><td><span class="sm">49,390원</span></td></tr><tr><td>데이터</td><td>100GB</td><td>11GB+일2GB</td></tr></tbody><tfoot><tr><td></td><td><button type="button" tabindex="-1" class="selbtn on"><span>&#10003;</span>선택됨</button></td><td><button type="button" tabindex="-1" class="selbtn">요금제 선택</button></td></tr></tfoot></table></div></div><div class="sheet-foot"><button type="button" tabindex="-1"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>비교 목록 비우기</button></div></div></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (전환)</p></dd></div><div><dt>Memo</dt><dd><p>열림 · 닫힘은 <b>아래에서 위로 슬라이드</b> — 프로토타입 기준 <b>0.26s</b> <span class="cid">C-47</span></p><p>배경 딤은 시트와 함께 나타나고 사라짐 — 딤 클릭 시 닫힘</p><p>담긴 항목이 <b>2개 미만이 되면 같은 모션으로 자동 닫힘</b> — 남은 항목은 담긴 상태 유지</p><p><b>비교 목록 비우기</b> 시에도 동일하게 닫히고 D. 비교 카운트가 0/2로 갱신</p></dd></div></div></div></div></div><div class="fs-state more pcst">
+<div class="fs-screen"><div class="fs-dev pc">PC <em>700</em></div><div class="fs-mock pc"><div style="position:relative;padding-top:6px"><b class="fs-cal o">01</b><div class="sheet on" style="position:relative;transform:none;border:1px solid var(--line);box-shadow:var(--shadow-m);max-height:none;margin:0 auto"><div class="sheet-h"><b style="position:relative"><b class="fs-cal o">02</b>요금제 비교</b><button type="button" tabindex="-1" style="position:relative"><b class="fs-cal r">03</b>&#215;</button></div><div class="sheet-b" style="overflow:visible"><div style="position:relative"><b class="fs-cal o">04</b><table class="ctable"><thead><tr><th></th><th>LTE 스페셜 플러스</th><th>LTE 스페셜</th></tr></thead><tbody><tr><td>월 요금</td><td class="big">38,200원</td><td class="big">32,990원</td></tr><tr><td>판매가</td><td><span class="sm">46,600원</span></td><td><span class="sm">49,390원</span></td></tr><tr><td>데이터</td><td>100GB</td><td>11GB+일2GB</td></tr><tr><td>QOS</td><td>최대 5M bps 속도로 데이터 무제한</td><td>최대 3M bps 속도로 데이터 무제한</td></tr><tr><td>통화/문자</td><td>기본제공 / 기본제공</td><td>기본제공 / 기본제공</td></tr></tbody><tfoot><tr><td></td><td><button type="button" tabindex="-1" class="selbtn on"><span>&#10003;</span>선택됨</button></td><td><button type="button" tabindex="-1" class="selbtn">요금제 선택</button></td></tr></tfoot></table></div></div><div class="sheet-foot"><button type="button" tabindex="-1"><svg viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>비교 목록 비우기</button></div></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>PC (프레임 700px · 콘텐츠 644px) — 오버레이 위 중앙 풀 팝업 <span class="cid">실측</span></li><li>비교 대상 2개 충족 시 자동 노출 · 비교 버튼 CLICK 시 노출</li><li>비교 항목 · 순서 · 선택 매핑 동작은 모바일과 동일</li></ul></div>
 <div class="fs-cond pc"><dt>모바일 대비 차이</dt><ul><li>하단 시트가 아니라 <b>화면 중앙 모달 · 폭 제한</b>으로 전환</li><li>Grab Bar 미노출 — 드래그로 닫는 조작이 없는 환경</li><li>표가 길면 <b>모달 내부에서 스크롤</b> — 모달 자체는 화면 밖으로 넘치지 않음</li></ul></div>
 <div class="fs-rows">
@@ -1936,10 +1938,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>ICON BUTTON</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>모달 닫힘 (딤 영역 CLICK도 동일)</p></dd></div><div><dt>Memo</dt><dd><p>터치 타깃 44px 이상 <span class="cid">C-38</span> · aria-label="비교 닫기"</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">04</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>TABLE (비교 항목)</p></dd></div><div><dt>Value</dt><dd><p>월 요금 / 판매가 / 데이터 / QOS / 통화 · 문자</p></dd></div><div><dt>Memo</dt><dd><p>열 = 요금제 (최대 2개) · 행 = 비교 항목 — 모바일과 동일</p><p>표가 길면 <b>모달 내부에서 스크롤</b> — 모달 자체는 화면 밖으로 넘치지 않음</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TABLE (비교 항목)</p></dd></div><div><dt>Value</dt><dd><p>월 요금 / 판매가 / 데이터 / QOS / 통화 · 문자</p></dd></div><div><dt>Memo</dt><dd><p>열 = 요금제 (최대 2개) · 행 = 비교 항목 — 모바일과 동일</p><p>표가 길면 <b>본문만 스크롤</b> — 표 헤더와 하단 액션은 고정, 모달 자체는 화면 밖으로 넘치지 않음 <span class="cid">C-47</span></p><p>값 표현 · 항목 구성 · 같은 위계 표기는 모바일과 동일</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p><b>Grab Bar는 미노출</b> — 드래그로 닫는 조작이 없는 환경</p><p>비교 대상이 2개 미만이 되면 모달 자동 닫힘 · 탭 전환 시 담긴 항목 유지 <span class="cid">C-35</span></p><p>상세 목업 확정 대기 <span class="cid d">O-19</span> — 모바일 시트와 함께 정의</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p><b>Grab Bar는 미노출</b> — 드래그로 닫는 조작이 없는 환경</p><p>비교 대상이 2개 미만이 되면 모달 자동 닫힘 · 탭 전환 시 담긴 항목 유지 <span class="cid">C-35</span></p><p>규격 : <b>폭 520px</b> · 최대 높이 팝업의 <b>88%</b> · <b>세로 중앙 정렬</b> <span class="cid">C-47</span></p><p class="fs-dim">위 SCREEN은 구조 확인용이라 시트 위치 그대로 표시됩니다 — 세로 중앙 정렬은 규격 기준</p><p>전환은 모바일과 같은 <b>0.26s</b> — 방향만 중앙 모달에 맞춤</p></dd></div></div></div>
 </div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
@@ -1971,7 +1973,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
         
 <tr><td>필터 패널</td><td>조건 1열 · 라벨 좌측</td><td><b>조건 2열 · 라벨 상단</b></td><td>초기화 좌측 고정 / 적용 우측 정렬</td></tr>
         
-<tr><td>비교 시트</td><td>하단 시트</td><td><b>중앙 모달 · 폭 제한</b></td><td>Grab Bar 미노출</td></tr>
+<tr><td>비교 시트</td><td>하단 시트 · 최대 높이 88%</td><td><b>중앙 모달 · 폭 520px · 최대 높이 88%</b></td><td>Grab Bar 미노출 · 표가 길면 본문만 스크롤 <span class="cid">C-47</span></td></tr>
 <tr><td>하단 고정 기준</td><td>브라우저 뷰포트</td><td><b>팝업 하단</b></td><td>Worning / Error Message 토스트도 팝업 기준</td></tr>
 <tr><td>닫기 동작</td><td>페이지 닫기</td><td><b>오버레이 해제</b></td><td>PC는 풀 팝업이므로 패널만 닫힘</td></tr>
 <tr><td>방향키 이동 순서</td><td>1열 순차</td><td><b>좌→우, 다음 행</b></td><td>보이는 순서를 따름 — 2열 격자 기준</td></tr>
