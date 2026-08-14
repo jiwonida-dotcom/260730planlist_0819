@@ -486,8 +486,12 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--line);
   border-radius:16px;padding:12px 16px;margin:0 0 20px;box-shadow:var(--shadow-s)}
 /* 역할별 보기 + 영역 이동 — 탭바 아래에 붙는 단일 sticky 툴바 */
-.fs-toolbar{position:sticky;top:var(--tbh,49px);z-index:60;background:var(--surface);border:1px solid var(--line);
+.fs-toolbar{position:sticky;top:var(--tbh,49px);z-index:60;background:var(--surface);border:1px solid var(--line);isolation:isolate;
   border-radius:16px;box-shadow:var(--shadow-m);margin:0 0 22px;overflow:hidden}
+.fs-toolbar:before{content:"";position:absolute;inset:-10px -16px;background:#F3F3F8;border-radius:22px;z-index:-1}
+.fs-nav a.here{background:var(--main);border-color:var(--main);color:#fff;box-shadow:0 2px 8px rgba(79,70,229,.28)}
+.fs-nav a.here i{background:rgba(255,255,255,.22);color:#fff}
+.fs-nav a.here:hover{color:#fff}
 .fs-subtabs{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:10px 15px}
 .fs-subtabs button{padding:9px 18px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);
   font-size:12.5px;font-weight:700;color:var(--muted);min-height:44px;transition:all .15s}
@@ -605,7 +609,7 @@ code.k{background:var(--bg);border:1px solid var(--line);border-radius:5px;paddi
 .fs-mock.pc .card-main{flex:1;display:flex;flex-direction:column;justify-content:flex-start}
 .fs-mock.pc .fb-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .fs-mock.pc .filterbox label{flex-direction:column;align-items:stretch;gap:7px}
-.fs-mock.pc .filterbox label>span:first-child{flex:0 0 auto;font-size:12.5px}
+.fs-mock.pc .filterbox label>span:not(.fs-sel){flex:0 0 auto;font-size:12.5px}
 .fs-mock.pc .fb-act{justify-content:flex-end}
 .fs-mock.pc .fb-reset{margin-right:auto}
 .fs-mock.pc .fb-done{flex:0 0 auto;min-width:184px;padding:0 26px}
@@ -1428,6 +1432,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td><b>G</b> Modal Bottom Sheet</td><td>있음</td><td>하단 시트 → <b>중앙 모달 · 폭 제한</b> / Grab Bar 미노출</td></tr>
 </tbody>
 </table>
+    <div class="r-note" style="margin-top:14px"><b>현재 영역 표시</b> — 상단 <b>영역 이동</b> 줄에서 지금 화면에 보이는 영역이 강조됩니다. 스크롤을 내리면 A → G 순서로 따라 이동하므로 문서 어디를 보고 있는지 바로 알 수 있습니다.</div>
     <div class="r-note" style="margin-top:14px"><b>PC 상태 읽는 법</b> — PC 상태는 각 영역의 <b>마지막 상태 블록</b>에 두고, 상단 <b>「모바일 대비 차이」</b> 블록에 달라지는 점만 정리했습니다. 그 외 구성 · 문구 · 동작 · 데이터는 모바일 명세와 동일합니다. 공통 규격은 <b>부록 1 레이아웃 규격</b>의 모바일/PC 대조표를 참조하세요.</div>
     <div class="r-note" style="margin-top:14px"><b>문서 구성</b> — 상단에서 <b>화면설계 · 문서정보 · 부록</b> 세 가지를 전환합니다. <b>화면설계</b>는 영역별 명세, <b>문서정보</b>는 이 문서를 읽는 방법과 화면의 기본 정보, <b>부록</b>은 영역별 명세가 공통으로 참조하는 기준(레이아웃 규격 · 상태 정의 · 노출·운영 규칙 · 접근성 · 데이터 매핑)입니다.</div>
   </div>
@@ -1460,6 +1465,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 · 코드 칩 상세·이동 — C-nn · O-nn · WCAG 칩에 커서를 올리면 정의가 노출되고 클릭 시 정의 위치로 이동(칩 106개 연결 · 부록 구성 자동 전환 · 원래 위치로 복귀 버튼 제공), SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">D · 전체</td><td>화면 표시 보정 — D 영역 PC 필터 패널 목업의 라벨·셀렉트 간격 오류 수정(콜아웃이 첫 자식이 되면서 <code class="k">:first-child</code> 규칙이 빗나가 라벨이 82px 블록으로 렌더됨), 상단 「영역 이동」에 현재 보고 있는 영역 표시 추가, 스티키 툴바 뒤 배경 밴드 추가로 뒤로 지나가는 콘텐츠가 모서리 옆에 비치는 현상 제거</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.13</td><td><span class="fs-kind new">신규</span></td><td class="tg">전체</td><td>문서 생성</td><td class="wr">허지원 책임</td></tr>
 </tbody>
 </table>
@@ -1669,7 +1675,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-row">
 <div class="fs-no">05</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Primary CTA)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>필터 적용 + 패널 접힘</p></dd></div><div><dt>Value</dt><dd><p>결과 N개 보기</p></dd></div><div><dt>Memo</dt><dd><p>모바일 전체 폭 / PC 우측 정렬</p><p>결과 0건이어도 Alert 노출 없음 — 목록 영역만 빈 상태로 전환</p></dd></div></div></div></div></div><div class="fs-state more pcst">
-<div class="fs-screen"><div class="fs-dev pc">PC <em>700</em></div><div class="fs-mock pc"><div class="filterbox open" style="margin:0"><div class="fb-head" style="position:relative"><b class="fs-cal o">01</b><b>필터 조건</b></div><div class="fb-fields"><label style="position:relative"><b class="fs-cal o">02</b><span>데이터 제공량</span><span class="fs-sel">전체<svg class="chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span></label><label style="position:relative"><b class="fs-cal up">03</b><span>월 기본료</span><span class="fs-sel">전체<svg class="chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span></label></div><div class="fb-act"><button type="button" tabindex="-1" class="fb-reset" disabled style="position:relative"><b class="fs-cal o">04</b>초기화</button><button type="button" tabindex="-1" class="fb-done" style="position:relative"><b class="fs-cal">05</b>결과 10개 보기</button></div></div></div></div>
+<div class="fs-screen"><div class="fs-dev pc">PC <em>700</em></div><div class="fs-mock pc"><div class="filterbox open" style="margin:0"><div class="fb-head" style="position:relative"><b class="fs-cal o">01</b><b>필터 조건</b></div><div class="fb-fields"><label style="position:relative"><b class="fs-cal o">02</b><span>데이터 제공량</span><span class="fs-sel">전체<svg class="chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span></label><label style="position:relative"><b class="fs-cal o">03</b><span>월 기본료</span><span class="fs-sel">전체<svg class="chev" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span></label></div><div class="fb-act"><button type="button" tabindex="-1" class="fb-reset" disabled style="position:relative"><b class="fs-cal o">04</b>초기화</button><button type="button" tabindex="-1" class="fb-done" style="position:relative"><b class="fs-cal">05</b>결과 10개 보기</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>PC (프레임 700px · 콘텐츠 644px) — 오버레이 위 중앙 풀 팝업 <span class="cid">실측</span></li><li>필터 클릭 시 패널 펼침 (인라인 확장 · 화면 이동 없음)</li><li>컨트롤 순서(필터 › 정렬 › 비교)와 값 · 동작은 모바일과 동일</li></ul></div>
 <div class="fs-cond pc"><dt>모바일 대비 차이</dt><ul><li>필터 조건을 <b>2열 · 라벨 상단</b>으로 배치 (모바일은 1열 · 라벨 좌측)</li><li>적용 CTA는 <b>우측 정렬 · 최소 폭</b> (모바일은 전체 폭) · 초기화는 좌측 고정 유지</li><li>"요금제 N개 · 필터 · 정렬 · 비교" 컨트롤 줄은 모바일과 동일하게 한 줄 유지</li></ul></div>
 <div class="fs-rows">
@@ -3227,6 +3233,43 @@ function fsTipInit(){
   return n;
 }
 window.addEventListener('load', fsTipInit);
+
+/* ===== 현재 화면에 보이는 영역을 상단 「영역 이동」에 표시 =====
+ * 툴바 바로 아래 지점을 기준선으로 잡고, 그 선을 지난 마지막 영역을 현재 영역으로 본다. */
+var FS_SPY_IDS = ['fs-log','fs-index','fs-full','fs-a','fs-b','fs-c','fs-d','fs-e','fs-f','fs-g'];
+var fsSpyTick = null;
+function fsSpy(){
+  var nav = document.querySelector('.fs-nav');
+  if(!nav) return;
+  var sub = document.querySelector('.fs-sub.on');
+  if(!sub || sub.id !== 'fs-sub-design'){
+    var on = nav.querySelectorAll('a.here');
+    for(var q=0;q<on.length;q++) on[q].className = on[q].className.replace(/\s*here/,'');
+    return;
+  }
+  var tb = document.querySelector('.fs-toolbar');
+  var line = (tb ? tb.getBoundingClientRect().bottom : 0) + 24;
+  var cur = null;
+  for(var i=0;i<FS_SPY_IDS.length;i++){
+    var el = document.getElementById(FS_SPY_IDS[i]);
+    if(!el || !el.getClientRects().length) continue;
+    var r = el.getBoundingClientRect();
+    if(r.top <= line && r.bottom > line){ cur = FS_SPY_IDS[i]; break; }
+    if(r.top <= line) cur = FS_SPY_IDS[i];
+  }
+  var as = nav.querySelectorAll('a');
+  for(var j=0;j<as.length;j++){
+    var want = cur && as[j].getAttribute('href') === '#' + cur;
+    var has = as[j].className.indexOf('here') >= 0;
+    if(want && !has) as[j].className += ' here';
+    if(!want && has) as[j].className = as[j].className.replace(/\s*here/,'');
+  }
+}
+function fsSpyQueue(){ if(fsSpyTick) return; fsSpyTick = requestAnimationFrame(function(){ fsSpyTick = null; fsSpy(); }); }
+window.addEventListener('scroll', fsSpyQueue, true);
+window.addEventListener('resize', fsSpyQueue);
+window.addEventListener('load', function(){ setTimeout(fsSpy, 120); });
+document.addEventListener('click', function(){ setTimeout(fsSpy, 260); }, true);
 </script>
 <div class="fs-tip" id="fs-tip" role="tooltip" aria-hidden="true" hidden></div>
 <button type="button" class="fs-back" id="fs-back" hidden onclick="fsTipBack()">&#8592; 원래 위치로 <em id="fs-back-l"></em></button>
