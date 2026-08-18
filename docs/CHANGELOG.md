@@ -3,6 +3,36 @@
 > 최신 항목이 위에 옵니다.
 > `index.html` 내부의 "변경 이력" 표(`#fs-log`)와는 별개입니다. 그쪽도 역순 고정이며 행 추가 시 맨 위에 넣습니다.
 
+## [2026-08-18] C-60 (4) 유의사항 상시 노출 · 레이어 금액 영역 삭제 · 접근성 보강
+```text
+Commit: —
+Type: feat
+Target: index.html — alertHtml cardPick 블록 / stickyHtml() / paintCardPick() /
+        openCards() · closeCards() / ccKey() 신설 / CSS .ccnote · .cctt · .ccpane :focus-visible ·
+        .ccbtn.wide · .sum .amt .lb.nm2
+Change: 사용자 확정 3건.
+        1) 유의사항 — details/summary 접이식을 제거하고 <section> + <h3> 로 상시 노출.
+           조건을 접힘 뒤에 두면 선택 전에 읽히지 않는다. 항목 3 → 4건
+           (월 납부 금액 미합산 주석을 유의사항으로 흡수).
+        2) 레이어 안의 금액 계산 영역(.ccsum / .ccfoot / .cccap) 전량 삭제.
+           선택 결과는 목록 화면 Sticky 한 곳에서만 확인한다.
+        3) Sticky 재구성 — 미선택: 「제휴카드 할인 선택」 버튼만.
+           선택: 「카드명 / - 할인금액」 행 + 「제휴카드 할인 변경」 버튼.
+        4) 접근성 — role=dialog 에 aria-modal · aria-labelledby 부여, 타이틀을 h2 로.
+           ccKey() 신설: Esc 닫기 · 방향키/Home/End 로 라디오 이동(WAI-ARIA radiogroup) ·
+           Tab 을 레이어 안에서 순환(포커스 트랩).
+           openCards 는 선택된 항목으로 포커스 이동, closeCards 는 진입 버튼으로 복귀.
+           roving tabindex — radiogroup 전체가 탭 스톱 1개.
+           :focus-visible 링(키보드에만 노출). 유의사항 본문 대비를 muted-2 → muted 로 상향.
+           Sticky 진입 버튼을 실제 44px 로 (::after 히트 영역 대신).
+Impact: Sticky 행 수 — 미선택 2행 / 선택 3행. C-51 · C-52 정의와 06 TC-U-45 · TC-U-46 갱신 대상.
+        레이어에서 「선택 즉시 하단 반영」이 사라졌으므로 05 C-60 정의를 쓸 때
+        결과 확인 경로를 'Sticky 단일'로 기술한다.
+검증:   콘솔 오류 0 · 시나리오 11건 PASS · 6폭(1400~420) 넘침 0 · 목록 높이 420.671875px 4회 불변 ·
+        44px 미만 버튼 0건 · 명암비 8항목 전건 WCAG AA(4.5:1) 통과(최저 4.66) ·
+        키보드 Esc / 방향키 / Home / End / Tab 순환 / 포커스 복귀 전건 동작.
+```
+
 ## [2026-08-18] C-60 (3) 제휴카드 선택 화면 — 정보 위계 강화
 ```text
 Commit: —
