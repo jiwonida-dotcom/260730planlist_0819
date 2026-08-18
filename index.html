@@ -416,6 +416,35 @@ select{font-family:inherit;cursor:pointer}
 .sheet-h button{font-size:19px;color:var(--muted);width:44px;height:44px;border-radius:9px;transition:background .15s}
 .sheet-h button:hover{background:var(--bg)}
 .sheet-b{overflow-y:auto;padding:13px 16px 16px}
+/* C-53 요금제 종속 입력 시트 — 망내 1회선 · NPay · 쿠팡.
+   기존 기능을 그대로 쓰되 화면만 재구성한다. 원본의 Alert 검증을 인라인 오류로 바꾸고
+   (C-50 팝업 최소화), 버튼 라벨을 실제 귀결에 맞춘다. */
+.dep-lead{font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.65;margin-bottom:14px}
+.dep-lead b{color:var(--text);font-weight:800}
+.dep-f{margin-bottom:13px}
+.dep-f>label{display:block;font-size:11.5px;font-weight:800;color:var(--text);margin-bottom:6px}
+.dep-f input{width:100%;min-height:46px;padding:0 13px;border:1px solid var(--line-2);border-radius:11px;
+  background:var(--surface);font-size:13.5px;font-weight:700;color:var(--text);
+  font-family:inherit;transition:border-color .15s}
+.dep-f input::placeholder{color:var(--muted-2);font-weight:600}
+.dep-f input:hover{border-color:var(--main-mid)}
+.dep-f input:focus{outline:none;border-color:var(--main);border-width:2px;padding:0 12px}
+/* 오류는 색상만으로 알리지 않는다 — 아이콘 + 문구 + 보더를 함께 쓴다 C-26 */
+.dep-f.err input{border-color:var(--err);border-width:2px;padding:0 12px}
+.dep-err{display:flex;align-items:flex-start;gap:5px;margin-top:6px;font-size:11.5px;font-weight:700;color:var(--err);line-height:1.5}
+.dep-err b{flex:0 0 auto;width:14px;height:14px;margin-top:1px;border-radius:50%;background:var(--err);color:#fff;
+  font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.dep-note{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.dep-note b{display:block;font-size:11.5px;font-weight:800;color:var(--text);margin-bottom:5px}
+.dep-note p{font-size:11px;font-weight:600;color:var(--muted);line-height:1.7;margin-bottom:4px}
+.dep-note p:last-child{margin-bottom:0}
+.dep-btns{flex-shrink:0;display:flex;gap:8px;padding:0 16px 16px}
+.dep-btns button{flex:1;min-height:48px;padding:13px;border-radius:12px;font-size:14px;font-weight:800;
+  background:linear-gradient(135deg,var(--main),var(--main-deep));color:#fff}
+.dep-btns button.gh{flex:0 0 auto;min-width:112px;background:var(--surface);color:var(--muted);border:1px solid var(--line-2)}
+.dep-btns button.gh:hover{border-color:var(--main-mid);color:var(--main)}
+.dep-btns button.off{background:var(--line-2);color:var(--surface);cursor:default}
+.phone.pc .dep-btns{padding:0 20px 18px}
 .ctable{width:100%;border-collapse:collapse;font-size:11.5px;table-layout:fixed}
 .ctable th,.ctable td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle;word-break:keep-all}
 .ctable th:first-child,.ctable td:first-child{text-align:left;color:var(--muted);font-weight:700;width:62px}
@@ -1023,7 +1052,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
     <div>
       <div class="panel" style="margin-bottom:18px">
         <h3><span class="dot"></span>시나리오</h3>
-        <div class="sub">정상 진입 2건(요금제 선택 후 / 선택 전) · <b>조건부 노출 6건</b>(C-49 · C-50 · C-55 · C-57 · C-58 · C-60) · 예외 3건(EX-02 · EX-03 · EX-04) — 총 <b>11건</b>. 클릭하면 검증 시퀀스가 STEP 단위로 실행됩니다.</div>
+        <div class="sub">정상 진입 2건(요금제 선택 후 / 선택 전) · <b>조건부 노출 7건</b>(C-49 · C-50 · C-53 · C-55 · C-57 · C-58 · C-60) · 예외 3건(EX-02 · EX-03 · EX-04) — 총 <b>12건</b>. 클릭하면 검증 시퀀스가 STEP 단위로 실행됩니다.</div>
         <div class="scn" id="scnList"></div>
       </div>
       <div class="panel">
@@ -1169,7 +1198,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id"><span class="cid">C-12</span></td><td>세션 승계</td><td>두 케이스 모두 상품 정보 입력 진입 시점에 요금제 확정 상태 보장</td></tr>
       <tr><td class="id"><span class="cid">C-33</span></td><td>요금제 단계 목록 제약 없음</td><td>요금제 선택 단계에 <b>유심 유형·가입 방법으로 인한 목록 제약은 없다</b> — 해당 제약 요금제가 존재하지 않음. 단 요금제 자체의 가입 자격·약정 조건에 따른 <b>표기와 팝업은 존재</b>한다 <span class="cid">C-49</span> <span class="cid">C-50</span></td></tr>
 <tr><td class="id"><span class="cid">C-48</span></td><td>사은품 선택 단계</td><td>사은품 선택은 <b>가입 방법 선택 직후</b>에 두고, <b>선택할 사은품이 있을 경우에만</b> 노출한다. 노출 조건이 개통방식 · 가입유형 · 요금제 세 값에 의존하므로 가입유형 확정 전에는 목록을 확정할 수 없다. 선택형 사은품이 있는데 미선택으로 확인하면 선택을 요구한다.<br><b>26.08.18 보강</b> — 시트는 <b>선택형 · 추첨 · 선착순 3분류</b>로 구성되며 <b>선택 액션은 선택형에만</b> 있다(선택허용갯수만큼). 나머지 둘은 <b>안내만</b> 한다. 각 그룹에 <b>지급 안내 툴팁</b>을 둔다. 전용 요금제 진입 <span class="cid">C-57</span>은 <b>타이틀 · 유의사항이 해당 요금제 전용 문구로 치환</b>된다</td></tr>
-<tr><td class="id"><span class="cid">C-53</span></td><td>확정 후 요금제 종속 입력</td><td>확정 직후 <b>요금제에 종속된 추가 입력</b>이 있으면 시트로 처리한 뒤 상품 정보 입력으로 이동한다. 대상 — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보. 가입유형에 의존하지 않으므로 <b>요금제 화면에 남긴다</b>.<br><b>26.08.18 보강</b> — 시트별 입력 조건 : <b>망내 1회선</b>은 3-4-4 구분자 입력 + 유플러스망 검증, 실패 시 안내 후 재입력 / <b>쿠팡 회원정보</b>는 이름 + 이메일 형식 ID, <b>형식 충족 후 포커스가 빠질 때 CTA 활성</b> / <b>NPay</b>는 외부 인증 호출이므로 화면 내 입력 폼을 두지 않는다. 세 시트 모두 완료 시 다음 단계로 이동한다.<br><b>판단 필요</b> — 원본은 망내 1회선 시트에서 <b>「취소」도 다음 단계로 이동</b>하고 <b>X만 시트를 닫는다</b>. 라벨과 동작이 어긋나므로 <b>세 시트의 취소 · 닫기 귀결을 하나로 표준화</b>할지 결정이 필요하다(미확정 등록 예정)</td></tr>
+<tr><td class="id"><span class="cid">C-53</span></td><td>확정 후 요금제 종속 입력</td><td>확정 직후 <b>요금제에 종속된 추가 입력</b>이 있으면 시트로 처리한 뒤 상품 정보 입력으로 이동한다. 대상 — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보. 가입유형에 의존하지 않으므로 <b>요금제 화면에 남긴다</b>.<br><b>26.08.18 보강</b> — 시트별 입력 조건 : <b>망내 1회선</b>은 3-4-4 구분자 입력 + 유플러스망 검증, 실패 시 안내 후 재입력 / <b>쿠팡 회원정보</b>는 이름 + 이메일 형식 ID, <b>형식 충족 후 포커스가 빠질 때 CTA 활성</b> / <b>NPay</b>는 외부 인증 호출이므로 화면 내 입력 폼을 두지 않는다. 세 시트 모두 완료 시 다음 단계로 이동한다.<br><b>26.08.18 확정 — 기존 기능 · 화면 재구성</b> : 버튼 라벨을 <b>실제 귀결에 맞춘다</b>. <b>확인 / 다음 / 인증</b> = 입력하고 진행 · <b>「나중에 입력」</b> = 건너뛰고 진행(<b>건너뛸 수 있는 시트만</b> 노출) · <b>닫기(X · 딤)</b> = 진행하지 않고 목록 복귀, 선택은 유지. 원본은 1회선 시트의 「취소」가 실제로는 건너뛰기여서 라벨과 동작이 어긋나 있었다.<br>검증 실패는 <b>Alert이 아니라 입력 칸 인라인 오류</b>로 돌려준다 <span class="cid">C-50</span>. <b>CTA는 형식 요건만으로 활성</b>하고, 조회로만 알 수 있는 값(유플러스망 가입 여부)은 활성 판단에 쓰지 않는다 — 화면이 알 수 없는 값으로 버튼을 잠그면 원인을 알 수 없다. 완료·건너뜀은 <b>세션에 기록</b>해 재확정 시 다시 묻지 않는다 <span class="cid">C-12</span>. 요소 명세는 <b>부록 6 「요금제 종속 입력 시트」</b></td></tr>
 <tr><td class="id"><span class="cid">C-54</span></td><td>동일 IP 다회선 제한</td><td>동일 IP · 가입유형 신규 · 최근 3개월 · 신청서 <b>4건 초과</b>(임시저장 · 가입취소 제외)면 안내 후 신청서를 종료한다. <b>가입유형 확정 이후 검증</b>이므로 요금제 화면이 아니라 가입 방법 선택 이후 구간에서 수행</td></tr>
     </tbody>
   </table>
@@ -1317,7 +1346,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id">12</td><td>확정 클릭</td><td>선택 요금제 존재</td><td>CTA 비활성 유지 + 안내 토스트</td></tr>
       <tr><td class="id">13</td><td>사용 여부 재검증</td><td>확정 시점 재조회 — 사용 여부 = '사용'</td><td>선택 해제 후 목록 재조회</td></tr>
       <tr><td class="id">13b</td><td>약정 동의 판정</td><td>실손약정 · 더알뜰플랜2 요금제면 안내 팝업. 동의 / 동의 안함 / 닫기 <b>세 경우 모두 목록으로 복귀</b>하며 동의 상태만 기록 (C-50)</td><td>—</td></tr>
-      <tr><td class="id">13c</td><td>요금제 종속 입력</td><td>망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보 중 해당 시트 처리 (C-53)</td><td>미완료 → 진행 불가</td></tr>
+      <tr><td class="id">13c</td><td>요금제 종속 입력</td><td>망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보 중 해당 시트 처리 (C-53). <b>형식 검증 통과 시 CTA 활성</b> → 제출 시 <b>조회 검증</b>(망내 1회선은 유플러스망 가입 여부). 완료 · 건너뜀은 세션에 기록해 재확정 시 재노출하지 않음 (C-12)</td><td>형식 오류 · 조회 실패 → <b>인라인 오류</b> 후 재입력 / 「나중에 입력」 → 건너뛰고 진행 / 닫기 → 진행 중단 · 선택 유지</td></tr>
       <tr><td class="id">14</td><td>세션 승계</td><td>선택 요금제 <b>+ 약정 동의 상태 + 종속 입력값</b>을 신청서 세션에 기록 후 S-03 이동 (승계 방식은 개발 분석 단계에서 정의)</td><td>재시도</td></tr>
     </tbody>
   </table>
@@ -1709,6 +1738,8 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
+<tr><td class="dt">26.08.18</td><td><span class="fs-kind add">추가</span></td><td class="tg">02 프로토타입 · F · 부록 6 · 03 기능정의 · 05 개선안</td><td><b>요금제 종속 입력 시트 3종 재구성</b> <span class="cid">C-53</span> — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보. <b>기존 기능은 그대로 두고 화면만 재구성</b>. 버튼 라벨을 <b>실제 귀결에 맞춰</b> 정리(확인/다음/인증 = 입력하고 진행 · <b>「나중에 입력」</b> = 건너뛰고 진행 · 닫기 = 진행 중단 후 목록 복귀). 원본은 1회선 시트의 「취소」가 실제로는 건너뛰기여서 라벨과 동작이 어긋나 있었음. 검증 실패를 <b>Alert에서 입력 칸 인라인 오류</b>로 이관 <span class="cid">C-50</span>, <b>CTA는 형식 요건만으로 활성</b>하고 조회 판정(유플러스망 가입 여부)은 제출 시점에 인라인으로 회신. 빈 칸은 포커스 아웃 시 지적하지 않고, 재입력 시작 시 오류 즉시 해제. 부록 6에 <b>「요금제 종속 입력 시트 — 요소 명세」 신설</b>(입력 항목 · 형식/검증 · 버튼 귀결 · 상태/접근성 8항목), 03 기능정의 STEP 13c 분해, 시나리오 시뮬레이터에 케이스 추가(11 → 12건)</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.18</td><td><span class="fs-kind add">추가</span></td><td class="tg">05 개선안 · 04 요구사항</td><td><b>C-60 제휴카드 선택 화면 · C-61 제휴카드 영역 노출 조건 신설</b>. 제휴카드를 계산기가 아니라 <b>선택 화면</b>으로 재정의 — 목록 전개 · 실적 구간 병기 · 「선택됨」 텍스트 라벨 · <b>확인 Alert 제거</b> · 레이어 내 금액 영역 없음(결과는 Sticky 단일) · <b>유의사항 상시 노출</b> · 모달 선언/포커스 이동·복귀·순환/Esc/방향키/탭 스톱 1개. <span class="cid">C-51</span> Sticky 중복 금액 행 제거 후 카드명 + 예상 할인 행 추가, <span class="cid">C-52</span>는 표기 원칙만으로 축소. 원본 slide 75~93 전문 대조로 <span class="cid">C-48</span> · <span class="cid">C-49</span> · <span class="cid">C-55</span> · <span class="cid">C-57</span> 보강</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.17</td><td><span class="fs-kind mod">수정</span></td><td class="tg">F · 02 프로토타입 · 03 기능정의 · 05 개선안 · 06</td><td>제휴카드 표기 원 서비스 기준으로 정정 — <b>"제휴카드 할인포함 월 납부 금액" 라벨 전환 삭제</b>. 제휴카드 할인은 카드사에 별도 신청해야 적용되는 <b>예상 금액</b>이므로 <b>부가세포함 월 납부 금액은 요금제 기준 금액을 그대로 유지</b>하고 할인은 별도 행에 분리 표기한다(합산하지 않음). 계산 버튼은 <b>라벨 옆</b>에 배치하고 선택 완료 시 <b>버튼 라벨만</b> "변경"으로 전환. 기본값 표기는 <code class="k">0원</code> <span class="cid">C-51</span> <span class="cid">C-52</span></td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.17</td><td><span class="fs-kind add">추가</span></td><td class="tg">02 프로토타입 · E · F · 부록 6</td><td>신규 정의를 <b>프로토타입과 SCREEN 목업에 실제 구성</b> — 카드에 <b>프로모션 문구 영역</b>(미등록 시에도 높이 유지 <b>C-59</b>) · <b>속도 안내 버튼</b>(카드 선택 버튼과 형제로 분리, 44×44px <b>C-58</b>) · <b>제약 라인</b>(<b>C-49</b>) 추가, Sticky에 <b>부가세포함 월 납부 금액</b>과 <b>제휴카드 계산 버튼</b>을 2행 유지로 배치(<b>C-51 · C-52</b>), <b>약정 동의 · 상담사 개통 전환 · 진입 안내 · 속도 안내 · 제휴카드</b> 레이어 동작 구현(<b>C-50 · C-55</b>), <b>단독 노출 모드</b> 탭 미노출 구현(<b>C-57</b>). E에 <b>자격 제한 요금제</b> 상태 신설, E 카드 상태 콜아웃 10 → 12 · F 선택 상태 콜아웃 2 → 5로 재정렬(명세 행 동시 갱신). <b>EX-03 정정</b> — 셀프개통 불가 요금제도 목록에 노출하고, 선택 시 상담사 개통으로 작성할지 확인하며, 취소 시 선택을 해제하고 다른 요금제를 고르도록 안내</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.17</td><td><span class="fs-kind add">추가</span></td><td class="tg">A · E · F · 부록 5 · 부록 6 · 03 기능정의 · 04 · 05 · 06</td><td>원본 화면설계서(MO9_0301 v27.6) 대조로 확인된 <b>누락 정의 12건 반영</b> — <b>C-48</b> 사은품 선택 단계(가입 방법 직후 · 선택할 사은품이 있을 때만) · <b>C-49</b> 자격 제한 표기(Alert 대신 카드 제약 라인) · <b>C-50</b> 조건부 팝업(약정 동의 · 경로 전환만 유지) · <b>C-51</b> Sticky 금액 명세 · <b>C-52</b> 제휴카드 계산(행 수 유지 위해 텍스트 버튼으로 축약) · <b>C-53</b> 확정 후 요금제 종속 입력 · <b>C-54</b> 동일 IP 다회선 제한 · <b>C-55</b> 진입 안내 팝업 · <b>C-56</b> 상품 유형별 목록 분기 · <b>C-57</b> 단독 노출 모드(탭 미노출) · <b>C-58</b> 속도 안내 레이어 · <b>C-59</b> 프로모션 문구 높이 고정. 부록 6 「팝업 · 분기 정의」 신설, 예외 <b>EX-03 · EX-04</b> 추가, 검증 시퀀스에 STEP 1b · 4b · 10b · 13b · 13c 추가, 테스트 케이스 92 → 106건. <b>C-28 · C-33 · C-40 문구 보정</b> — 요금제 선택 시점 팝업의 존재와 CMS 연동 범위를 사실대로 기술</td><td class="wr">허지원 책임</td></tr>
@@ -2182,7 +2213,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (제휴카드 레이어)</p></dd></div><div><dt>Memo</dt><dd><p>제휴카드 선택 레이어는 <b>팝업 기준 중앙</b>에 노출 — 브라우저 뷰포트가 아님 <span class="cid">C-52</span></p><p>카드 목록 · 할인 금액 · 유의사항 구성은 모바일과 동일</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (확정 후 분기)</p></dd></div><div><dt>Action</dt><dd><p>약정 동의 팝업 <span class="cid">C-50</span> → 요금제 종속 입력 시트 <span class="cid">C-53</span> → S-03 이동</p></dd></div><div><dt>Memo</dt><dd><p>약정 동의 — 실손약정 · 더알뜰플랜2. 동의 / 동의 안함 / 닫기 <b>세 경우 모두 목록으로 복귀</b>하며 동의 상태만 세션에 기록 <span class="cid">C-12</span></p><p>요금제 종속 입력 — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보</p><p><b>사은품 선택은 본 화면이 아니다</b> — 가입 방법 확정 직후로 이동 <span class="cid">C-48</span></p><p><b>동일 IP 다회선 제한도 본 화면이 아니다</b> — 판정에 가입유형이 필요 <span class="cid">C-54</span> <span class="cid x">EX-04</span></p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (확정 후 분기)</p></dd></div><div><dt>Action</dt><dd><p>약정 동의 팝업 <span class="cid">C-50</span> → 요금제 종속 입력 시트 <span class="cid">C-53</span> → S-03 이동</p></dd></div><div><dt>Memo</dt><dd><p>약정 동의 — 실손약정 · 더알뜰플랜2. 동의 / 동의 안함 / 닫기 <b>세 경우 모두 목록으로 복귀</b>하며 동의 상태만 세션에 기록 <span class="cid">C-12</span></p><p>요금제 종속 입력 — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보. <b>기존 기능 · 화면 재구성</b>이며 요소 명세는 부록 6 「요금제 종속 입력 시트」 참조 <span class="cid">C-53</span></p><p>버튼 귀결 — <b>확인/다음</b> 입력하고 진행 · <b>나중에 입력</b> 건너뛰고 진행(건너뛸 수 있는 시트만) · <b>닫기</b> 진행 중단 후 목록 복귀(선택 유지)</p><p><b>사은품 선택은 본 화면이 아니다</b> — 가입 방법 확정 직후로 이동 <span class="cid">C-48</span></p><p><b>동일 IP 다회선 제한도 본 화면이 아니다</b> — 판정에 가입유형이 필요 <span class="cid">C-54</span> <span class="cid x">EX-04</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p>미선택 상태 · 비활성 CTA · Worning / Error Message 토스트는 <b>모바일과 동일</b></p><p>토스트도 팝업 기준 하단 고정 바 상단에 노출</p></dd></div></div></div>
@@ -2514,7 +2545,44 @@ details.fs-frame:not([open])>summary{border-radius:19px}
     <thead><tr><th>ID</th><th>대상</th><th>형태</th><th>동작</th></tr></thead>
     <tbody>
       <tr><td><span class="cid">C-50</span></td><td>실손약정 · 더알뜰플랜2 요금제</td><td>동의 팝업</td><td>동의 / 동의 안함 / 닫기 <b>세 경우 모두 목록으로 복귀</b>하며 <b>동의 상태만</b> 세션에 기록 <span class="cid">C-12</span></td></tr>
-      <tr><td><span class="cid">C-53</span></td><td>망내 1회선 · NPay · 쿠팡 요금제</td><td>bottomsheet</td><td>요금제 종속 정보 입력 후 상품 정보 입력으로 이동. 미완료 시 진행 불가</td></tr>
+      <tr><td><span class="cid">C-53</span></td><td>망내 1회선 · NPay · 쿠팡 요금제</td><td>bottomsheet — 하단 시트(PC 중앙 모달)</td><td>요금제 종속 정보 입력 후 상품 정보 입력으로 이동. <b>기존 기능을 그대로 쓰되 화면을 재구성</b>했다 — 아래 「요금제 종속 입력 시트」 참조. 버튼 라벨을 <b>실제 귀결에 맞춰</b> 두고, 검증 실패는 <b>Alert이 아니라 인라인 오류</b>로 돌려준다</td></tr>
+    </tbody>
+  </table>
+
+  <div class="r-sub">요금제 종속 입력 시트 — 요소 명세 <span class="cid">C-53</span></div>
+  <p class="d">원본 <code class="k">MO9_0301_L02 · L03 · L04</code>의 <b>기능은 그대로 두고 화면만 재구성</b>했습니다. 원본은 시트마다 버튼 구성과 귀결이 달랐고(1회선은 「취소」가 실제로는 <b>건너뛰기</b>였습니다), 검증 실패를 Alert으로 처리했습니다. 여기서는 <b>라벨을 귀결에 맞추고</b>, 오류를 <b>입력 칸 옆 인라인</b>으로 내렸습니다 <span class="cid">C-50</span>.</p>
+
+  <table class="r-t">
+    <thead><tr><th>대상</th><th>입력 항목</th><th>형식 · 검증</th><th>안내</th></tr></thead>
+    <tbody>
+      <tr><td><b>망내 1회선 번호지정</b><br>망내 1회선 요금제</td><td>무제한으로 통화할 번호 <b>1개</b></td><td><b>형식</b> — 숫자만, 10~11자리. 구분자는 표시하지 않고 입력받는다<br><b>조회</b> — 유플러스망 가입 여부. <b>제출 시점</b>에만 판정 가능하므로 CTA는 형식만 충족하면 활성</td><td>번호 변경 수단(홈페이지 · 고객센터, 월 1회) · 유플러스 가입 번호가 아니면 지정 불가</td></tr>
+      <tr><td><b>NPay 인증</b><br>NPay 요금제</td><td>네이버 ID · 비밀번호</td><td><b>형식</b> — 두 칸 모두 입력<br>인증 결과는 외부 시스템이 판정한다</td><td>통신료 NPay 포인트 환급 · 정보가 다르면 혜택 미제공</td></tr>
+      <tr><td><b>쿠팡 회원정보</b><br>쿠팡 요금제</td><td>쿠팡 계정 이름 · 쿠팡 ID</td><td><b>형식</b> — 이름 필수, ID는 <b>이메일 형식</b>. 형식 충족 시 CTA 활성(원본 : 형식 입력 + 포커스 아웃)</td><td>쿠팡 캐시 월 지급 · 정보가 틀리면 혜택 미제공</td></tr>
+    </tbody>
+  </table>
+
+  <div class="r-sub" style="font-size:13px">버튼 구성과 귀결 — 라벨을 동작에 맞춘다</div>
+  <table class="r-t">
+    <thead><tr><th>버튼</th><th>노출</th><th>귀결</th><th>근거</th></tr></thead>
+    <tbody>
+      <tr><td><b>확인 / 다음 / 인증</b></td><td>전 시트</td><td>검증 통과 시 <b>입력하고 진행</b> — 상품 정보 입력으로 이동</td><td>시트별 CTA 라벨은 하는 일을 그대로 쓴다</td></tr>
+      <tr><td><b>나중에 입력</b></td><td><b>건너뛸 수 있는 시트만</b> (망내 1회선)</td><td><b>건너뛰고 진행</b> — 이후 단계에서 입력</td><td>원본의 「취소」가 실제로 하던 일이다. <b>라벨과 동작이 어긋나 있어</b> 바꿔 적었다</td></tr>
+      <tr><td><b>닫기 (X · 딤)</b></td><td>전 시트</td><td><b>진행하지 않고</b> 목록으로 복귀. <b>선택한 요금제는 유지</b></td><td>세 시트 공통. 원본은 시트마다 달랐다</td></tr>
+    </tbody>
+  </table>
+
+  <div class="r-sub" style="font-size:13px">상태 · 접근성</div>
+  <table class="r-t">
+    <thead><tr><th>항목</th><th>정의</th></tr></thead>
+    <tbody>
+      <tr><td>CTA 활성 조건</td><td><b>형식 요건 충족 시 활성.</b> 조회로만 알 수 있는 항목(유플러스망 가입 여부)은 활성 판단에 쓰지 않는다 — 화면이 알 수 없는 값으로 버튼을 잠그면 사용자가 원인을 알 수 없다</td></tr>
+      <tr><td>오류 표기</td><td>입력 칸 <b>바로 아래 인라인</b>. 아이콘 + 문구 + 보더를 함께 써 <b>색상 단독으로 알리지 않는다</b> <span class="cid">C-26</span> <span class="cid">WCAG 1.4.1</span></td></tr>
+      <tr><td>오류 시점</td><td><b>포커스 아웃</b> = 형식 오류만 / <b>제출</b> = 형식 + 조회 결과. <b>빈 칸은 포커스 아웃 시 지적하지 않는다</b> — 입력을 시작하지도 않은 칸을 붉게 표시하면 재촉으로 읽힌다</td></tr>
+      <tr><td>오류 해제</td><td>다시 입력하기 시작하면 <b>즉시 해제</b>한다 — 고치는 도중 붉은 표시가 남으면 방해가 된다</td></tr>
+      <tr><td>보조기술</td><td>시트는 <b>대화상자로 선언</b>하고 제목과 연결한다. 오류는 <b>즉시 읽히는 영역</b>으로 알리고 해당 입력 칸에 <b>오류 상태와 설명 연결</b>을 건다 <span class="cid">C-41</span> <span class="cid">WCAG 4.1.2</span></td></tr>
+      <tr><td>키보드</td><td>열릴 때 <b>첫 입력 칸으로 포커스 이동</b> · 닫을 때 <b>하단 CTA로 복귀</b> · Tab은 시트 안에서 <b>순환</b> · <b>Esc</b>로 닫기 · 입력 칸에서 <b>Enter</b>는 CTA와 동일</td></tr>
+      <tr><td>터치 타깃</td><td>입력 칸과 버튼 모두 <b>44px 이상</b> <span class="cid">C-38</span></td></tr>
+      <tr><td>재진입</td><td>완료 또는 건너뜀을 <b>세션에 기록</b>해 같은 요금제로 다시 확정할 때 <b>재노출하지 않는다</b> <span class="cid">C-12</span></td></tr>
     </tbody>
   </table>
 
@@ -2528,7 +2596,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
   </table>
 
   <div class="r-note" style="margin-top:14px">
-    <b>목업 미포함</b> — 본 절은 조건 · 형태 · 동작까지 정의하며, <b>팝업 목업은 디자인 시안 단계에서 작성</b>합니다. 문구가 법적 고지(C-55)나 약정 조건(C-50)에 걸린 항목은 원문을 그대로 유지해야 하므로, 카피 확정 이후에 목업을 잡는 편이 안전합니다.
+    <b>목업 범위</b> — <b>요금제 종속 입력 시트 3종은 프로토타입으로 구성</b>되어 동작을 직접 확인할 수 있습니다(02 프로토타입 · 시나리오 <span class="cid">C-53</span>). 나머지 팝업은 조건 · 형태 · 동작까지만 정의하며 <b>목업은 디자인 시안 단계에서 작성</b>합니다. 문구가 법적 고지(C-55)나 약정 조건(C-50)에 걸린 항목은 원문을 그대로 유지해야 하므로, 카피 확정 이후에 목업을 잡는 편이 안전합니다.
   </div>
 </div>
 </div>
@@ -2572,9 +2640,9 @@ var AGREE = {
 
 var PLANS = [
   {code:'P01', name:'LTE 스페셜 플러스', net:'LTE', sale:46600, promo:38200, data:'100GB', dataV:100, voice:'기본제공', sms:'기본제공', speed:'최대 5M bps 속도로 데이터 무제한', badges:['BEST','U+인터넷결합','매월 데이터 10GB 추가'], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:1},
-  {pnote:'가입 7개월 후 39,900원', code:'P02', name:'LTE 스페셜', net:'LTE', sale:49390, promo:32990, data:'11GB+일2GB', dataV:71, voice:'기본제공', sms:'기본제공', speed:'최대 3M bps 속도로 데이터 무제한', badges:['BEST','U+인터넷결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:2},
-  {code:'P03', name:'LTE (15GB+/통화기본)', net:'LTE', sale:48400, promo:20900, data:'15GB', dataV:15, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST','랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:3},
-  {code:'P04', name:'LTE (10GB+/통화기본)', net:'LTE', sale:41950, promo:18900, data:'10GB', dataV:10, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:5},
+  {dep:'npay', pnote:'가입 7개월 후 39,900원', code:'P02', name:'LTE 스페셜', net:'LTE', sale:49390, promo:32990, data:'11GB+일2GB', dataV:71, voice:'기본제공', sms:'기본제공', speed:'최대 3M bps 속도로 데이터 무제한', badges:['BEST','U+인터넷결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:2},
+  {dep:'line1', code:'P03', name:'LTE (15GB+/통화기본)', net:'LTE', sale:48400, promo:20900, data:'15GB', dataV:15, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST','랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:3},
+  {dep:'coupang', code:'P04', name:'LTE (10GB+/통화기본)', net:'LTE', sale:41950, promo:18900, data:'10GB', dataV:10, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:5},
   {code:'P05', name:'LTE (7GB+/통화기본)', net:'LTE', sale:39800, promo:15900, data:'7GB', dataV:7, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST','랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:4},
   {agree:'contract2', pnote:'가입 7개월 후 13,800원', code:'P06', name:'LTE (1GB+/통화기본)', net:'LTE', sale:25300, promo:9900, data:'1GB', dataV:1, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:6},
   {code:'P07', name:'LTE 스페셜 프로', net:'LTE', sale:45900, promo:38200, data:'일5GB', dataV:150, voice:'기본제공', sms:'기본제공', speed:'최대 5M bps 속도로 데이터 무제한', badges:['U+인터넷결합','랜덤결합'], benefit:null, open:['self','agent'], sub:['adult'], use:true, rank:8},
@@ -2613,6 +2681,8 @@ function newState(mode){
     card: null,                   // C-52 선택한 제휴카드 코드
     cardPick: false,              // C-52 제휴카드 선택 레이어 열림
     agreed: {},                   // C-50 약정 동의 상태 — 세션 승계 대상 (C-12)
+    dep: null,                    // C-53 요금제 종속 입력 시트 {kind, v1, v2, err, touched}
+    depDone: {},                  // C-53 완료·건너뜀 기록 — 재진입 시 다시 묻지 않는다
     entryNotice: false,           // C-55 진입 안내 팝업 노출 여부
     oneChip: false, newNumber: false,  // C-55 판정 입력 — 원칩 유심 · 010 신규가입
     soloMode: false,              // C-57 단독 노출 모드 (전용 요금제 진입)
@@ -2811,12 +2881,14 @@ function render(key){
     '<div class="ph-head"><span class="ic">&#8249;</span><span class="t">가입신청서</span><span class="ic" style="text-align:right">&#215;</span></div>' +
     body +
     '<div id="sheetwrap-' + key + '"></div>' +
+    '<div id="depwrap-' + key + '"></div>' +
     '<div class="dim' + ((st.alert || st.cardPick || st.entryNotice) ? ' on' : '') + '">' +
       alertHtml(st, key) +
     '</div>' +
     '<div class="toast" id="toast-' + key + '" role="status" aria-live="polite"></div>';
 
   paintSheet(key);
+  paintDep(key);
   paintToast(key);
   if(st.screen === 'plan' && !isCurated(st)) bindScroll(key);
   if(key === 'sim') document.getElementById('simState').textContent = stateLabel(st);
@@ -2828,6 +2900,11 @@ function paintSheet(key){
   var st = S[key], w = document.getElementById('sheetwrap-' + key);
   if(!w) return;
   w.innerHTML = (st.sheet && st.compare.length === 2) ? sheetHtml(st, key) : '';
+}
+function paintDep(key){
+  var st = S[key], w = document.getElementById('depwrap-' + key);
+  if(!w) return;
+  w.innerHTML = st.dep ? depHtml(st, key) : '';
 }
 function paintToast(key){
   var st = S[key], t = document.getElementById('toast-' + key);
@@ -3174,6 +3251,118 @@ function viewS03(st, key){
   return out;
 }
 
+/* =========================================================
+   C-53 요금제 종속 입력 시트 — 기존 기능 · 화면 재구성
+   ========================================================= */
+var DEP = {
+  line1: {
+    t:'마음껏 통화 1회선 번호지정',
+    lead:'LG유플러스에 가입된 번호 <b>1개</b>와 통화를 마음껏 사용할 수 있습니다.',
+    f1:{label:'무제한으로 통화할 번호', ph:'- 없이 숫자만 입력', mode:'tel'},
+    note:['U+유모바일 홈페이지 [내 가입 정보] 또는 고객센터에서 <b>한 달에 한 번</b> 번호를 바꿀 수 있습니다.',
+          '유플러스 가입 번호가 아니면 지정할 수 없습니다.'],
+    skip:'나중에 입력', ok:'확인'
+  },
+  npay: {
+    t:'네이버 인증',
+    lead:'통신료를 <b>NPay 포인트</b>로 돌려받습니다 — 매월 10% 포인트 혜택. 혜택 받으실 고객 정보를 입력해 주세요.',
+    f1:{label:'네이버 ID', ph:'네이버 ID 입력', mode:'text'},
+    f2:{label:'비밀번호', ph:'비밀번호 입력', mode:'password'},
+    note:['입력한 정보가 다르면 포인트 혜택이 제공되지 않을 수 있습니다.'],
+    ok:'네이버 ID 확인'
+  },
+  coupang: {
+    t:'쿠팡 회원정보 입력',
+    lead:'쿠팡요금제 가입 시 <b>쿠팡 캐시 월 5천원</b>을 지급해 드립니다. (24개월간)',
+    f1:{label:'쿠팡 계정 이름', ph:'이름 입력', mode:'text'},
+    f2:{label:'쿠팡 ID', ph:'ID 입력 (이메일 형식)', mode:'email'},
+    note:['입력한 정보가 틀릴 경우 쿠팡캐시 혜택이 제공되지 않을 수 있습니다.',
+          '혜택을 받으실 정확한 회원정보를 확인 후 입력해 주세요.'],
+    ok:'다음'
+  }
+};
+
+/* 검증은 두 층으로 나눈다.
+   ① 형식 — 화면에서 판정 가능. CTA 활성 조건이자 포커스 아웃 시 인라인 오류
+   ② 조회 — 서버(유플러스망 등)가 판정. 제출 시점에만 알 수 있으므로 CTA는 활성 상태로 두고
+      결과를 인라인 오류로 돌려준다. 원본은 이 자리를 Alert으로 처리했다 (C-50 팝업 최소화) */
+function depFormat(kind, v1, v2){
+  if(kind === 'line1'){
+    var n = (v1||'').replace(/[^0-9]/g,'');
+    if(!n) return '번호를 입력해 주세요.';
+    if(n.length < 10 || n.length > 11) return '휴대폰번호를 확인해 주세요.';
+    return '';
+  }
+  if(kind === 'coupang'){
+    if(!(v1||'').trim()) return '이름을 입력해 주세요.';
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v2||'')) return '이메일 형식으로 입력해 주세요.';
+    return '';
+  }
+  if(!(v1||'').trim()) return '네이버 ID를 입력해 주세요.';
+  if(!(v2||'')) return '비밀번호를 입력해 주세요.';
+  return '';
+}
+function depVerify(kind, v1){
+  if(kind !== 'line1') return '';
+  var n = (v1||'').replace(/[^0-9]/g,'');
+  /* 실제로는 유플러스망 조회 결과를 쓴다.
+     프로토타입에서는 오류 상태를 확인할 수 있도록 끝자리 9를 미가입으로 본다 */
+  if(n.slice(-1) === '9') return '지정번호 신청이 불가능한 번호입니다. 유플러스 가입 번호인지 확인해 주세요.';
+  return '';
+}
+/* 아직 비어 있는 칸이 있는지 — 빈 칸 안내는 포커스 아웃 시점에 띄우지 않는다.
+   입력을 시작하지도 않은 칸을 붉게 표시하면 재촉으로 읽힌다 */
+function depBlank(kind, v1, v2){
+  if(kind === 'line1') return !(v1||'').replace(/[^0-9]/g,'');
+  return !(v1||'').trim() || !(v2||'');
+}
+/* CTA 활성 조건 — 형식만 본다. 쿠팡은 이메일 형식 충족 시 활성 (원본 : 형식 입력 + 포커스 아웃) */
+function depReady(d){ return !depFormat(d.kind, d.v1, d.v2); }
+
+function depField(key, idx, f, val, bad){
+  var id = 'dep' + idx + '-' + key;
+  return '<div class="dep-f' + (bad ? ' err' : '') + '">'
+    + '<label for="' + id + '">' + f.label + '</label>'
+    + '<input id="' + id + '" type="' + (f.mode === 'tel' ? 'tel' : (f.mode === 'password' ? 'password' : 'text')) + '"'
+    + (f.mode === 'tel' ? ' inputmode="numeric"' : (f.mode === 'email' ? ' inputmode="email"' : ''))
+    + ' placeholder="' + f.ph + '" value="' + esc(val || '') + '"'
+    + ' aria-invalid="' + (bad ? 'true' : 'false') + '"'
+    + (bad ? ' aria-describedby="deperr-' + key + '"' : '')
+    + ' oninput="depInput(\'' + key + '\',' + idx + ',this.value)"'
+    + ' onblur="depBlur(\'' + key + '\')"></div>';
+}
+
+function depHtml(st, key){
+  var d = st.dep; if(!d) return '';
+  var D = DEP[d.kind]; if(!D) return '';
+  var bad = !!d.err;
+  var h = '<div class="sheetdim" onclick="depClose(\'' + key + '\')" aria-hidden="true"></div>'
+    + '<div class="sheet on" id="depsheet-' + key + '" role="dialog" aria-modal="true"'
+    + ' aria-labelledby="deptl-' + key + '" onkeydown="depKey(event,\'' + key + '\')">'
+    + '<div class="grab"><i></i></div>'
+    + '<div class="sheet-h"><b id="deptl-' + key + '">' + D.t + '</b>'
+    + '<button aria-label="' + D.t + ' 닫기" onclick="depClose(\'' + key + '\')">&#215;</button></div>'
+    + '<div class="sheet-b">'
+    + '<p class="dep-lead">' + D.lead + '</p>'
+    + depField(key, 1, D.f1, d.v1, bad && !D.f2);
+  if(D.f2) h += depField(key, 2, D.f2, d.v2, bad);
+  if(bad){
+    h += '<div class="dep-err" id="deperr-' + key + '" role="alert">'
+      +  '<b aria-hidden="true">!</b><span>' + esc(d.err) + '</span></div>';
+  }
+  h += '<div class="dep-note"><b>유의사항</b>';
+  for(var i=0;i<D.note.length;i++) h += '<p>' + D.note[i] + '</p>';
+  h += '</div></div>';
+  var ready = depReady(d);
+  h += '<div class="dep-btns">';
+  /* 건너뛸 수 있는 시트만 명시적으로 「나중에 입력」을 둔다 — 원본의 '취소'는 실제로 건너뛰기였다 */
+  if(D.skip) h += '<button class="gh" onclick="depSkip(\'' + key + '\')">' + D.skip + '</button>';
+  h += '<button class="' + (ready ? '' : 'off') + '"' + (ready ? '' : ' aria-disabled="true"')
+    +  ' onclick="depSubmit(\'' + key + '\')">' + D.ok + '</button>';
+  h += '</div></div>';
+  return h;
+}
+
 function sheetHtml(st, key){
   var a = find(st.compare[0]), b = find(st.compare[1]);
   if(!a || !b) return '';                       // 방어: 비교 대상 2건 미충족
@@ -3345,6 +3534,79 @@ function cardTap(e, key, code){
   var t = e.target;
   if(t.closest && t.closest('.card-main,.qbtn,.cmpbox')) return;
   pick(key, code);
+}
+
+/* ── C-53 요금제 종속 입력 시트 핸들러 ──
+   버튼 라벨을 실제 귀결에 맞춘다 :
+   「나중에 입력」 = 건너뛰고 진행 · 「확인/다음」 = 입력하고 진행 · X · 딤 = 시트만 닫기 */
+function depInput(key, idx, v){
+  var d = S[key].dep; if(!d) return;
+  if(idx === 1) d.v1 = v; else d.v2 = v;
+  /* 입력 중에는 오류를 지운다 — 고치는 도중에 붉은 표시가 남아 있으면 방해가 된다 */
+  var had = !!d.err;
+  d.err = '';
+  var btn = document.querySelector('#depsheet-' + key + ' .dep-btns button:last-child');
+  if(btn){
+    var ready = depReady(d);
+    btn.className = ready ? '' : 'off';
+    if(ready) btn.removeAttribute('aria-disabled'); else btn.setAttribute('aria-disabled','true');
+  }
+  if(had) paintDepErr(key);
+}
+/* 포커스 아웃 시 형식 검증 — 원본의 '형식 입력 + FOCUS OUT' 조건을 그대로 쓴다 */
+function depBlur(key){
+  var d = S[key].dep; if(!d) return;
+  if(!d.v1 && !d.v2) return;
+  if(depBlank(d.kind, d.v1, d.v2)) return;   // 빈 칸이 남아 있으면 아직 지적하지 않는다
+  var e = depFormat(d.kind, d.v1, d.v2);
+  if(e){ d.err = e; paintDepErr(key); }
+}
+function paintDepErr(key){ paintDep(key); }
+
+function depSubmit(key){
+  var st = S[key], d = st.dep; if(!d) return;
+  var e = depFormat(d.kind, d.v1, d.v2) || depVerify(d.kind, d.v1);
+  if(e){
+    d.err = e;
+    logStep(key, 'STEP 13c', 'f', DEP[d.kind].t + ' 검증 실패 — ' + e);
+    paintDep(key);
+    var f = document.querySelector('#depsheet-' + key + ' .dep-f.err input') ||
+            document.querySelector('#depsheet-' + key + ' input');
+    if(f) f.focus();
+    return;
+  }
+  st.depDone[d.kind] = '입력';
+  logStep(key, 'STEP 13c', 'p', DEP[d.kind].t + ' 입력 완료');
+  st.dep = null;
+  confirmPlan(key);
+}
+/* 건너뛰기 — 원본의 '취소'가 실제로 하던 일. 라벨을 동작에 맞춰 바꿨다 */
+function depSkip(key){
+  var st = S[key], d = st.dep; if(!d) return;
+  st.depDone[d.kind] = '나중에 입력';
+  logStep(key, 'STEP 13c', 'i', DEP[d.kind].t + ' 건너뜀 — 이후 단계에서 입력');
+  st.dep = null;
+  confirmPlan(key);
+}
+/* 닫기 — 진행하지 않고 목록으로 복귀한다. 선택은 유지 */
+function depClose(key){
+  var st = S[key], d = st.dep; if(!d) return;
+  logStep(key, 'STEP 13c', 'i', DEP[d.kind].t + ' 닫기 — 진행 중단 · 요금제 선택 유지');
+  st.dep = null;
+  render(key);
+  var back = document.querySelector('#' + (key === 'proto' ? 'ph1' : 'ph2') + ' .cta');
+  if(back) back.focus();
+}
+function depKey(ev, key){
+  if(ev.key === 'Escape'){ ev.preventDefault(); depClose(key); return; }
+  if(ev.key === 'Enter' && ev.target && ev.target.tagName === 'INPUT'){ ev.preventDefault(); depSubmit(key); return; }
+  if(ev.key !== 'Tab') return;
+  var sh = document.getElementById('depsheet-' + key); if(!sh) return;
+  var f = sh.querySelectorAll('button, input');
+  if(!f.length) return;
+  var first = f[0], last = f[f.length - 1];
+  if(ev.shiftKey && document.activeElement === first){ ev.preventDefault(); last.focus(); }
+  else if(!ev.shiftKey && document.activeElement === last){ ev.preventDefault(); first.focus(); }
 }
 
 /* C-58 속도 안내 — QoS 상세를 레이어로. 카드 선택과 분리 */
@@ -3559,7 +3821,19 @@ function confirmPlan(key){
     return;
   }
   if(p.agree) logStep(key, 'STEP 13b', 'p', '약정 동의 상태 = ' + (st.agreed[p.agree] ? '동의' : '미동의'));
-  logStep(key, 'STEP 13c', 'p', '요금제 종속 입력 해당 없음');
+
+  /* STEP 13c — 요금제에 종속된 추가 입력이 있으면 시트로 처리한 뒤 진행한다 (C-53).
+     가입유형에 의존하지 않으므로 요금제 화면에 남긴다 */
+  if(p.dep && !st.depDone[p.dep]){
+    st.dep = { kind:p.dep, v1:'', v2:'', err:'' };
+    logStep(key, 'STEP 13c', 'i', '요금제 종속 입력 — ' + DEP[p.dep].t);
+    render(key);
+    var sh = document.getElementById('depsheet-' + key);
+    if(sh){ var f = sh.querySelector('input'); if(f) f.focus(); }
+    return;
+  }
+  if(p.dep) logStep(key, 'STEP 13c', 'p', '요금제 종속 입력 완료 — ' + st.depDone[p.dep]);
+  else logStep(key, 'STEP 13c', 'p', '요금제 종속 입력 해당 없음');
   logStep(key, 'STEP 14', 'p', '신청서 세션 승계 → S-03 이동'
     + (st.card ? ' · 제휴카드 ' + st.card : '')
     + (p.agree ? ' · 약정동의 ' + (st.agreed[p.agree]?'Y':'N') : ''));
@@ -3608,6 +3882,7 @@ var SCN = [
   {id:'C58', kind:'c', t:'C-58 속도 안내 레이어', d:'카드 스펙 면의 안내 버튼 → QoS 상세 레이어 (44px 타깃)'},
   {id:'C60', kind:'c', t:'C-60 제휴카드 선택', d:'목록 전개 · 실적 구간별 할인액 병기 · 선택 즉시 하단 반영 · 확인 Alert 없음'},
   {id:'C50', kind:'c', t:'C-50 약정 동의 팝업', d:'약정 요금제 확정 시 STEP 13b — 동의 / 동의 안함 모두 목록 복귀'},
+  {id:'C53', kind:'c', t:'C-53 요금제 종속 입력', d:'확정 직후 시트 — 망내 1회선 · NPay · 쿠팡. 나중에 입력 / 확인 / 닫기 귀결이 다름'},
   {id:'E3', kind:'e', t:'EX-03 셀프개통 불가 요금제 선택', d:'경로 전환 확인 팝업 — 확인은 상담사 개통 전환, 취소는 선택 해제'},
   {id:'E4', kind:'e', t:'EX-04 동일 IP 다회선 제한', d:'요금제 화면 밖(가입 방법 이후) 검증 — 안내 후 신청서 종료'},
   {id:'E2', kind:'e', t:'EX-02 조회·필터 결과 0건', d:'목록 영역만 빈 상태, 탭·컨트롤 유지 (Alert 없음)'}
@@ -3740,6 +4015,18 @@ function runScn(id){
     st.alert = {ttl:AGREE[ap.agree].t, body:AGREE[ap.agree].b, agree:ap.agree, yes:'동의', no:'동의 안함'};
     logStep('sim','STEP 13b','i','약정 요금제 — 확정 전 동의 팝업');
     logStep('sim','INFO','i','동의 / 동의 안함 / 닫기 세 경우 모두 목록으로 복귀하며 동의 상태만 세션에 기록 (C-12)');
+  }
+  else if(id === 'C53'){
+    logHead('C-53 요금제 종속 입력');
+    logStep('sim','STEP 3','p','openMethodCd = agent');
+    st.caseType='B'; st.openMethod='agent'; st.tab='all'; st.selected='P03';
+    logStep('sim','STEP 12','p','selectedPlan = P03 (망내 1회선 대상)');
+    logStep('sim','STEP 13','p','사용여부 = 사용');
+    st.dep = { kind:'line1', v1:'', v2:'', err:'' };
+    logStep('sim','STEP 13c','i','요금제 종속 입력 — ' + DEP.line1.t);
+    logStep('sim','INFO','i','확인 = 입력하고 진행 · 나중에 입력 = 건너뛰고 진행 · 닫기(X) = 진행 중단 후 목록 복귀');
+    logStep('sim','INFO','i','끝자리 9 번호를 넣으면 유플러스 미가입 판정 오류를 확인할 수 있습니다 (프로토타입 판정)');
+    logStep('sim','INFO','i','NPay는 P02 · 쿠팡은 P04를 선택해 신청서 작성하기를 누르면 확인됩니다');
   }
   else if(id === 'E3'){
     logHead('EX-03 셀프개통 불가 요금제 선택');
