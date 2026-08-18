@@ -217,9 +217,46 @@ select{font-family:inherit;cursor:pointer}
 .info .chips{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;width:100%;align-items:start}
 .info .chips span{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px;color:var(--text);white-space:nowrap;min-width:0}
 .info .chips svg{width:18px;height:18px;flex-shrink:0;stroke:var(--muted-2);stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.info .sp{width:100%;padding-top:10px;border-top:1px solid var(--line-2);font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.5;text-align:center}
+.card .info{border-radius:12px 12px 0 0}
 /* 혜택 — 정보 면: 스펙과 동일하게 센터 */
 .benefit{margin-top:9px;padding:11px 13px;background:var(--main-ghost);border:1px solid var(--main-weak);border-radius:12px;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--main-deep);text-align:center}
+/* 자격 제한 라인 C-49 — 선택 전에 인지되도록 카드 안에 상시 표기. Alert을 쓰지 않는다 */
+.card .lim{margin-top:9px;display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:11.5px;font-weight:700;color:var(--warn);line-height:1.45;text-align:center}
+.card .lim svg{width:13px;height:13px;flex:0 0 auto;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round}
+/* 프로모션 문구 C-59 — 미등록 시에도 높이를 유지해 카드 높이가 흔들리지 않게 한다 */
+.prices .pnote{width:100%;margin-top:3px;font-size:11px;font-weight:700;color:var(--muted);min-height:16px;line-height:16px}
+/* 속도 안내 버튼 C-58 — 44px 터치 타깃, 보이는 라벨이 없어 aria-label 필요 */
+/* 속도 안내 행 — card-main 바깥의 형제이므로 .info와 시각적으로 이어 붙인다 */
+.card .sprow{margin-top:-1px;padding:11px 14px;background:var(--bg);border-radius:0 0 12px 12px;
+  display:flex;align-items:center;justify-content:center;gap:2px;position:relative}
+.card .sprow:before{content:"";position:absolute;left:14px;right:14px;top:0;height:1px;background:var(--line-2)}
+.card .sprow .sp{display:inline;width:auto;padding:0;border:0;font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.5;text-align:center}
+/* 가격 행 — 프로모션 문구가 한 줄을 차지하므로 줄바꿈을 허용한다 (C-59) */
+.card .prices{flex-wrap:wrap}
+.qbtn{flex:0 0 auto;width:44px;height:44px;margin:-14px 0;display:flex;align-items:center;justify-content:center;color:var(--muted-2);border-radius:50%;transition:color .15s,background .15s}
+.qbtn:hover{color:var(--main);background:var(--main-ghost)}
+.qbtn b{width:17px;height:17px;border-radius:50%;border:1.4px solid currentColor;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;font-style:normal}
+/* Sticky 금액 명세 C-51 · 제휴카드 C-52 — 행 수를 늘리지 않아 카드 노출 수를 지킨다 (O-18) */
+.sum{flex-wrap:wrap}
+.sum .amt{width:100%;margin-top:7px;padding-top:7px;border-top:1px solid var(--main-weak);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px;font-weight:700;color:var(--muted)}
+.sum .amt .v{font-weight:800;color:var(--text);font-size:12.5px}
+.sum .amt.disc .v{color:var(--main-deep)}
+.ccbtn{flex:0 0 auto;min-height:28px;padding:0 9px;border-radius:8px;border:1px solid var(--line-2);
+  background:var(--surface);font-size:11px;font-weight:800;color:var(--main);transition:all .15s}
+.ccbtn:hover{border-color:var(--main-mid);background:var(--main-ghost)}
+.ctrls .chip.off{color:var(--muted-2);border-color:var(--line-2);background:var(--bg);cursor:default}
+/* 2버튼 확인 팝업 C-50 — 경로 전환·약정 동의처럼 되돌릴 수 없는 분기에만 쓴다 */
+.alert .btns{display:flex;gap:8px}
+.alert .btns button{flex:1}
+.alert button.gh{background:var(--surface);color:var(--muted);border:1px solid var(--line-2);box-shadow:none}
+.alert button.gh:hover{border-color:var(--main-mid);color:var(--main)}
+.alert .ttl{font-size:14.5px;font-weight:800;margin-bottom:9px;color:var(--text)}
+.alert .body{max-height:38vh;overflow-y:auto;text-align:left;margin-bottom:18px}
+.alert .body p{font-size:12.5px;font-weight:600;line-height:1.65;color:var(--muted);margin-bottom:8px}
+.alert .body p:last-child{margin-bottom:0}
+.alert .body b{color:var(--text);font-weight:800}
 .benefit .gi{flex-shrink:0;width:22px;height:22px;border-radius:7px;background:var(--main-weak);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
 
 /* 비교 담기 — 액션: 우측 컨트롤 축. 구분선 없이 여백으로 분리
@@ -893,6 +930,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
     <button id="dev-mobile" class="on" aria-pressed="true" onclick="setDevice('mobile')">모바일 394</button>
     <button id="dev-pc" aria-pressed="false" onclick="setDevice('pc')">PC 700</button>
   </span>
+  <span class="devtog" role="group" aria-label="진입 조건 전환" style="margin-left:6px">
+    <button id="cond-entry" aria-pressed="false" onclick="toggleCond('entry')">진입 안내 조건</button>
+    <button id="cond-solo" aria-pressed="false" onclick="toggleCond('solo')">단독 노출 모드</button>
+  </span>
 </div>
 
 <div id="v-proto" class="view on">
@@ -1096,7 +1137,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id"><span class="cid">C-35</span></td><td>비교하기</td><td>전 탭 노출. 카드 내 담기 + 상단 <code class="k">비교 N/2</code> 상태. 담은 항목은 <b>탭 이동 시에도 유지</b>, 2건이면 하단 시트로 비교 후 시트에서 바로 선택</td></tr>
       <tr><td class="id"><span class="cid">C-38</span></td><td>터치 타깃</td><td>44×44px은 요금제 화면 한정 적용이며, <b>화면 내 모든 상시 노출 컨트롤에 예외 없이 적용</b> — 탭·목록 컨트롤 칩·필터 셀렉트·패널 버튼·시트 닫기 · 속도 안내 버튼 <span class="cid">C-58</span> · 제휴카드 계산 버튼 <span class="cid">C-52</span> 포함. 퍼널 전체 표준화는 후속</td></tr>
 <tr><td class="id"><span class="cid">C-49</span></td><td>자격 제한 표기</td><td>가입 자격이 제한된 요금제는 <b>카드 스펙 면 하단에 제약 라인</b>으로 표기한다(예: 만 65세 이상 가입). <b>Alert을 띄우지 않아</b> 선택 피드백의 즉시성을 보존한다 <span class="cid">C-18</span> <span class="cid">C-26</span>. 실제 자격 검증은 가입자 유형 선택의 현행 예외처리를 준용 <span class="cid">C-28</span>. 대상 — 시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단(0GB)</td></tr>
-<tr><td class="id"><span class="cid">C-50</span></td><td>조건부 팝업</td><td><b>약정 동의와 경로 전환에만 팝업을 쓴다.</b> ① 약정 동의 — 실손약정 · 더알뜰플랜2: 확정 클릭 시 안내 팝업, 동의 / 동의 안함 / 닫기 세 경우 모두 목록으로 복귀하며 <b>동의 상태만 세션에 기록</b> ② 경로 전환 확인 — 셀프개통 + 청소년 · 데이터차단(0GB): 취소 / 확인, 확인 시 온라인신청 경로로 전환. <b>정보 전달만 하는 안내는 팝업을 쓰지 않고</b> 제약 라인으로 대체 <span class="cid">C-49</span></td></tr>
+<tr><td class="id"><span class="cid">C-50</span></td><td>조건부 팝업</td><td><b>약정 동의와 경로 전환에만 팝업을 쓴다.</b> ① 약정 동의 — 실손약정 · 더알뜰플랜2: 확정 클릭 시 안내 팝업, 동의 / 동의 안함 / 닫기 세 경우 모두 목록으로 복귀하며 <b>동의 상태만 세션에 기록</b> ② 경로 전환 확인 — 셀프개통 + <b>셀프개통 불가 요금제</b>: 해당 요금제도 <b>목록에는 노출</b>하고, 선택 시 <b>상담사 개통으로 작성할지 확인</b>한다. 확인 시 상담사 개통으로 전환하고 선택을 유지하며, <b>취소 시 선택을 해제하고 다른 요금제를 고르도록 안내</b>한다. <b>정보 전달만 하는 안내는 팝업을 쓰지 않고</b> 제약 라인으로 대체 <span class="cid">C-49</span></td></tr>
 <tr><td class="id"><span class="cid">C-51</span></td><td>Sticky 금액 명세</td><td>Sticky 1행에 요금제명과 <b>부가세포함 월 납부 금액</b>을 함께 표기한다. 미선택 시 안내 문구를 유지한다. 휴대폰 할부금 · 통신요금 분리 표기는 휴대폰 가입 전용이므로 범위 밖</td></tr>
 <tr><td class="id"><span class="cid">C-52</span></td><td>제휴카드 할인 계산</td><td><b>금액 행 우측 텍스트 버튼</b>으로 축약 배치한다 — Sticky 행 수를 늘리지 않아 첫 화면 카드 노출 수를 지키기 위함 <span class="cid d">O-18</span>. 선택 완료 시 금액을 할인 반영 값으로 갱신하고 라벨을 "제휴카드 할인포함"으로 전환. 사용 상태 제휴카드가 없으면 <b>버튼 미노출</b></td></tr>
 <tr><td class="id"><span class="cid">C-55</span></td><td>진입 안내 팝업</td><td>원칩 유심 + 셀프개통 + 010 신규가입 <b>세 조건을 모두 만족할 때만</b> 진입 직후 1회 노출. 확인 단일 버튼. 스팸 발송 관련 <b>법적 고지</b>이므로 문구는 원문을 유지한다</td></tr>
@@ -1196,7 +1237,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id">8</td><td>카드 선택</td><td>단일 선택 — 기존 선택 자동 해제</td><td>—</td></tr>
       <tr><td class="id">9</td><td>선택 상태 렌더</td><td>선택: 보더 메인 컬러 + 두께 증가, 라디오 채움 / 미선택: 배경 없는 그레이 아웃라인(C-26). <b>이전·현재 카드와 Sticky만 부분 갱신</b>(목록 재생성 금지, C-42) → 스크롤 위치·키보드 포커스 유지</td><td>—</td></tr>
       <tr><td class="id">10</td><td>Sticky 갱신</td><td>"{요금제명} 월 {요금}원" + <b>부가세포함 월 납부 금액</b> + CTA 활성 (C-51). 사용 상태 제휴카드가 있으면 계산 버튼 노출 (C-52)</td><td>—</td></tr>
-      <tr><td class="id">10b</td><td>경로 제약 판정</td><td>셀프개통 <b>AND</b> 청소년 · 데이터차단(0GB) 요금제 → <b>경로 전환 확인 팝업</b>. 확인 시 온라인신청 경로로 전환 (C-50)</td><td>취소 → 선택 유지, 전환 없음</td></tr>
+      <tr><td class="id">10b</td><td>경로 제약 판정</td><td>셀프개통 <b>AND</b> 셀프개통 불가 요금제 → <b>상담사 개통 전환 확인 팝업</b>. 확인 시 상담사 개통으로 전환하고 선택을 유지 (C-50)</td><td>취소 → 셀프개통 유지 · <b>선택 해제 + 다른 요금제 선택 안내</b></td></tr>
       <tr><td class="id">11</td><td>필터·정렬</td><td><b>클라이언트 처리</b>, 리로드 없음. 적용 후 "요금제 N개" 즉시 갱신</td><td>0건 → <span class="cid x">EX-02</span></td></tr>
       <tr><td class="id">12</td><td>확정 클릭</td><td>선택 요금제 존재</td><td>CTA 비활성 유지 + 안내 토스트</td></tr>
       <tr><td class="id">13</td><td>사용 여부 재검증</td><td>확정 시점 재조회 — 사용 여부 = '사용'</td><td>선택 해제 후 목록 재조회</td></tr>
@@ -1278,7 +1319,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
     <thead><tr><th>ID</th><th>예외 케이스</th><th>발생 조건</th><th>상태 처리</th><th>메시지</th><th>확인 시 이동</th></tr></thead>
     <tbody>
       <tr><td class="id"><span class="cid x">EX-02</span></td><td>조회·필터 결과 0건</td><td>목록 0건 (STEP 4 · STEP 11)</td><td>목록 영역만 빈 상태로 전환. <b>탭·컨트롤은 그대로 유지</b></td><td>인라인 빈 상태 메시지 + 필터 초기화</td><td>없음</td></tr>
-      <tr><td class="id"><span class="cid x">EX-03</span></td><td>셀프개통 불가 요금제 선택</td><td>셀프개통 <b>AND</b> 청소년 · 데이터차단(0GB) 요금제 (STEP 10b)</td><td>선택 상태 유지. 경로 전환 확인 대기</td><td>확인 팝업 — 취소 / 확인 (C-50)</td><td>확인 → 온라인신청 경로 / 취소 → 화면 유지</td></tr>
+      <tr><td class="id"><span class="cid x">EX-03</span></td><td>셀프개통 불가 요금제 선택</td><td>셀프개통 <b>AND</b> 셀프개통 불가 요금제 (STEP 10b) — <b>목록에는 노출되며 사전 필터링하지 않는다</b></td><td><b>확인</b> → 상담사 개통으로 전환 · 선택 유지 / <b>취소</b> → 셀프개통 유지 · <b>선택 해제</b></td><td>확인 팝업 — 취소 / 상담사 개통으로 작성 (C-50). 취소 시 "다른 요금제를 선택해 주세요" 안내</td><td>확인 → 상담사 개통 경로 / 취소 → 목록 (선택 없음)</td></tr>
       <tr><td class="id"><span class="cid x">EX-04</span></td><td>동일 IP 다회선 제한</td><td>동일 IP · 가입유형 신규 · 최근 3개월 · 신청서 4건 초과 — <b>가입 방법 이후 구간</b></td><td>신청서 종료</td><td>안내 팝업 — 확인 단일 (C-54)</td><td>신청서 창 닫기</td></tr>
     </tbody>
   </table>
@@ -1593,6 +1634,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
+<tr><td class="dt">26.08.17</td><td><span class="fs-kind add">추가</span></td><td class="tg">02 프로토타입 · E · F · 부록 6</td><td>신규 정의를 <b>프로토타입과 SCREEN 목업에 실제 구성</b> — 카드에 <b>프로모션 문구 영역</b>(미등록 시에도 높이 유지 <b>C-59</b>) · <b>속도 안내 버튼</b>(카드 선택 버튼과 형제로 분리, 44×44px <b>C-58</b>) · <b>제약 라인</b>(<b>C-49</b>) 추가, Sticky에 <b>부가세포함 월 납부 금액</b>과 <b>제휴카드 계산 버튼</b>을 2행 유지로 배치(<b>C-51 · C-52</b>), <b>약정 동의 · 상담사 개통 전환 · 진입 안내 · 속도 안내 · 제휴카드</b> 레이어 동작 구현(<b>C-50 · C-55</b>), <b>단독 노출 모드</b> 탭 미노출 구현(<b>C-57</b>). E에 <b>자격 제한 요금제</b> 상태 신설, E 카드 상태 콜아웃 10 → 12 · F 선택 상태 콜아웃 2 → 5로 재정렬(명세 행 동시 갱신). <b>EX-03 정정</b> — 셀프개통 불가 요금제도 목록에 노출하고, 선택 시 상담사 개통으로 작성할지 확인하며, 취소 시 선택을 해제하고 다른 요금제를 고르도록 안내</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.17</td><td><span class="fs-kind add">추가</span></td><td class="tg">A · E · F · 부록 5 · 부록 6 · 03 기능정의 · 04 · 05 · 06</td><td>원본 화면설계서(MO9_0301 v27.6) 대조로 확인된 <b>누락 정의 12건 반영</b> — <b>C-48</b> 사은품 선택 단계(가입 방법 직후 · 선택할 사은품이 있을 때만) · <b>C-49</b> 자격 제한 표기(Alert 대신 카드 제약 라인) · <b>C-50</b> 조건부 팝업(약정 동의 · 경로 전환만 유지) · <b>C-51</b> Sticky 금액 명세 · <b>C-52</b> 제휴카드 계산(행 수 유지 위해 텍스트 버튼으로 축약) · <b>C-53</b> 확정 후 요금제 종속 입력 · <b>C-54</b> 동일 IP 다회선 제한 · <b>C-55</b> 진입 안내 팝업 · <b>C-56</b> 상품 유형별 목록 분기 · <b>C-57</b> 단독 노출 모드(탭 미노출) · <b>C-58</b> 속도 안내 레이어 · <b>C-59</b> 프로모션 문구 높이 고정. 부록 6 「팝업 · 분기 정의」 신설, 예외 <b>EX-03 · EX-04</b> 추가, 검증 시퀀스에 STEP 1b · 4b · 10b · 13b · 13c 추가, 테스트 케이스 92 → 106건. <b>C-28 · C-33 · C-40 문구 보정</b> — 요금제 선택 시점 팝업의 존재와 CMS 연동 범위를 사실대로 기술</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.17</td><td><span class="fs-kind mod">수정</span></td><td class="tg">문서 사용 안내 · E · 부록 2 · 부록 4</td><td>추적성 · 표기 기준 보완 — <b>C-26 태그 누락 보완</b>(선택 상태 3중 단서 요건이 내용상 반영되어 있으나 코드 태그가 없어 요구사항 개정 시 영향 추적에서 빠지던 문제. E 영역 선택 상태 명세 · 부록 2 상태 정의 · 부록 4 접근성 명세 3곳에 부착), <b>표기 교정 정책 명문화</b>(피그마 컴포넌트 · 프레임 명칭은 원문 유지, 일반 서술문만 교정 — <code class="k">Worning</code> · <code class="k">LABLE</code> · <code class="k">Abled</code>가 남아 있는 이유를 문서 사용 안내에 명시), C-nn 건수 표기를 44건 중 38건에서 <b>47건 중 41건</b>으로 정정, O-nn 설명에 결정 대기 0건 · O-18 이월 상태 반영</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 · 코드 칩 상세·이동 — C-nn · O-nn · WCAG 칩에 커서를 올리면 정의가 노출되고 클릭 시 정의 위치로 이동(칩 106개 연결 · 부록 구성 자동 전환 · 원래 위치로 복귀 버튼 제공), SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
@@ -1851,7 +1893,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-fbody">
 <div class="fs-fmain">
 <div class="fs-state sp">
-<div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative"><b class="fs-cal o">01</b>2</span><span class="badges" style="position:relative"><b class="fs-cal">02</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><b class="fs-cal r o">08</b><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative"><b class="fs-cal o">03</b>LTE 스페셜</span><span class="prices" style="position:relative"><b class="fs-cal o">04</b><span class="p-old">49,390원</span><span class="p-new">32,990원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><b class="fs-cal o">05</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>11GB+일2GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative"><b class="fs-cal o">06</b>최대 3M bps 속도로 데이터 무제한</span></span><span class="benefit" style="position:relative"><b class="fs-cal o">07</b><span class="gi">&#127873;</span>매월 다이소 5천원 혜택 (24개월)</span></button><div class="cmprow"><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><b class="fs-cal r o">09</b><span class="cb">&#10003;</span>비교 담기</button></div></div><div class="loading" style="position:relative;margin-top:12px"><b class="fs-cal o">10</b>스크롤하면 이어서 표시됩니다 (8/10)</div></div></div>
+<div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative"><b class="fs-cal o">01</b>2</span><span class="badges" style="position:relative"><b class="fs-cal">02</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><b class="fs-cal r o">10</b><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative"><b class="fs-cal o">03</b>LTE 스페셜</span><span class="prices" style="position:relative"><b class="fs-cal o">04</b><span class="p-old">49,390원</span><span class="p-new">32,990원</span><span class="per">/월</span><span class="pnote" style="position:relative"><b class="fs-cal o">05</b>가입 7개월 후 39,900원</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><b class="fs-cal o">06</b><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>11GB+일2GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative"><b class="fs-cal o">07</b>최대 3M bps 속도로 데이터 무제한 <b class="fs-cal r">08</b></span></span><span class="benefit" style="position:relative"><b class="fs-cal o">09</b><span class="gi">&#127873;</span>매월 다이소 5천원 혜택 (24개월)</span></button><div class="cmprow"><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><b class="fs-cal r o">11</b><span class="cb">&#10003;</span>비교 담기</button></div></div><div class="loading" style="position:relative;margin-top:12px"><b class="fs-cal o">12</b>스크롤하면 이어서 표시됩니다 (8/10)</div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>요금제 데이터의 사용 여부 = '사용' 인 요금제 <span class="cid">C-40</span></li><li>확정된 개통 방법을 지원하는 요금제 (목록 결과 1건 이상)</li><li>그룹핑 없음 <span class="cid">C-21</span> · 점진 렌더 <span class="cid">C-39</span></li><li>점진 렌더 : 진입 시 일부만 렌더하고 목록 하단 근접 시 다음 묶음을 이어 붙임 — 페이징 · 무한스크롤 UI 없음</li><li>주간 BEST 탭은 TOP 10 고정이므로 점진 렌더 미적용</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
@@ -1868,22 +1910,42 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (가격)</p></dd></div><div><dt>Value</dt><dd><p>판매가 (취소선) + 프로모션가 / 월</p></dd></div><div><dt>Memo</dt><dd><p>프로모션가 없으면 판매가만 노출 — 할인율·할인액 표기 없음 <span class="cid">C-30</span></p><p>프로모션 지급 개월은 <b>배너로 표기</b> — 적용 기간 · 종료 후 금액 등 추가 정보 없음 <span class="cid">C-45</span></p><p>안내 문구는 <b>등록된 경우에만</b> 노출하되 미등록 시에도 <b>가격 영역 높이를 유지</b> — 등록 유무로 카드 높이가 달라지면 선택 전후 크기 불변과 PC 2열 행 정렬이 깨짐 <span class="cid">C-59</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">05</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (제공량 면)</p></dd></div><div><dt>Value</dt><dd><p>데이터 / 통화 / 문자</p></dd></div><div><dt>Memo</dt><dd><p>3열 1행 고정 · 아이콘 상단 / 값 하단</p><p>데이터 열을 상대적으로 넓게 배분 — 값 길이에 따라 줄바꿈되지 않게 고정</p><p>요금제 마스터 문자열 그대로 노출 (가공 없음)</p><p>아이콘만으로는 항목 구분이 전달되지 않으므로 각 값에 보조기술용 라벨 필요 — aria-label="데이터 {값}" · "통화 {값}" · "문자 {값}"</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (프로모션 안내)</p></dd></div><div><dt>Value</dt><dd><p>가입 N개월 후 {금액}원</p></dd></div><div><dt>Memo</dt><dd><p><b>등록된 경우에만</b> 문구 노출 <span class="cid">C-59</span></p><p>미등록 시에도 <b>영역 높이를 유지</b> — 등록 유무로 카드 높이가 달라지면 선택 전후 크기 불변 <span class="cid">C-26</span>과 PC 2열 행 정렬이 깨짐</p><p>프로모션 지급 개월만 표기 · 적용 기간 · 종료 후 금액은 노출하지 않음 <span class="cid">C-45</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">06</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (QOS) + BUTTON (안내)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK — 안내 버튼</p></dd></div><div><dt>Action</dt><dd><p>QoS 상세를 레이어로 노출 <span class="cid">C-58</span></p></dd></div><div><dt>Value</dt><dd><p>최대 N bps 속도로 데이터 무제한</p></dd></div><div><dt>Memo</dt><dd><p>제공량 면 하단에 위치 — 구분선으로 분리</p><p>안내 버튼은 상시 노출 컨트롤 — 터치 타깃 44px <span class="cid">C-38</span> · 보이는 라벨이 없으므로 접근 가능한 이름 필요 <span class="cid">C-41</span> <span class="cid">WCAG 4.1.2</span></p><p>버튼 목업은 디자인 시안 단계에서 반영</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (제공량 면)</p></dd></div><div><dt>Value</dt><dd><p>데이터 / 통화 / 문자</p></dd></div><div><dt>Memo</dt><dd><p>3열 1행 고정 · 아이콘 상단 / 값 하단</p><p>데이터 열을 상대적으로 넓게 배분 — 값 길이에 따라 줄바꿈되지 않게 고정</p><p>요금제 마스터 문자열 그대로 노출 (가공 없음)</p><p>아이콘만으로는 항목 구분이 전달되지 않으므로 각 값에 보조기술용 라벨 필요 — aria-label="데이터 {값}" · "통화 {값}" · "문자 {값}"</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">07</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (혜택 면)</p></dd></div><div><dt>Value</dt><dd><p>추가 혜택 문구</p></dd></div><div><dt>Memo</dt><dd><p>등록된 경우에만 노출 — 없으면 영역 자체 미생성</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (QOS)</p></dd></div><div><dt>Value</dt><dd><p>최대 N bps 속도로 데이터 무제한</p></dd></div><div><dt>Memo</dt><dd><p>제공량 면 하단에 위치 — 구분선으로 분리</p><p>속도 안내 버튼은 <b>08</b> 행 참조 <span class="cid">C-58</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">08</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>[Circle Radio-unchecked]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p><p>SPACE</p></dd></div><div><dt>Action</dt><dd><p>해당 요금제 선택 (목록 내 단일 선택)</p></dd></div><div><dt>Memo</dt><dd><p>우측 상단 배치 · 터치 타깃 44px 이상</p><p>role="radio" + aria-checked="false"</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (속도 안내)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>QoS 상세를 레이어로 노출 <span class="cid">C-58</span></p></dd></div><div><dt>Memo</dt><dd><p>속도 안내 문구 우측에 배치 — <b>카드 선택 버튼과 형제 요소로 분리</b>해 중첩 인터랙션을 만들지 않음 <span class="cid">C-41</span></p><p>상시 노출 컨트롤이므로 터치 타깃 44×44px <span class="cid">C-38</span></p><p>보이는 라벨이 없으므로 접근 가능한 이름 필요 — aria-label="{요금제명} 속도 제어 안내" <span class="cid">WCAG 4.1.2</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">09</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Toggle)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>비교 목록에 담기 · 해제 → D. 비교 카운트 갱신</p><p>2개 담긴 상태에서 추가 시도 : 토스트 안내 (담기지 않음) — "비교는 최대 2개까지 담을 수 있습니다"</p><p>문구 · 노출 규칙은 <b>F. FOOT STICKY의 Worning / Error Message</b>에 통합 정의</p></dd></div><div><dt>Value</dt><dd><p>[비교담기-OFF] 비교 담기 / [비교담기-ON] 비교 담김</p></dd></div><div><dt>Memo</dt><dd><p>카드 우측 하단 · 터치 타깃 44px 이상</p><p>카드 선택 버튼과 형제 요소로 분리 — 버튼 중첩 없음 (키보드 도달 가능)</p><p>aria-pressed로 담김 상태 전달 · aria-label="{요금제명} 비교 담기" — 목록에 같은 라벨의 버튼이 반복되므로 요금제명을 포함</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (혜택 면)</p></dd></div><div><dt>Value</dt><dd><p>추가 혜택 문구</p></dd></div><div><dt>Memo</dt><dd><p>등록된 경우에만 노출 — 없으면 영역 자체 미생성</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">10</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>[Circle Radio-unchecked]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p><p>SPACE</p></dd></div><div><dt>Action</dt><dd><p>해당 요금제 선택 (목록 내 단일 선택)</p></dd></div><div><dt>Memo</dt><dd><p>우측 상단 배치 · 터치 타깃 44px 이상</p><p>role="radio" + aria-checked="false"</p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">11</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Toggle)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>비교 목록에 담기 · 해제 → D. 비교 카운트 갱신</p><p>2개 담긴 상태에서 추가 시도 : 토스트 안내 (담기지 않음) — "비교는 최대 2개까지 담을 수 있습니다"</p><p>문구 · 노출 규칙은 <b>F. FOOT STICKY의 Worning / Error Message</b>에 통합 정의</p></dd></div><div><dt>Value</dt><dd><p>[비교담기-OFF] 비교 담기 / [비교담기-ON] 비교 담김</p></dd></div><div><dt>Memo</dt><dd><p>카드 우측 하단 · 터치 타깃 44px 이상</p><p>카드 선택 버튼과 형제 요소로 분리 — 버튼 중첩 없음 (키보드 도달 가능)</p><p>aria-pressed로 담김 상태 전달 · aria-label="{요금제명} 비교 담기" — 목록에 같은 라벨의 버튼이 반복되므로 요금제명을 포함</p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">12</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (점진 렌더 안내)</p></dd></div><div><dt>Action</dt><dd><p>목록 하단에 노출 — 아직 표시되지 않은 건이 남아 있음을 알림</p><p>다음 묶음이 붙으면 진행 수치가 갱신되고, 전부 표시되면 <b>영역 자체가 사라짐</b></p></dd></div><div><dt>Value</dt><dd><p>스크롤하면 이어서 표시됩니다 ({표시된 건수}/{전체 건수})</p></dd></div><div><dt>Memo</dt><dd><p>목록 끝이 아니라는 신호 — 이 표기가 없으면 남은 요금제가 있어도 목록이 끝난 것으로 읽힘</p><p>페이징 · 무한스크롤 UI가 아니므로 <b>조작 요소가 아님</b> — 버튼 · 링크로 만들지 않음</p><p>주간 BEST 탭은 TOP 10 고정이라 미노출</p><p>진행 수치 갱신이 보조기술에도 전달되어야 함 — 목록 하단 상태 안내로 처리</p></dd></div></div></div></div></div>
+<div class="fs-state sp more">
+<div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="badges" style="position:relative"></span><span class="radio" style="position:relative"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 알뜰 300분</span><span class="prices" style="position:relative"><span class="p-old">9,900원</span><span class="p-new">6,600원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>1.5GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>300분</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">소진 시 차단</span></span></button><div class="lim" style="position:relative"><b class="fs-cal o">01</b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>만 65세 이상 고객만 가입 가능</div><div class="cmprow" style="position:relative"><b class="fs-cal o">02</b><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
+<div class="fs-cond"><dt>노출 조건</dt><ul><li>가입 자격이 제한된 요금제 (시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단)</li></ul></div>
+<div class="fs-rows">
+<div class="fs-row">
+<div class="fs-no">01</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (제약 라인)</p></dd></div><div><dt>Value</dt><dd><p>만 65세 이상 고객만 가입 가능 / 만 19세 미만 · 만 19~29세 등 요금제별 자격 문구</p></dd></div><div><dt>Memo</dt><dd><p>가입 자격이 제한된 요금제에만 노출 — <b>선택 전부터 상시 표기</b> <span class="cid">C-49</span></p><p><b>Alert을 띄우지 않는다</b> — 선택 즉시 Alert이 뜨면 스크롤 위치 유지 <span class="cid">C-18</span>와 즉시 피드백 <span class="cid">C-26</span>이 깨짐</p><p>실제 자격 검증은 가입자 유형 선택 단계의 현행 예외처리 준용 <span class="cid">C-28</span> — 본 화면은 표기만 담당</p><p>요금제명에 유형이 내재된 경우에도 <b>제약 라인은 별도로 노출</b> <span class="cid">C-34</span></p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">02</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Toggle)</p></dd></div><div><dt>Value</dt><dd><p>비교 담기</p></dd></div><div><dt>Memo</dt><dd><p>자격 제한 요금제도 <b>비교 대상에서 제외하지 않는다</b> — 비교 후 판단할 수 있어야 함 <span class="cid">C-35</span></p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no sys">SYS</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p>자격 제한 요금제도 <b>목록에 노출</b>한다 — 사전 필터링하지 않음 <span class="cid">C-28</span></p><p>셀프개통 불가 요금제를 셀프개통 상태에서 선택하면 <b>상담사 개통 전환 확인</b> <span class="cid">C-50</span> <span class="cid x">EX-03</span></p></dd></div></div></div>
+</div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative">1</span><span class="badges" style="position:relative"><b class="fs-cal">01</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 스페셜 플러스</span><span class="prices" style="position:relative"><span class="p-old">46,600원</span><span class="p-new">38,200원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>100GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">최대 5M bps 속도로 데이터 무제한</span></span></button><div class="cmprow" style="position:relative"><b class="fs-cal o">02</b><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>배지가 2개 부여되고 추가 혜택이 없는 요금제</li></ul></div>
@@ -1912,10 +1974,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Interaction</dt><dd><p>같은 카드 재선택</p></dd></div><div><dt>Action</dt><dd><p>무동작 — 해제되지 않음 (선택은 단일 필수)</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (자격 제한 표기)</p></dd></div><div><dt>Value</dt><dd><p>제약 라인 — 예: 만 65세 이상 가입</p></dd></div><div><dt>Memo</dt><dd><p>가입 자격이 제한된 요금제에만 노출 — 시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단(0GB) <span class="cid">C-49</span></p><p><b>Alert을 띄우지 않는다</b> — 선택 즉시 Alert이 뜨면 스크롤 위치 유지 <span class="cid">C-18</span>와 즉시 피드백 <span class="cid">C-26</span>이 깨짐. 선택 <b>전에</b> 알 수 있게 하는 편이 낫다</p><p>실제 자격 검증은 가입자 유형 선택 단계의 현행 예외처리 준용 <span class="cid">C-28</span> — 본 화면은 표기만 담당</p><p>제약 라인 목업은 디자인 시안 단계에서 반영</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (자격 제한 표기)</p></dd></div><div><dt>Value</dt><dd><p>제약 라인 — 예: 만 65세 이상 가입</p></dd></div><div><dt>Memo</dt><dd><p>가입 자격이 제한된 요금제에만 노출 — 시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단(0GB) <span class="cid">C-49</span></p><p><b>Alert을 띄우지 않는다</b> — 선택 즉시 Alert이 뜨면 스크롤 위치 유지 <span class="cid">C-18</span>와 즉시 피드백 <span class="cid">C-26</span>이 깨짐. 선택 <b>전에</b> 알 수 있게 하는 편이 낫다</p><p>실제 자격 검증은 가입자 유형 선택 단계의 현행 예외처리 준용 <span class="cid">C-28</span> — 본 화면은 표기만 담당</p><p>SCREEN과 요소 명세는 <b>자격 제한 요금제</b> 상태 참조</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (경로 전환)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK — 셀프개통 상태에서 청소년 · 데이터차단(0GB) 요금제 선택</p></dd></div><div><dt>Action</dt><dd><p>경로 전환 확인 팝업 <span class="cid">C-50</span> <span class="cid x">EX-03</span></p></dd></div><div><dt>Memo</dt><dd><p>취소 → 선택 유지 · 화면 유지 / 확인 → 온라인신청 경로로 전환</p><p>개통 방식이 바뀌는 <b>되돌릴 수 없는 분기</b>이므로 정보 전달용 안내와 달리 명시적 확인이 필요</p><p>조건 · 형태 · 동작은 부록 6 「팝업 · 분기 정의」 참조</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (경로 전환)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK — 셀프개통 상태에서 <b>셀프개통 불가 요금제</b> 선택</p></dd></div><div><dt>Action</dt><dd><p>상담사 개통 전환 확인 팝업 <span class="cid">C-50</span> <span class="cid x">EX-03</span></p></dd></div><div><dt>Memo</dt><dd><p>셀프개통 불가 요금제도 <b>목록에는 노출</b>한다 — 사전 필터링하지 않고 선택 전 제약 라인으로 알린다 <span class="cid">C-49</span></p><p><b>확인</b> → 상담사 개통으로 신청서 작성 · 선택 유지</p><p><b>취소</b> → 셀프개통을 유지하겠다는 의사이므로 <b>선택을 해제</b>하고 "셀프개통으로 진행하려면 다른 요금제를 선택해 주세요"로 안내</p><p>개통 방식이 바뀌는 <b>되돌릴 수 없는 분기</b>이므로 명시적 확인이 필요 · 부록 6 참조</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (단독 노출 모드)</p></dd></div><div><dt>Memo</dt><dd><p>전용 요금제만 노출되는 진입에서는 <b>C. TAB 영역을 미노출</b> — 네트워크 분기 대상이 없어 빈 탭이 생김 <span class="cid">C-57</span></p><p>D. 목록 컨트롤은 <b>개수 · 정렬만</b> 유지, 대상 2건 미만이면 비교 비활성</p><p>목록 소스는 진입한 상품 유형으로 분기 <span class="cid">C-56</span> — 본 설계서는 유심 경로 기준 <span class="cid">C-01</span></p></dd></div></div></div>
@@ -1954,6 +2016,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
+<div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>자격 제한 요금제 상태 신설 · 카드에 프로모션 문구 · 속도 안내 버튼 구성 (콜아웃 재정렬)</em></div>
 <div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>자격 제한 표기 · 속도 안내 · 프로모션 문구 높이 · 단독 노출 모드 정의 (C-49 · C-57 ~ C-59)</em></div>
 <div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>선택 상태 명세에 C-26 추적성 태그 부착</em></div>
 <div class="fs-hrow"><span>26.08.14</span><b>허지원 책임</b><em>SCREEN 기기 라벨 표시 · PC 상태 「모바일 대비 차이」 요약 추가</em></div>
@@ -1975,18 +2038,37 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-no">02</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON [Bottom Button-OFF]</p></dd></div><div><dt>Value</dt><dd><p>신청서 작성하기 (Disabled)</p></dd></div><div><dt>Memo</dt><dd><p>비활성 상태 제공 · cursor not-allowed</p><p><b>disabled 속성을 쓰지 않고 aria-disabled="true"로 처리</b> — 실제 disabled는 클릭·포커스를 받지 못해 비활성 사유를 안내할 수 없음 <span class="cid">C-41</span></p><p>클릭 시 확정은 막고 토스트로 사유만 안내 (F 상태 3)</p><p>선택 요약과 CTA를 한 자리에 통합 <span class="cid">C-20</span></p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
-<div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:360px"><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum" style="position:relative"><b class="fs-cal o">01</b><span class="nm">LTE 스페셜</span><span class="pr">월 32,990원</span></div><button type="button" tabindex="-1" class="cta" style="position:relative"><b class="fs-cal o">02</b>신청서 작성하기 <span>&#8594;</span></button></div></div></div>
+<div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:360px"><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum" style="position:relative"><b class="fs-cal o">01</b><span class="nm">LTE 스페셜</span><span class="pr">월 32,990원</span><span class="amt" style="position:relative"><b class="fs-cal o">02</b><span>부가세포함 월 납부 금액</span><span class="v">32,990원</span></span><span class="amt" style="position:relative"><b class="fs-cal o">03</b><span>제휴카드 할인금액(예상)</span><span class="v">- 0원</span><span class="ccbtn" style="position:relative"><b class="fs-cal r">04</b>선택</span></span></div><button type="button" tabindex="-1" class="cta" style="position:relative"><b class="fs-cal o">05</b>신청서 작성하기 <span>&#8594;</span></button></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>요금제를 선택한 상태</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
 <div class="fs-no">01</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>AREA [Selected Plan-selected]</p></dd></div><div><dt>Value</dt><dd><p>선택 요금제명 (좌) + 월 요금 (우)</p></dd></div><div><dt>Memo</dt><dd><p>요금제명 넘침 시 한 줄 말줄임 — 요금은 축약하지 않음</p></dd></div></div></div>
+
+
 <div class="fs-row">
 <div class="fs-no">02</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON [Bottom Button-ON]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>사용 여부 재검증 → S-03 상품 정보 입력으로 이동 <span class="cid">C-19</span></p></dd></div><div><dt>Value</dt><dd><p>신청서 작성하기 (Abled)</p></dd></div><div><dt>Memo</dt><dd><p>활성 상태 제공</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (월 납부 금액)</p></dd></div><div><dt>Value</dt><dd><p>부가세포함 월 납부 금액 · {금액}원</p></dd></div><div><dt>Memo</dt><dd><p>선택 요금제 기준 월 수납 금액 <span class="cid">C-51</span></p><p>휴대폰 할부금 · 통신요금 분리 표기는 <b>휴대폰 가입 전용</b>이므로 본 설계 범위 밖</p><p>제휴카드 적용 시 라벨이 "제휴카드 할인포함 월 납부 금액"으로 전환</p></dd></div></div></div>
+
+
+<div class="fs-row">
+<div class="fs-no">03</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (제휴카드 할인금액)</p></dd></div><div><dt>Value</dt><dd><p>- 0원 (기본값 선택안함) / 적용 시 - {할인액}원</p></dd></div><div><dt>Memo</dt><dd><p>선택 카드의 <b>월 최대 할인 금액</b> 기준 <span class="cid">C-52</span></p><p>사용 상태 제휴카드가 없으면 <b>행 자체 미노출</b></p></dd></div></div></div>
+
+
+<div class="fs-row">
+<div class="fs-no">04</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (제휴카드 계산)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>제휴카드 선택 레이어 노출 → 선택 완료 시 금액 갱신 <span class="cid">C-52</span></p></dd></div><div><dt>Value</dt><dd><p>선택 / 적용 후 변경</p></dd></div><div><dt>Memo</dt><dd><p><b>금액 행 우측 텍스트 버튼</b>으로 축약 — Sticky 행 수를 늘리지 않아 첫 화면 카드 노출 수를 지킨다 <span class="cid d">O-18</span></p><p>터치 타깃 44×44px <span class="cid">C-38</span> · 접근 가능한 이름 <span class="cid">C-41</span></p></dd></div></div></div>
+
+
+<div class="fs-row">
+<div class="fs-no">05</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON [Bottom Button-ON]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>사용 여부 재검증 → S-03 상품 정보 입력으로 이동 <span class="cid">C-19</span></p></dd></div><div><dt>Value</dt><dd><p>신청서 작성하기 (Abled)</p></dd></div><div><dt>Memo</dt><dd><p>활성 상태 제공</p></dd></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Action</dt><dd><p>선택 요금제를 신청서 세션에 승계 <span class="cid">C-36</span></p></dd></div><div><dt>Memo</dt><dd><p>S-03에서 뒤로가기 복귀 시 직전 선택 복원 <span class="cid">C-43</span></p><p>첫 페이지 재진입은 미복원 <span class="cid">C-32</span> — 별도 경로</p><p>선택 변경 시 최종 선택으로 갱신</p></dd></div></div></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Action</dt><dd><p>선택 요금제를 신청서 세션에 승계 <span class="cid">C-36</span></p></dd></div><div><dt>Memo</dt><dd><p>S-03에서 뒤로가기 복귀 시 직전 선택 복원 <span class="cid">C-43</span></p><p>첫 페이지 재진입은 미복원 <span class="cid">C-32</span> — 별도 경로</p><p>선택 변경 시 최종 선택으로 갱신</p></dd></div></div>
+</div>
+</div></div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:360px"><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">01</b>요금제를 먼저 선택해 주세요</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">02</b>카드에서 비교할 요금제를 담아 주세요 (최대 2개)</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">03</b>1개 더 담으면 비교할 수 있습니다</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">04</b>비교는 최대 2개까지 담을 수 있습니다</div><div style="height:12px"></div><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum idle" style="position:relative">요금제를 선택해 주세요.</div><button type="button" tabindex="-1" class="cta off" style="position:relative">신청서 작성하기 <span>&#8594;</span></button></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>확정 또는 비교 조작이 <b>불가한 상황에서 사유를 안내</b>해야 하는 경우 (Worning / Error Message)</li><li>토스트는 F 영역의 <b>공통 컴포넌트</b> — D. 목록 컨트롤 · E. 요금제 목록 카드 · G. Modal Bottom Sheet에서 발생한 안내도 이 자리에 노출</li><li>발생 지점과 무관하게 <b>동시에 1개만</b> 노출</li></ul></div>
@@ -2006,7 +2088,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (토스트 공통)</p></dd></div><div><dt>Memo</dt><dd><p>Alert 미사용 · 하단 고정 바 상단에 노출 후 자동 소멸 (약 2초)</p><p>소멸 전 재시도 시 타이머를 재시작하고 문구를 교체 — 토스트가 중첩되지 않음</p><p>토스트는 <b>정보 안내 전용</b> — 목록 · 선택 · 담긴 항목 등 화면 상태를 바꾸지 않음</p><p>role="status" + aria-live="polite" <span class="cid">WCAG 4.1.3</span> — 포커스를 빼앗지 않음</p></dd></div></div></div></div></div><div class="fs-state more pcst">
-<div class="fs-screen"><div class="fs-dev pc">PC <em>700</em></div><div class="fs-mock pc"><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum" style="position:relative"><b class="fs-cal o">01</b><span class="nm">LTE 스페셜</span><span class="pr">월 32,990원</span></div><button type="button" tabindex="-1" class="cta" style="position:relative"><b class="fs-cal o">02</b>신청서 작성하기 <span>&#8594;</span></button></div></div></div>
+<div class="fs-screen"><div class="fs-dev pc">PC <em>700</em></div><div class="fs-mock pc"><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum" style="position:relative"><b class="fs-cal o">01</b><span class="nm">LTE 스페셜</span><span class="pr">월 32,990원</span><span class="amt"><span>부가세포함 월 납부 금액</span><span class="v">32,990원</span></span><span class="amt"><span>제휴카드 할인금액(예상)</span><span class="v">- 0원</span><span class="ccbtn">선택</span></span></div><button type="button" tabindex="-1" class="cta" style="position:relative"><b class="fs-cal o">02</b>신청서 작성하기 <span>&#8594;</span></button></div></div></div>
 <div class="fs-cond"><dt>노출 조건</dt><ul><li>PC (프레임 700px · 콘텐츠 644px) — 오버레이 위 중앙 풀 팝업 <span class="cid">실측</span></li><li>요금제를 선택한 상태 (팝업 하단 고정 · 상시 노출)</li><li>나머지 구성 · 문구 · 동작 · 데이터는 모바일과 동일</li></ul></div>
 <div class="fs-cond pc"><dt>모바일 대비 차이</dt><ul><li>하단 고정 기준이 <b>브라우저 뷰포트가 아니라 팝업</b> — 토스트도 팝업 기준 하단 바 상단에 노출</li><li>포인터 환경이므로 hover · press 상태 제공</li><li>좌우 여백이 넓어 요금제명 말줄임 발생 여지는 줄지만 규칙은 동일</li></ul></div>
 <div class="fs-rows">
@@ -2018,10 +2100,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON [Bottom Button-ON]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>사용 여부 재검증 → S-03 상품 정보 입력으로 이동 <span class="cid">C-19</span></p></dd></div><div><dt>Value</dt><dd><p>신청서 작성하기</p></dd></div><div><dt>Memo</dt><dd><p><b>팝업 하단에 고정</b> — 브라우저 뷰포트가 아니라 팝업 기준</p><p>포인터 환경이므로 hover · press 상태 제공</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (금액 명세)</p></dd></div><div><dt>Value</dt><dd><p>{요금제명} 월 {프로모션가}원 · 부가세포함 월 납부 금액</p></dd></div><div><dt>Memo</dt><dd><p>선택 요약 행에 <b>부가세포함 월 납부 금액</b>을 함께 표기 <span class="cid">C-51</span></p><p>휴대폰 할부금 · 통신요금 분리 표기는 <b>휴대폰 가입 전용</b>이므로 본 설계 범위 밖</p><p>미선택 시 안내 문구 유지 — "요금제를 선택해 주세요."</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (금액 명세 · 제휴카드)</p></dd></div><div><dt>Memo</dt><dd><p>구성 · 문구 · 동작은 <b>모바일과 동일</b> — 모바일 상태의 02 · 03 · 04 행 참조 <span class="cid">C-51</span> <span class="cid">C-52</span></p><p>PC는 좌우 여백이 넓어 금액 행이 한 줄에 여유 있게 들어감 — <b>행 수는 동일하게 2행 유지</b> <span class="cid d">O-18</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (제휴카드 계산)</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK — 계산 버튼</p></dd></div><div><dt>Action</dt><dd><p>제휴카드 선택 레이어 노출 → 선택 완료 시 금액 갱신 <span class="cid">C-52</span></p></dd></div><div><dt>Memo</dt><dd><p><b>금액 행 우측 텍스트 버튼</b>으로 축약 배치 — Sticky 행 수를 늘리지 않아 첫 화면 카드 노출 수를 지키기 위함 <span class="cid d">O-18</span></p><p>선택 완료 시 라벨을 "제휴카드 할인포함 월 납부 금액"으로 전환하고 버튼을 "변경"으로 표기</p><p>사용 상태 제휴카드가 없으면 <b>버튼 미노출</b></p><p>상시 노출 컨트롤 — 터치 타깃 44px <span class="cid">C-38</span> · 접근 가능한 이름 <span class="cid">C-41</span></p><p>버튼 · 레이어 목업은 디자인 시안 단계에서 반영</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (제휴카드 레이어)</p></dd></div><div><dt>Memo</dt><dd><p>제휴카드 선택 레이어는 <b>팝업 기준 중앙</b>에 노출 — 브라우저 뷰포트가 아님 <span class="cid">C-52</span></p><p>카드 목록 · 할인 금액 · 유의사항 구성은 모바일과 동일</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (확정 후 분기)</p></dd></div><div><dt>Action</dt><dd><p>약정 동의 팝업 <span class="cid">C-50</span> → 요금제 종속 입력 시트 <span class="cid">C-53</span> → S-03 이동</p></dd></div><div><dt>Memo</dt><dd><p>약정 동의 — 실손약정 · 더알뜰플랜2. 동의 / 동의 안함 / 닫기 <b>세 경우 모두 목록으로 복귀</b>하며 동의 상태만 세션에 기록 <span class="cid">C-12</span></p><p>요금제 종속 입력 — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보</p><p><b>사은품 선택은 본 화면이 아니다</b> — 가입 방법 확정 직후로 이동 <span class="cid">C-48</span></p><p><b>동일 IP 다회선 제한도 본 화면이 아니다</b> — 판정에 가입유형이 필요 <span class="cid">C-54</span> <span class="cid x">EX-04</span></p></dd></div></div></div>
@@ -2031,6 +2113,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
+<div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>Sticky 금액 명세 · 제휴카드 계산 버튼 구성 (콜아웃 재정렬)</em></div>
 <div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>금액 명세 · 제휴카드 계산 · 확정 후 분기 정의 (C-50 ~ C-53)</em></div>
 <div class="fs-hrow"><span>26.08.14</span><b>허지원 책임</b><em>SCREEN 기기 라벨 표시 · PC 상태 「모바일 대비 차이」 요약 추가</em></div>
 <div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
@@ -2345,7 +2428,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
     <thead><tr><th>ID</th><th>대상</th><th>형태</th><th>동작</th></tr></thead>
     <tbody>
       <tr><td><span class="cid">C-49</span></td><td>시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단(0GB)</td><td><b>카드 제약 라인</b></td><td>선택 전부터 상시 표기. Alert 없음 — 선택은 그 자리에서 완결된다. 실제 자격 검증은 가입자 유형 선택 단계 <span class="cid">C-28</span></td></tr>
-      <tr><td><span class="cid">C-50</span></td><td>셀프개통 + 청소년 · 데이터차단(0GB)</td><td>확인 팝업 <span class="cid x">EX-03</span></td><td>취소 → 선택 유지 · 화면 유지 / 확인 → 온라인신청 경로로 전환</td></tr>
+      <tr><td><span class="cid">C-50</span></td><td>셀프개통 + <b>셀프개통 불가 요금제</b> — 목록에는 노출됨</td><td>확인 팝업 <span class="cid x">EX-03</span></td><td><b>확인</b> → 상담사 개통으로 신청서 작성 · 선택 유지 / <b>취소</b> → 셀프개통 유지 · 선택 해제 후 "다른 요금제를 선택해 주세요" 안내</td></tr>
     </tbody>
   </table>
 
@@ -2386,19 +2469,40 @@ details.fs-frame:not([open])>summary{border-radius:19px}
    데이터 — 요금제 (샘플: 실제 관측 요금제 + 검증용 케이스)
    필드는 시스템 아키텍처 4.1 데이터 계약 기준
    ========================================================= */
+/* 제휴카드 C-52 — 기존 백오피스 제휴카드 관리 항목을 읽어 쓴다 (신규 관리 항목 아님) */
+var CARDS = [
+  {code:'C1', name:'더 심플 하나카드', need:'전월실적 30만원 이상', off:17000},
+  {code:'C2', name:'U+ 라이프 신한카드', need:'전월실적 50만원 이상', off:22000},
+  {code:'C3', name:'알뜰 KB국민카드', need:'전월실적 30만원 이상', off:12000}
+];
+
+/* 약정 안내 본문 C-50 — 반환금·기간은 약정 조건이므로 카피 확정 시 원문으로 교체 */
+var AGREE = {
+  contract: {t:'더 알뜰플랜 안내', b:[
+    '<b>24개월</b> 동안 함께하면 기본요금을 할인받는 약정 플랜입니다.',
+    '약정 설정일부터 <b>매월 2,200원</b> 할인 (월 중 개통 시 사용일수만큼 계산)',
+    '약정 기간 — 가입 익일부터 <b>24개월</b>',
+    '약정 기간 내 해지 · 타 요금제 변경 · 명의변경 시 <b>반환금이 발생</b>할 수 있습니다.']},
+  contract2: {t:'더 알뜰플랜2 가입 안내', b:[
+    '<b>24개월</b> 동안 매월 기본요금 할인과 <b>N pay 3천원</b>을 함께 받는 약정 플랜입니다.',
+    '매월 3천원 N pay 지급 + 약정 설정일부터 매월 2,200원 할인',
+    '약정 기간 — 가입 익일부터 <b>24개월</b>',
+    '약정 기간 내 해지 · 타 요금제 변경 · 명의변경 시 <b>반환금이 발생</b>할 수 있습니다.']}
+};
+
 var PLANS = [
   {code:'P01', name:'LTE 스페셜 플러스', net:'LTE', sale:46600, promo:38200, data:'100GB', dataV:100, voice:'기본제공', sms:'기본제공', speed:'최대 5M bps 속도로 데이터 무제한', badges:['BEST','U+인터넷결합','매월 데이터 10GB 추가'], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:1},
-  {code:'P02', name:'LTE 스페셜', net:'LTE', sale:49390, promo:32990, data:'11GB+일2GB', dataV:71, voice:'기본제공', sms:'기본제공', speed:'최대 3M bps 속도로 데이터 무제한', badges:['BEST','U+인터넷결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:2},
+  {pnote:'가입 7개월 후 39,900원', code:'P02', name:'LTE 스페셜', net:'LTE', sale:49390, promo:32990, data:'11GB+일2GB', dataV:71, voice:'기본제공', sms:'기본제공', speed:'최대 3M bps 속도로 데이터 무제한', badges:['BEST','U+인터넷결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:2},
   {code:'P03', name:'LTE (15GB+/통화기본)', net:'LTE', sale:48400, promo:20900, data:'15GB', dataV:15, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST','랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:3},
   {code:'P04', name:'LTE (10GB+/통화기본)', net:'LTE', sale:41950, promo:18900, data:'10GB', dataV:10, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:5},
   {code:'P05', name:'LTE (7GB+/통화기본)', net:'LTE', sale:39800, promo:15900, data:'7GB', dataV:7, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST','랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:4},
-  {code:'P06', name:'LTE (1GB+/통화기본)', net:'LTE', sale:25300, promo:9900, data:'1GB', dataV:1, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:6},
+  {agree:'contract2', pnote:'가입 7개월 후 13,800원', code:'P06', name:'LTE (1GB+/통화기본)', net:'LTE', sale:25300, promo:9900, data:'1GB', dataV:1, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:6},
   {code:'P07', name:'LTE 스페셜 프로', net:'LTE', sale:45900, promo:38200, data:'일5GB', dataV:150, voice:'기본제공', sms:'기본제공', speed:'최대 5M bps 속도로 데이터 무제한', badges:['U+인터넷결합','랜덤결합'], benefit:null, open:['self','agent'], sub:['adult'], use:true, rank:8},
-  {code:'P08', name:'LTE (4.5GB+/통화기본)', net:'LTE', sale:36600, promo:13900, data:'(4.5+10)GB', dataV:14.5, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:[], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:7},
+  {agree:'contract', pnote:'가입 7개월 후 21,800원', code:'P08', name:'LTE (4.5GB+/통화기본)', net:'LTE', sale:36600, promo:13900, data:'(4.5+10)GB', dataV:14.5, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:[], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:7},
   {code:'P09', name:'LTE 데이터 세이브', net:'LTE', sale:21450, promo:null, data:'3GB', dataV:3, voice:'기본제공', sms:'기본제공', speed:'소진 시 차단', badges:['프로모션 없음'], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:null},
-  {code:'P10', name:'LTE 청소년 안심 요금제', net:'LTE', sale:29700, promo:19800, data:'6GB', dataV:6, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['청소년 전용'], benefit:null, open:['agent'], sub:['youth'], use:true, rank:9},
-  {code:'P11', name:'LTE 통화 전용', net:'LTE', sale:12100, promo:8800, data:'데이터 제로', dataV:0, voice:'기본제공', sms:'기본제공', speed:'데이터 미제공', badges:[], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:10},
-  {code:'P12', name:'LTE 알뜰 300분', net:'LTE', sale:9900, promo:6600, data:'1.5GB', dataV:1.5, voice:'300분', sms:'100건', speed:'소진 시 차단', badges:[], benefit:null, open:['agent'], sub:['adult'], use:true, rank:null},
+  {limit:'만 19세 미만 고객만 가입 가능', selfBlock:true, pnote:null, code:'P10', name:'LTE 청소년 안심 요금제', net:'LTE', sale:29700, promo:19800, data:'6GB', dataV:6, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['청소년 전용'], benefit:null, open:['self','agent'], sub:['youth'], use:true, rank:9},
+  {limit:'데이터 미제공 — 셀프개통 신청 불가', selfBlock:true, pnote:null, code:'P11', name:'LTE 통화 전용', net:'LTE', sale:12100, promo:8800, data:'데이터 제로', dataV:0, voice:'기본제공', sms:'기본제공', speed:'데이터 미제공', badges:[], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:10},
+  {limit:'만 65세 이상 고객만 가입 가능', pnote:null, code:'P12', name:'LTE 알뜰 300분', net:'LTE', sale:9900, promo:6600, data:'1.5GB', dataV:1.5, voice:'300분', sms:'100건', speed:'소진 시 차단', badges:[], benefit:null, open:['agent'], sub:['adult'], use:true, rank:null},
   {code:'P13', name:'LTE 상담사 전용 프로', net:'LTE', sale:44000, promo:29700, data:'50GB', dataV:50, voice:'기본제공', sms:'기본제공', speed:'최대 3M bps 속도로 데이터 무제한', badges:['상담사 전용'], benefit:null, open:['agent'], sub:['adult'], use:true, rank:null},
   {code:'P14', name:'LTE 한정 요금제', net:'LTE', sale:33000, promo:24200, data:'8GB', dataV:8, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['한정'], benefit:null, open:['self','agent'], sub:['adult'], use:true, rank:null},
   {code:'G01', name:'5G 스탠다드', net:'5G', sale:55000, promo:44000, data:'110GB', dataV:110, voice:'기본제공', sms:'기본제공', speed:'최대 5M bps 속도로 데이터 무제한', badges:['BEST','U+인터넷결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:null},
@@ -2426,6 +2530,12 @@ function newState(mode){
     weeklyStale: false, forceEmpty: false,
     rendered: 8, alert: null, toast: null, toastT: null, sheet: false,
     focusCode: null,              // roving tabindex — 목록의 단일 탭 스톱
+    card: null,                   // C-52 선택한 제휴카드 코드
+    cardPick: false,              // C-52 제휴카드 선택 레이어 열림
+    agreed: {},                   // C-50 약정 동의 상태 — 세션 승계 대상 (C-12)
+    entryNotice: false,           // C-55 진입 안내 팝업 노출 여부
+    oneChip: false, newNumber: false,  // C-55 판정 입력 — 원칩 유심 · 010 신규가입
+    soloMode: false,              // C-57 단독 노출 모드 (전용 요금제 진입)
     log: [], scenario: null
   };
 }
@@ -2439,6 +2549,8 @@ function baseList(st){
   return PLANS.filter(function(p){
     if(!p.use) return false;                                   // C-40
     if(st.openMethod && p.open.indexOf(st.openMethod) < 0) return false;  // 개통방법 사전 필터
+    /* C-56 · C-57 — 전용 요금제 진입은 해당 요금제만 노출한다. 여기서는 SOLO_CODES를 전용 집합으로 본다 */
+    if(st.soloMode && SOLO_CODES.indexOf(p.code) < 0) return false;
     return true;
   });
 }
@@ -2480,7 +2592,13 @@ function applyCtrl(st, L){
 function price(p){ return p.promo != null ? p.promo : p.sale; }
 function won(n){ return n.toLocaleString('ko-KR') + '원'; }
 function find(code){ for(var i=0;i<PLANS.length;i++) if(PLANS[i].code===code) return PLANS[i]; return null; }
-function isCurated(st){ return st.tab === 'weekly'; }
+function isCurated(st){ return st.soloMode ? false : st.tab === 'weekly'; }
+
+/* C-57 — 전용 요금제 집합 (프로토타입 확인용. 실제 집합은 백오피스 요금제 유형으로 판정) */
+var SOLO_CODES = ['P03','P05','P06'];
+
+/* C-55 진입 안내 판정 — 원칩 유심 AND 셀프개통 AND 010 신규가입 세 조건 모두 충족 */
+function entryNoticeNeeded(st){ return st.oneChip === true && st.openMethod === 'self' && st.newNumber === true; }
 
 /* =========================================================
    렌더
@@ -2502,6 +2620,60 @@ function infoChips(p){
     + '</span>';
 }
 
+/* 오버레이 렌더 — 기존 단일 버튼 alert(msg)과 신규 유형(진입 안내 · 2버튼 · 레이어)을 함께 처리 */
+function alertHtml(st, key){
+  /* C-55 진입 안내 — 법적 고지이므로 문구는 원문 유지 */
+  if(st.entryNotice){
+    return '<div class="alert" role="alertdialog" aria-label="가입 안내">'
+      + '<div class="body"><p>당사 회선 개통 후 불법 스팸 발송 시 『정보통신망 이용촉진 및 정보보호 등에 관한 법률』 '
+      + '제50조 및 제76조에 따라 <b>형사처벌 받을 수 있습니다.</b></p></div>'
+      + '<button onclick="closeEntry(\'' + key + '\')">확인</button></div>';
+  }
+  /* C-52 제휴카드 선택 */
+  if(st.cardPick){
+    var h = '<div class="alert" role="dialog" aria-label="제휴카드 선택">'
+      + '<div class="ttl">제휴카드 할인 계산</div><div class="body">';
+    for(var i=0;i<CARDS.length;i++){
+      var c = CARDS[i], on = (st.card === c.code);
+      h += '<p><button class="ccbtn" style="width:100%;text-align:left;min-height:44px;padding:8px 11px'
+        + (on?';border-color:var(--main);background:var(--main-ghost)':'') + '"'
+        + ' aria-pressed="' + (on?'true':'false') + '"'
+        + ' onclick="pickCard(\'' + key + '\',\'' + c.code + '\')">'
+        + esc(c.name) + ' · 최대 ' + won(c.off) + ' 할인<br><span style="font-weight:600;color:var(--muted-2)">'
+        + esc(c.need) + '</span></button></p>';
+    }
+    h += '<p style="color:var(--muted-2);font-size:11.5px">제휴카드 할인은 요금제 가입과 별개이며, 카드사를 통해 별도 신청해야 합니다. '
+      + '선택 카드의 최대 할인 금액 기준이므로 실제 할인액과 다를 수 있습니다.</p>';
+    h += '</div><div class="btns"><button class="gh" onclick="closeCards(\'' + key + '\')">닫기</button></div></div>';
+    return h;
+  }
+  if(!st.alert) return '';
+  var a = st.alert;
+  /* 2버튼 유형 — 약정 동의(C-50) · 경로 전환 확인(EX-03) */
+  if(a.yes){
+    var b = '<div class="alert" role="alertdialog">';
+    if(a.ttl) b += '<div class="ttl">' + esc(a.ttl) + '</div>';
+    if(a.body){ b += '<div class="body">'; for(var k=0;k<a.body.length;k++) b += '<p>' + a.body[k] + '</p>'; b += '</div>'; }
+    else b += '<p>' + esc(a.msg||'') + '</p>';
+    var noFn  = a.agree ? 'agreeNo' : 'pathNo';
+    var yesFn = a.agree ? 'agreeYes' : 'pathYes';
+    b += '<div class="btns"><button class="gh" onclick="' + noFn + '(\'' + key + '\')">' + esc(a.no) + '</button>'
+       + '<button onclick="' + yesFn + '(\'' + key + '\')">' + esc(a.yes) + '</button></div></div>';
+    return b;
+  }
+  /* 제목·본문 유형 — 속도 안내 레이어(C-58) */
+  if(a.body){
+    var q = '<div class="alert" role="alertdialog">';
+    if(a.ttl) q += '<div class="ttl">' + esc(a.ttl) + '</div>';
+    q += '<div class="body">'; for(var m=0;m<a.body.length;m++) q += '<p>' + a.body[m] + '</p>'; q += '</div>';
+    q += '<button onclick="okAlert(\'' + key + '\')">' + esc(a.ok||'확인') + '</button></div>';
+    return q;
+  }
+  /* 기존 단일 버튼 alert — 변경 없음 */
+  return '<div class="alert" role="alertdialog"><p>' + esc(a.msg) + '</p>'
+       + '<button onclick="okAlert(\'' + key + '\')">확인</button></div>';
+}
+
 function render(key){
   var st = S[key];
   var el = document.getElementById(key === 'proto' ? 'ph1' : 'ph2');
@@ -2519,8 +2691,8 @@ function render(key){
     '<div class="ph-head"><span class="ic">&#8249;</span><span class="t">가입신청서</span><span class="ic" style="text-align:right">&#215;</span></div>' +
     body +
     '<div id="sheetwrap-' + key + '"></div>' +
-    '<div class="dim' + (st.alert ? ' on' : '') + '">' +
-      (st.alert ? '<div class="alert" role="alertdialog"><p>' + esc(st.alert.msg) + '</p><button onclick="okAlert(\'' + key + '\')">확인</button></div>' : '') +
+    '<div class="dim' + ((st.alert || st.cardPick || st.entryNotice) ? ' on' : '') + '">' +
+      alertHtml(st, key) +
     '</div>' +
     '<div class="toast" id="toast-' + key + '" role="status" aria-live="polite"></div>';
 
@@ -2593,17 +2765,31 @@ function viewPlan(st, key){
   var out = '<div class="ph-body" id="body-' + key + '">';
   out += '<div class="h1">가입하실 <em>요금제를 선택</em>해 주세요.</div>';
 
-  out += '<div class="tabbar">';
-  out += tabBtn(key, 'weekly', '주간', st.tab==='weekly', true);
-  out += tabBtn(key, 'all', '전체', st.tab==='all');
-  out += tabBtn(key, 'lte', 'LTE', st.tab==='lte');
-  out += tabBtn(key, 'g5', '5G', st.tab==='g5');
-  out += '</div>';
+  /* C-57 단독 노출 모드 — 전용 요금제 진입은 네트워크 분기 대상이 없어 탭이 빈 칸이 된다.
+     탭 영역을 아예 노출하지 않고 목록 컨트롤은 개수·정렬만 유지한다. */
+  if(!st.soloMode){
+    out += '<div class="tabbar">';
+    out += tabBtn(key, 'weekly', '주간', st.tab==='weekly', true);
+    out += tabBtn(key, 'all', '전체', st.tab==='all');
+    out += tabBtn(key, 'lte', 'LTE', st.tab==='lte');
+    out += tabBtn(key, 'g5', '5G', st.tab==='g5');
+    out += '</div>';
+  }
 
   // 컨트롤 순서 — 필터 > 정렬 > 비교 (전 탭 공통)
   var fn = (st.fPrice?1:0) + (st.fData?1:0);          // 적용된 조건 수
   out += '<div class="ctrls">';
   out += '<span class="cnt">요금제 <b>' + L.length + '</b>개</span>';
+  if(st.soloMode){
+    /* 대상이 3건 이하이므로 필터는 의미가 없고, 비교는 2건 미만이면 비활성 (C-57) */
+    out += '<select class="chip" onchange="setSort(\'' + key + '\',this.value)">'
+         + opt('reco','추천순',st.sort) + opt('price','낮은 가격순',st.sort) + opt('data','데이터 많은순',st.sort)
+         + '</select>';
+    out += '<button class="chip' + (L.length<2?' off':'') + '"' + (L.length<2?' aria-disabled="true"':'')
+         + ' onclick="' + (L.length<2 ? 'cta0(\'' + key + '\')' : 'openCmp(\'' + key + '\')') + '">'
+         + '비교 ' + st.compare.length + '/2</button>';
+    out += '</div>';
+  } else {
   out += '<button id="fbtn-' + key + '" class="chip' + (fn?' act':'') + (st.filterOpen?' open':'') + '"'
        + ' aria-expanded="' + (st.filterOpen?'true':'false') + '" aria-controls="fbox-' + key + '"'
        + ' onclick="toggleFilter(\'' + key + '\')">필터' + (fn ? ' · ' + fn : '')
@@ -2615,9 +2801,10 @@ function viewPlan(st, key){
   out += '<button id="cmpchip-' + key + '" class="chip' + (st.compare.length?' act':'') + '" onclick="openCmp(\'' + key + '\')">'
        + '비교 ' + st.compare.length + '/2</button>';
   out += '</div>';
+  }
 
   var hasF = !!(st.fPrice || st.fData);
-  {
+  if(!st.soloMode){
     out += '<div id="fbox-' + key + '" class="filterbox' + (st.filterOpen?' open':'') + '">'
          + '<div class="fb-head"><b>필터 조건</b></div>'
          + '<div class="fb-fields">'
@@ -2662,9 +2849,23 @@ function viewPlan(st, key){
 function stickyHtml(st, key){
   var sel = st.selected ? find(st.selected) : null;
   if(sel){
-    return '<div class="sum"><span class="nm">' + esc(sel.name) + '</span>'
-         + '<span class="pr">월 ' + won(price(sel)) + '</span></div>'
-         + '<button class="cta" onclick="confirmPlan(\'' + key + '\')">신청서 작성하기 <span aria-hidden="true">&#8594;</span></button>';
+    var base = price(sel), off = cardOff(st), pay = base - off;
+    /* C-51 — 요금제명 행에 부가세포함 월 납부 금액을 함께 표기.
+       C-52 — 제휴카드는 같은 행 우측의 텍스트 버튼으로 축약해 Sticky를 2행으로 유지한다 (O-18) */
+    var h = '<div class="sum"><span class="nm">' + esc(sel.name) + '</span>'
+          + '<span class="pr">월 ' + won(base) + '</span>'
+          + '<span class="amt' + (off?' disc':'') + '">'
+          + '<span>' + (off ? '제휴카드 할인포함 월 납부 금액' : '부가세포함 월 납부 금액') + '</span>'
+          + '<span class="v">' + won(pay) + '</span>'
+          + '</span>';
+    if(CARDS.length){
+      h += '<span class="amt"><span>제휴카드 할인금액(예상)</span>'
+        + '<span class="v">' + (off ? '- ' + won(off) : '- 0원') + '</span>'
+        + '<button class="ccbtn" onclick="openCards(\'' + key + '\')">' + (off ? '변경' : '선택') + '</button>'
+        + '</span>';
+    }
+    h += '</div>';
+    return h + '<button class="cta" onclick="confirmPlan(\'' + key + '\')">신청서 작성하기 <span aria-hidden="true">&#8594;</span></button>';
   }
   return '<div class="sum idle">요금제를 선택해 주세요.</div>'
        + '<button class="cta off" aria-disabled="true" onclick="cta0(\'' + key + '\')">신청서 작성하기 <span aria-hidden="true">&#8594;</span></button>';
@@ -2684,7 +2885,8 @@ function cardHtml(st, key, p, rank, idx){
 
   // 컨테이너(div) — 보더·선택 상태를 담당
   var h = '<div class="card' + (sel?' sel':'') + '" id="card-' + key + '-' + p.code + '"'
-        + ' style="animation-delay:' + delay + 's">';
+        + ' style="animation-delay:' + delay + 's"'
+        + ' onclick="cardTap(event,\'' + key + '\',\'' + p.code + '\')">';
 
   // ① 선택 버튼 — role=radio + aria-checked로 상태를 보조기술에 전달
   h += '<button class="card-main" id="cm-' + key + '-' + p.code + '"'
@@ -2705,14 +2907,24 @@ function cardHtml(st, key, p, rank, idx){
   h += '<span class="prices">';
   if(p.promo != null) h += '<span class="p-old">' + won(p.sale) + '</span><span class="p-new">' + won(p.promo) + '</span><span class="per">/월</span>';
   else                h += '<span class="p-only">' + won(p.sale) + '</span><span class="per">/월</span>';
+  // C-59 — 문구는 등록된 경우에만 노출하되, 영역 자체는 항상 자리를 차지해 카드 높이를 고정한다
+  h += '<span class="pnote">' + (p.pnote ? esc(p.pnote) : '') + '</span>';
   h += '</span>';
   // 스펙 인포 블록 — 속도 안내를 스펙 하단에 포함 (혜택보다 위, 라벨 없이 본문만)
   h += '<span class="info">';
   h += infoChips(p);
-  h += '<span class="sp">' + esc(p.speed) + '</span>';
   h += '</span>';
-  if(p.benefit) h += '<span class="benefit"><span class="gi" aria-hidden="true">&#127873;</span>' + esc(p.benefit) + '</span>';
   h += '</button>';
+
+  /* 속도 안내 · 혜택 · 제약 라인은 card-main 바깥의 형제로 둔다.
+     C-58 안내 버튼이 실제 <button>이어야 하고, 버튼 안에 버튼을 넣을 수 없기 때문(C-41 중첩 인터랙션 금지).
+     카드 전체 탭(C-18)은 .card 컨테이너의 클릭 핸들러가 담당한다. */
+  h += '<div class="sprow"><span class="sp">' + esc(p.speed) + '</span>'
+     + '<button class="qbtn" aria-label="' + esc(p.name) + ' 속도 제어 안내"'
+     + ' onclick="openQos(event,\'' + key + '\',\'' + p.code + '\')"><b aria-hidden="true">?</b></button></div>';
+  if(p.benefit) h += '<div class="benefit"><span class="gi" aria-hidden="true">&#127873;</span>' + esc(p.benefit) + '</div>';
+  // C-49 — 가입 자격이 제한된 요금제는 선택 전부터 카드에 표기한다. Alert을 쓰지 않는 이유는 부록 6 참조
+  if(p.limit) h += '<div class="lim"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>' + esc(p.limit) + '</div>';
 
   // ② 비교 담기 — 카드 버튼의 형제 button. 중첩 없음 → 키보드로 도달 가능
   h += '<div class="cmprow">'
@@ -2840,6 +3052,36 @@ function setView(v){
 
 /* 기기 전환 — 모바일 394 / PC 700 (실측 기준) */
 var DEVICE = 'mobile';
+/* 프로토타입 확인용 조건 전환 — C-55 진입 안내 · C-57 단독 노출 모드는
+   특정 진입 조건에서만 나타나므로 직접 만들 수단을 둔다 */
+function toggleCond(kind){
+  var keys = ['proto','sim'], on;
+  if(kind === 'entry'){
+    on = !(S.proto.oneChip && S.proto.openMethod === 'self' && S.proto.newNumber);
+    for(var i=0;i<keys.length;i++){
+      var st = S[keys[i]];
+      st.oneChip = on; st.newNumber = on;
+      if(on) st.openMethod = 'self';
+      st.entryNotice = on && entryNoticeNeeded(st);
+    }
+    var b = document.getElementById('cond-entry');
+    b.className = on ? 'on' : ''; b.setAttribute('aria-pressed', on);
+    if(on) logStep('sim', 'STEP 1b', 'p', '원칩 + 셀프개통 + 010 신규 → 진입 안내 노출');
+  } else {
+    on = !S.proto.soloMode;
+    for(var j=0;j<keys.length;j++){
+      var t = S[keys[j]];
+      t.soloMode = on;
+      t.tab = on ? 'all' : 'weekly';
+      t.fPrice = ''; t.fData = ''; t.filterOpen = false; t.compare = []; t.selected = null;
+    }
+    var c = document.getElementById('cond-solo');
+    c.className = on ? 'on' : ''; c.setAttribute('aria-pressed', on);
+    if(on) logStep('sim', 'STEP 4b', 'p', '전용 요금제 진입 → 탭 미노출 · 개수·정렬만 유지');
+  }
+  render('proto'); render('sim');
+}
+
 function setDevice(d){
   if(DEVICE === d) return;
   DEVICE = d;
@@ -2916,6 +3158,87 @@ function keepScroll(key, fn){
 
 /* 카드 선택 — 목록을 재렌더하지 않고 해당 카드 2개(이전·현재)와 Sticky만 갱신
    → 스크롤 위치 유지(C-18), 키보드 포커스 유지, 진입 애니메이션 재생 없음 */
+/* ── 카드 전체 탭 C-18 ──
+   card-main은 role=radio 버튼이고, 속도 안내·비교 담기는 그 형제 버튼이다.
+   컨테이너에서 받은 클릭 중 실제 컨트롤에서 온 것은 각자 처리하므로 여기서 제외한다. */
+function cardTap(e, key, code){
+  var t = e.target;
+  if(t.closest && t.closest('.card-main,.qbtn,.cmpbox')) return;
+  pick(key, code);
+}
+
+/* C-58 속도 안내 — QoS 상세를 레이어로. 카드 선택과 분리 */
+function openQos(e, key, code){
+  e.stopPropagation();
+  var p = find(code);
+  S[key].alert = {ttl:'속도 제어 안내', body:[
+    esc(p.data) + ' 소진 후 <b>' + esc(p.speed) + '</b>',
+    '기본 제공량을 모두 사용하면 데이터가 차단되지 않고 위 속도로 계속 이용할 수 있습니다.',
+    '속도 제어 구간에서는 고화질 영상 · 대용량 파일 전송이 제한될 수 있습니다.'
+  ], ok:'확인'};
+  logStep(key, 'C-58', 'i', '속도 안내 레이어 — ' + code);
+  render(key);
+}
+
+/* C-52 제휴카드 — 금액 행 우측 버튼에서 호출. Sticky 행 수를 늘리지 않는다 (O-18) */
+function openCards(key){
+  S[key].cardPick = true;
+  logStep(key, 'C-52', 'i', '제휴카드 선택 레이어');
+  render(key);
+}
+function pickCard(key, code){
+  var st = S[key];
+  st.card = (st.card === code) ? null : code;
+  st.cardPick = false;
+  logStep(key, 'C-52', 'p', st.card ? ('제휴카드 ' + st.card + ' 적용') : '제휴카드 해제');
+  render(key);
+}
+function closeCards(key){ S[key].cardPick = false; render(key); }
+function findCard(code){ for(var i=0;i<CARDS.length;i++) if(CARDS[i].code===code) return CARDS[i]; return null; }
+function cardOff(st){ var c = st.card ? findCard(st.card) : null; return c ? c.off : 0; }
+
+/* C-50 약정 동의 — 동의 / 동의 안함 / 닫기 세 경우 모두 목록으로 복귀하고 동의 상태만 남는다 */
+function agreeYes(key){
+  var st = S[key], code = st.alert && st.alert.agree;
+  st.alert = null;
+  if(code){ st.agreed[code] = true; logStep(key, 'STEP 13b', 'p', '약정 동의 — ' + code); }
+  render(key);
+}
+function agreeNo(key){
+  var st = S[key], code = st.alert && st.alert.agree;
+  st.alert = null;
+  if(code){ st.agreed[code] = false; logStep(key, 'STEP 13b', 'i', '약정 미동의 — ' + code + ' · 선택은 유지'); }
+  render(key);
+}
+
+/* C-50 경로 전환 확인 — 개통 방식이 바뀌는 되돌릴 수 없는 분기이므로 확인을 받는다 (EX-03) */
+function pathYes(key){
+  var st = S[key];
+  st.alert = null;
+  st.openMethod = 'agent';
+  logStep(key, 'EX-03', 'p', '상담사 개통으로 전환 — 선택 요금제 유지');
+  setToast(key, '상담사 개통으로 신청서를 작성합니다');
+  render(key);
+}
+/* 취소 = 셀프개통을 유지하겠다는 의사.
+   그 요금제로는 진행할 수 없으므로 선택을 해제하고 다른 요금제를 고르도록 안내한다. */
+function pathNo(key){
+  var st = S[key];
+  var prev = st.selected;
+  st.alert = null;
+  st.selected = null;
+  logStep(key, 'EX-03', 'i', '취소 — 셀프개통 유지 · 선택 해제(' + prev + ') 후 재선택 안내');
+  setToast(key, '셀프개통으로 진행하려면 다른 요금제를 선택해 주세요');
+  render(key);
+}
+
+/* C-55 진입 안내 — 원칩 + 셀프개통 + 010 신규가입 세 조건을 모두 만족할 때만 1회 */
+function closeEntry(key){
+  S[key].entryNotice = false;
+  logStep(key, 'STEP 1b', 'p', '진입 안내 확인 — 이후 재노출 없음');
+  render(key);
+}
+
 function pick(key, code){
   var st = S[key];
   var prev = st.selected;
@@ -2925,6 +3248,18 @@ function pick(key, code){
   paintCardSel(key, code, true);
   setRoving(key, code);
   paintSticky(key);
+
+  /* STEP 10b — 셀프개통 상태에서 셀프개통 불가 요금제를 고르면 경로 전환을 확인받는다 (C-50 · EX-03).
+     선택 자체는 이미 완결되어 있으므로 자격 안내용 Alert과 성격이 다르다. */
+  var p = find(code);
+  if(p.selfBlock && st.openMethod === 'self'){
+    st.alert = {ttl:'셀프개통 신청 불가',
+      body:['<b>' + esc(p.name) + '</b>는 셀프개통으로 신청할 수 없는 요금제입니다.',
+            '<b>상담사 개통</b>으로 신청서를 작성하시겠습니까?'],
+      no:'취소', yes:'상담사 개통으로 작성'};
+    logStep(key, 'STEP 10b', 'i', '셀프개통 불가 요금제 — 경로 전환 확인');
+    render(key);
+  }
 }
 
 /* radiogroup 키보드 모델 — 방향키로 이동·선택, Home/End 지원 */
@@ -3017,7 +3352,21 @@ function confirmPlan(key){
   var p = find(st.selected);
   logStep(key, 'STEP 12', 'p', 'selectedPlan = ' + p.code);
   logStep(key, 'STEP 13', 'p', '사용여부 = 사용');
-  logStep(key, 'STEP 14', 'p', '신청서 세션 승계 → S-03 이동');
+
+  /* STEP 13b — 약정 요금제면 동의 팝업을 먼저 띄운다.
+     동의 / 동의 안함 / 닫기 세 경우 모두 목록으로 복귀하므로 여기서 진행을 멈춘다 (C-50) */
+  if(p.agree && st.agreed[p.agree] === undefined){
+    var a = AGREE[p.agree];
+    st.alert = {ttl:a.t, body:a.b, agree:p.agree, yes:'동의', no:'동의 안함'};
+    logStep(key, 'STEP 13b', 'i', '약정 안내 팝업 — ' + p.agree);
+    render(key);
+    return;
+  }
+  if(p.agree) logStep(key, 'STEP 13b', 'p', '약정 동의 상태 = ' + (st.agreed[p.agree] ? '동의' : '미동의'));
+  logStep(key, 'STEP 13c', 'p', '요금제 종속 입력 해당 없음');
+  logStep(key, 'STEP 14', 'p', '신청서 세션 승계 → S-03 이동'
+    + (st.card ? ' · 제휴카드 ' + st.card : '')
+    + (p.agree ? ' · 약정동의 ' + (st.agreed[p.agree]?'Y':'N') : ''));
   st.screen = 's03';
   render(key);
 }
