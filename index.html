@@ -248,6 +248,45 @@ select{font-family:inherit;cursor:pointer}
   background:var(--surface);font-size:11px;font-weight:800;color:var(--main);transition:all .15s}
 .ccbtn:hover{border-color:var(--main-mid);background:var(--main-ghost)}
 .ctrls .chip.off{color:var(--muted-2);border-color:var(--line-2);background:var(--bg);cursor:default}
+/* 제휴카드 선택 레이어 C-60 — 셀렉트·캐러셀을 해체하고 목록 + 라디오로 재편
+   .alert button 의 기본 CTA 스타일(그라데이션·흰 글자·13px padding)을 받지 않도록
+   레이어 내부 요소는 모두 .alert 를 붙여 우선순위를 맞춘다 */
+.cclead{font-size:12px;font-weight:600;color:var(--muted);line-height:1.6;margin-bottom:12px;text-align:left}
+.cclist{display:flex;flex-direction:column;gap:8px}
+.alert button.ccitem{width:100%;text-align:left;border:1px solid var(--line-2);border-radius:12px;
+  background:var(--surface);color:var(--text);box-shadow:none;font-size:13px;font-weight:600;
+  padding:12.5px 13.5px;display:flex;align-items:flex-start;gap:10px;min-height:44px;
+  transition:border-color .15s,background .15s}
+.alert button.ccitem:hover{border-color:var(--main-mid);background:var(--surface)}
+/* 선택 시 보더가 1px 두꺼워지는 만큼 padding 을 1px 줄여 목록 흔들림을 막는다 */
+.alert button.ccitem.on,
+.alert button.ccitem.on:hover{border-color:var(--main);border-width:2px;padding:11.5px 12.5px;background:var(--main-ghost)}
+.ccrd{flex:0 0 auto;width:19px;height:19px;margin-top:1px;border-radius:50%;border:1.5px solid var(--line-2);
+  background:var(--surface);display:flex;align-items:center;justify-content:center}
+.ccitem.on .ccrd{border-color:var(--main);background:var(--main)}
+.ccrd svg{width:11px;height:11px;stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0}
+.ccitem.on .ccrd svg{opacity:1}
+.ccbody{flex:1 1 auto;min-width:0}
+.ccnm{display:block;font-size:13px;font-weight:800;color:var(--text);line-height:1.4}
+.ccmax{display:block;margin-top:3px;font-size:12px;font-weight:800;color:var(--main-deep)}
+.cctiers{margin-top:7px;display:flex;flex-direction:column;gap:3px}
+.cctier{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:600;color:var(--muted)}
+.cctier b{font-weight:800;color:var(--text)}
+.ccitem.none .ccbody{display:flex;align-items:center;min-height:19px}
+.ccfoot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;font-weight:700;color:var(--muted)}
+.ccfoot .v{font-size:14px;font-weight:800;color:var(--main-deep)}
+.ccfoot.sub{margin-top:5px;padding-top:0;border-top:0}
+.ccfoot.sub .v{font-size:15px;color:var(--text)}
+.ccnote{margin-top:12px;text-align:left}
+.ccnote summary{list-style:none;cursor:pointer;font-size:11.5px;font-weight:700;color:var(--muted);
+  display:flex;align-items:center;gap:5px;min-height:44px}
+.ccnote summary::-webkit-details-marker{display:none}
+.ccnote summary svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.2;fill:none;transition:transform .2s}
+.ccnote[open] summary svg{transform:rotate(180deg)}
+.ccnote ul{margin:2px 0 0;padding-left:15px}
+.ccnote li{font-size:11px;font-weight:600;color:var(--muted-2);line-height:1.65;margin-bottom:4px;list-style:disc}
+.ccnote li b{color:var(--muted);font-weight:800}
 /* 2버튼 확인 팝업 C-50 — 경로 전환·약정 동의처럼 되돌릴 수 없는 분기에만 쓴다 */
 .alert .btns{display:flex;gap:8px}
 .alert .btns button{flex:1}
@@ -2474,9 +2513,12 @@ details.fs-frame:not([open])>summary{border-radius:19px}
    ========================================================= */
 /* 제휴카드 C-52 — 기존 백오피스 제휴카드 관리 항목을 읽어 쓴다 (신규 관리 항목 아님) */
 var CARDS = [
-  {code:'C1', name:'더 심플 하나카드', need:'전월실적 30만원 이상', off:17000},
-  {code:'C2', name:'U+ 라이프 신한카드', need:'전월실적 50만원 이상', off:22000},
-  {code:'C3', name:'알뜰 KB국민카드', need:'전월실적 30만원 이상', off:12000}
+  {code:'C1', name:'KB국민 U+유모바일 II 카드',
+   tiers:[{need:'전월실적 30만원 이상', off:19000},{need:'전월실적 70만원 이상', off:20000}], off:20000},
+  {code:'C2', name:'U+ 라이프 신한카드',
+   tiers:[{need:'전월실적 30만원 이상', off:17000},{need:'전월실적 60만원 이상', off:22000}], off:22000},
+  {code:'C3', name:'알뜰 KB국민카드',
+   tiers:[{need:'전월실적 30만원 이상', off:12000}], off:12000}
 ];
 
 /* 약정 안내 본문 C-50 — 반환금·기간은 약정 조건이므로 카피 확정 시 원문으로 교체 */
@@ -2632,22 +2674,56 @@ function alertHtml(st, key){
       + '제50조 및 제76조에 따라 <b>형사처벌 받을 수 있습니다.</b></p></div>'
       + '<button onclick="closeEntry(\'' + key + '\')">확인</button></div>';
   }
-  /* C-52 제휴카드 선택 */
+  /* C-60 제휴카드 선택 레이어 — 셀렉트·캐러셀을 해체해 목록으로 전개하고,
+     실적 구간별 할인액을 카드 안에서 함께 보여 준다. 선택 결과는 레이어를 닫기 전에
+     하단에서 즉시 확인된다 (확인 Alert 제거 — 되돌릴 수 있는 선택이므로 C-50 대상 아님). */
   if(st.cardPick){
+    var csel = st.selected ? find(st.selected) : null;
+    var cbase = csel ? price(csel) : 0;
+    var coff  = cardOff(st);
     var h = '<div class="alert" role="dialog" aria-label="제휴카드 선택">'
-      + '<div class="ttl">제휴카드 할인 계산</div><div class="body">';
+      + '<div class="ttl">제휴카드 할인 계산</div>'
+      + '<div class="body">'
+      + '<p class="cclead">카드를 고르면 아래에서 예상 할인 금액을 바로 확인할 수 있습니다.</p>'
+      + '<div class="cclist" role="radiogroup" aria-label="제휴카드 목록">';
     for(var i=0;i<CARDS.length;i++){
       var c = CARDS[i], on = (st.card === c.code);
-      h += '<p><button class="ccbtn" style="width:100%;text-align:left;min-height:44px;padding:8px 11px'
-        + (on?';border-color:var(--main);background:var(--main-ghost)':'') + '"'
-        + ' aria-pressed="' + (on?'true':'false') + '"'
+      h += '<button type="button" class="ccitem' + (on?' on':'') + '"'
+        + ' data-cc="' + c.code + '"'
+        + ' role="radio" aria-checked="' + (on?'true':'false') + '"'
         + ' onclick="pickCard(\'' + key + '\',\'' + c.code + '\')">'
-        + esc(c.name) + ' · 최대 ' + won(c.off) + ' 할인<br><span style="font-weight:600;color:var(--muted-2)">'
-        + esc(c.need) + '</span></button></p>';
+        + '<span class="ccrd"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg></span>'
+        + '<span class="ccbody">'
+        + '<span class="ccnm">' + esc(c.name) + '</span>'
+        + '<span class="ccmax">최대 ' + won(c.off) + ' 할인</span>'
+        + '<span class="cctiers">';
+      for(var t=0;t<c.tiers.length;t++){
+        h += '<span class="cctier"><span>' + esc(c.tiers[t].need) + '</span>'
+          +  '<b>- ' + won(c.tiers[t].off) + '</b></span>';
+      }
+      h += '</span></span></button>';
     }
-    h += '<p style="color:var(--muted-2);font-size:11.5px">제휴카드 할인은 요금제 가입과 별개이며, 카드사를 통해 별도 신청해야 합니다. '
-      + '선택 카드의 최대 할인 금액 기준이므로 실제 할인액과 다를 수 있습니다.</p>';
-    h += '</div><div class="btns"><button class="gh" onclick="closeCards(\'' + key + '\')">닫기</button></div></div>';
+    var cnone = !st.card;
+    h += '<button type="button" class="ccitem none' + (cnone?' on':'') + '"'
+      + ' data-cc="" role="radio" aria-checked="' + (cnone?'true':'false') + '"'
+      + ' onclick="pickCard(\'' + key + '\',\'\')">'
+      + '<span class="ccrd"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="4 12.5 9.5 18 20 6.5"/></svg></span>'
+      + '<span class="ccbody"><span class="ccnm">선택 안 함</span></span></button>';
+    h += '</div>';
+    h += '</div>';
+    h += '<details class="ccnote"><summary>유의사항<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary><ul>'
+      + '<li>제휴카드 할인은 요금제 가입과 별개이며, 카드사를 통해 <b>별도 신청</b>해야 적용됩니다.</li>'
+      + '<li>표시 금액은 카드사 공시 기준 금액으로, <b>전월 실적</b>에 따라 실제 할인액이 달라집니다.</li>'
+      + '<li>카드 발급 심사 결과에 따라 할인이 적용되지 않을 수 있습니다.</li>'
+      + '</ul></details>';
+    /* 즉시 반영 영역 — 스크롤 영역(.body) 밖에 둬 항상 보이게 한다 */
+    h += '<div class="ccfoot"><span>제휴카드 할인금액(예상)</span>'
+      +  '<span class="v">' + (coff ? '- ' + won(coff) : '0원') + '</span></div>';
+    if(csel){
+      h += '<div class="ccfoot sub"><span>' + esc(csel.name) + ' 할인 적용 시</span>'
+        +  '<span class="v">월 ' + won(Math.max(0, cbase - coff)) + '</span></div>';
+    }
+    h += '<div class="btns"><button onclick="closeCards(\'' + key + '\')">확인</button></div></div>';
     return h;
   }
   if(!st.alert) return '';
@@ -2721,6 +2797,26 @@ function paintToast(key){
 function paintSticky(key){
   var s = document.getElementById('sticky-' + key);
   if(s) s.innerHTML = stickyHtml(S[key], key);
+}
+/* C-60 제휴카드 레이어 부분 갱신 — 레이어 전체를 다시 그리면 .alert 의 pop 애니메이션이
+   재생되어 카드를 고를 때마다 레이어가 튄다. 선택 표시와 하단 금액만 바꾼다. */
+function paintCardPick(key){
+  var st = S[key];
+  var root = document.getElementById(key === 'proto' ? 'ph1' : 'ph2');
+  if(!root) return;
+  var items = root.querySelectorAll('.ccitem');
+  for(var i=0;i<items.length;i++){
+    var code = items[i].getAttribute('data-cc') || '';
+    var on = code ? (st.card === code) : !st.card;
+    items[i].className = 'ccitem' + (code ? '' : ' none') + (on ? ' on' : '');
+    items[i].setAttribute('aria-checked', on ? 'true' : 'false');
+  }
+  var sel = st.selected ? find(st.selected) : null;
+  var off = cardOff(st);
+  var v = root.querySelectorAll('.ccfoot .v');
+  if(v[0]) v[0].textContent = off ? '- ' + won(off) : '0원';
+  if(v[1] && sel) v[1].textContent = '월 ' + won(Math.max(0, price(sel) - off));
+  paintSticky(key);
 }
 function paintCmpChip(key){
   var st = S[key], c = document.getElementById('cmpchip-' + key);
@@ -3192,12 +3288,17 @@ function openCards(key){
 }
 function pickCard(key, code){
   var st = S[key];
-  st.card = (st.card === code) ? null : code;
+  /* C-60 — 레이어를 닫지 않는다. 선택 즉시 하단 예상 금액이 갱신되어 결과를 그 자리에서 확인한다 */
+  st.card = code ? code : null;
+  logStep(key, 'C-60', 'p', st.card ? ('제휴카드 ' + st.card + ' 선택 — 예상 할인 즉시 반영') : '선택 안 함');
+  paintCardPick(key);
+}
+function closeCards(key){
+  var st = S[key];
   st.cardPick = false;
-  logStep(key, 'C-52', 'p', st.card ? ('제휴카드 ' + st.card + ' 적용') : '제휴카드 해제');
+  logStep(key, 'C-60', 'i', st.card ? ('제휴카드 ' + st.card + ' 확정') : '제휴카드 미선택으로 닫기');
   render(key);
 }
-function closeCards(key){ S[key].cardPick = false; render(key); }
 function findCard(code){ for(var i=0;i<CARDS.length;i++) if(CARDS[i].code===code) return CARDS[i]; return null; }
 function cardOff(st){ var c = st.card ? findCard(st.card) : null; return c ? c.off : 0; }
 
