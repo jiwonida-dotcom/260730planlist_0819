@@ -268,18 +268,31 @@ select{font-family:inherit;cursor:pointer}
 .ccrd svg{width:11px;height:11px;stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0}
 .ccitem.on .ccrd svg{opacity:1}
 .ccbody{flex:1 1 auto;min-width:0}
-.ccnm{display:block;font-size:13px;font-weight:800;color:var(--text);line-height:1.4}
-.ccmax{display:block;margin-top:3px;font-size:12px;font-weight:800;color:var(--main-deep)}
-.cctiers{margin-top:7px;display:flex;flex-direction:column;gap:3px}
+.ccnm{font-size:13.5px;font-weight:800;color:var(--text);line-height:1.4}
+/* 최대 할인액 — 목록을 훑을 때 가장 먼저 잡히는 값이므로 이름 바로 아래 단독 행으로 둔다.
+   이름 행에 함께 넣으면 카드명 길이에 따라 행이 접혀 목록 높이가 흔들린다. */
+.ccmax{display:block;margin-top:4px;font-size:12.5px;font-weight:800;color:var(--main-deep);
+  letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+/* 실적 구간 — 카드명·최대 할인액의 부속 정보이므로 한 단계 내려 박스로 묶는다 */
+.cctiers{margin-top:8px;padding:7px 9px;background:var(--bg);border-radius:9px;
+  display:flex;flex-direction:column;gap:4px}
+.ccitem.on .cctiers{background:var(--surface)}
 .cctier{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:600;color:var(--muted)}
-.cctier b{font-weight:800;color:var(--text)}
+.cctier b{font-weight:800;color:var(--text);font-variant-numeric:tabular-nums}
 .ccitem.none .ccbody{display:flex;align-items:center;min-height:19px}
-.ccfoot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px;font-weight:700;color:var(--muted)}
-.ccfoot .v{font-size:14px;font-weight:800;color:var(--main-deep)}
-.ccfoot.sub{margin-top:5px;padding-top:0;border-top:0}
-.ccfoot.sub .v{font-size:15px;color:var(--text)}
-.ccnote{margin-top:12px;text-align:left}
+/* 결과 패널 — 선택의 결과를 목록과 분리해 한 덩어리로 보여 준다 */
+.ccsum{margin-top:12px;padding:11px 13px;background:var(--main-ghost);
+  border:1px solid var(--main-weak);border-radius:12px}
+.ccfoot{display:flex;align-items:baseline;justify-content:space-between;gap:8px;
+  font-size:11.5px;font-weight:700;color:var(--muted)}
+.ccfoot span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ccfoot .v{flex:0 0 auto;font-size:17px;font-weight:900;color:var(--main-deep);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.ccfoot.sub{margin-top:8px;padding-top:8px;border-top:1px solid var(--main-weak)}
+.ccfoot.sub .v{font-size:15px;font-weight:800;color:var(--text)}
+.cccap{margin-top:8px;font-size:10.5px;font-weight:600;color:var(--muted-2);line-height:1.55}
+.ccpane .btns{margin-top:12px}
+.ccnote{margin-top:10px;padding-top:2px;border-top:1px solid var(--line);text-align:left}
 .ccnote summary{list-style:none;cursor:pointer;font-size:11.5px;font-weight:700;color:var(--muted);
   display:flex;align-items:center;gap:5px;min-height:44px}
 .ccnote summary::-webkit-details-marker{display:none}
@@ -300,10 +313,12 @@ select{font-family:inherit;cursor:pointer}
 .alert button.ccx:hover{background:var(--bg);color:var(--text)}
 .ccpane .body{max-height:42vh;margin-bottom:0}
 .ccnmrow{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
-.ccsel{display:none}
-/* 선택 단서 — 보더 색 · 보더 두께 · 배경 · 라디오 채움에 더해 텍스트 라벨(색상 비의존) C-26 */
-.ccitem.on .ccsel{display:inline-block;font-size:10px;font-weight:800;color:var(--main);
+/* 선택 단서 — 보더 색 · 보더 두께 · 배경 · 라디오 채움에 더해 텍스트 라벨(색상 비의존) C-26.
+   display:none 이 아니라 visibility 로 숨긴다 — 선택할 때 라벨이 끼어들어 이름 행이 접히면
+   목록 높이가 변한다(실제로 U+ 라이프 신한카드에서 발생). 자리를 항상 잡아 두어 높이를 고정한다. */
+.ccsel{visibility:hidden;flex:0 0 auto;font-size:10px;font-weight:800;color:var(--main);
   background:var(--main-weak);border-radius:5px;padding:1.5px 5px;line-height:1.5}
+.ccitem.on .ccsel{visibility:visible}
 /* Sticky 진입 버튼 — 시각 크기는 유지하고 히트 영역만 44px 로 넓힌다 C-38 */
 .ccbtn{position:relative}
 .ccbtn:after{content:"";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:44px}
@@ -2713,8 +2728,7 @@ function alertHtml(st, key){
       + '<button type="button" class="ccx" aria-label="제휴카드 선택 닫기"'
       + ' onclick="closeCards(\'' + key + '\')">&#215;</button>'
       + '</div>'
-      + '<p class="cclead">선택하면 아래에 예상 할인 금액이 바로 반영됩니다. '
-      + '<b>월 납부 금액은 요금제 기준</b>이라 변하지 않습니다.</p>'
+      + '<p class="cclead">카드를 고르면 <b>예상 할인 금액</b>이 아래에 바로 반영됩니다.</p>'
       + '<div class="body">'
       + '<div class="cclist" role="radiogroup" aria-label="제휴카드 목록">';
     for(var i=0;i<CARDS.length;i++){
@@ -2749,13 +2763,17 @@ function alertHtml(st, key){
       + '<li>표시 금액은 카드사 공시 기준 금액으로, <b>전월 실적</b>에 따라 실제 할인액이 달라집니다.</li>'
       + '<li>카드 발급 심사 결과에 따라 할인이 적용되지 않을 수 있습니다.</li>'
       + '</ul></details>';
-    /* 즉시 반영 영역 — 스크롤 영역(.body) 밖에 둬 항상 보이게 한다 */
-    h += '<div class="ccfoot"><span>제휴카드 할인금액(예상)</span>'
+    /* 즉시 반영 영역 — 스크롤 영역(.body) 밖에 둬 항상 보이게 한다.
+       선택의 '결과'이므로 한 패널로 묶어 목록과 위계를 분리한다 (C-60 디자인 고도화) */
+    h += '<div class="ccsum">'
+      +  '<div class="ccfoot"><span>제휴카드 할인금액(예상)</span>'
       +  '<span class="v">' + (coff ? '- ' + won(coff) : '0원') + '</span></div>';
     if(csel){
       h += '<div class="ccfoot sub"><span>' + esc(csel.name) + ' 할인 적용 시</span>'
         +  '<span class="v">월 ' + won(Math.max(0, cbase - coff)) + '</span></div>';
     }
+    /* C-51 — 부가세포함 월 납부 금액은 요금제 기준이며 제휴카드 할인을 합산하지 않는다 */
+    h += '<p class="cccap">월 납부 금액은 요금제 기준이라 이 할인을 합산하지 않습니다.</p></div>';
     h += '<div class="btns"><button onclick="closeCards(\'' + key + '\')">선택 완료</button></div></div>';
     return h;
   }
