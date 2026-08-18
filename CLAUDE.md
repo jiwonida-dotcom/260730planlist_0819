@@ -17,7 +17,8 @@
 5. `docs/DECISIONS.md` — 확정 / 이월
 6. `docs/REQUIREMENTS.md` — C-01~C-59 전문 · 명세 원칙 · 추적성
 7. `docs/VALIDATION.md` — 검증 매트릭스
-8. 작업과 직접 관련된 `index.html` 영역
+8. `docs/ORIGIN_MO9_0301.md` — **원본 화면설계서(v27.6) 요금제 구간 slide 75~93 전문 + 슬라이드 이미지.** 원본 정의·문구·코드가 필요하면 pptx 대신 이 문서를 본다
+9. 작업과 직접 관련된 `index.html` 영역
 
 ## 2. 작업 순서 — 반드시 이 순서로
 
