@@ -21,13 +21,14 @@
 | `PROJECT_CONTEXT.md` | 프로젝트 맥락 · 기술 구조 · 영역 체계 · PC 전제 · 브레이크포인트 |
 | `PROJECT_STATE.md` | 기준 커밋 · 물량 · 최근 진행 · 미처리 |
 | `DECISIONS.md` | 확정(C-nn) 위치 · 이월(O-18) · 해소 이력 |
-| `REQUIREMENTS.md` | **C-01~C-47 전문(47건)** · 명세 원칙 · 추적성 매트릭스 · 표기 교정 현황 |
+| `REQUIREMENTS.md` | **C-01~C-59 전문(59건)** · 명세 원칙 · 추적성 매트릭스 · 표기 교정 현황 |
 | `EVIDENCE.md` | 정량 근거 |
 | `RULES.md` | AI/개발 Guardrails + 사고 이력 |
 | `MARKUP.md` | `rt-spec` 프레임 마크업 규약 |
 | `VALIDATION.md` | 6폭 × 3구성 검증 매트릭스 |
 | `CHANGELOG.md` | 변경 이력 |
 | `NEXT_ACTIONS.md` | 다음 작업 우선순위 |
+| `ORIGIN_GAP.md` | **원본 화면설계서(v27.6) 대비 누락 정의** — 제안 C-48~C-58 · O-21~O-25 |
 | `TRACEABILITY.md` | 추적성 모델 |
 | `PROJECT_MAP.md` | 이 문서 |
 
@@ -35,10 +36,10 @@
 | section id | 탭 | 시작 줄 | 비고 |
 |---|---|---:|---|
 | `rt-proto` | 02 프로토타입 | 882 | 엔진 리팩터링 금지 |
-| `rt-plan` | 05 개선안 | 931 | C-nn 41건 정의 |
+| `rt-plan` | 05 개선안 | 931 | C-nn 53건 정의 |
 | `rt-func` | 03 기능정의 | 1121 | 참조 전용 |
 | `rt-req` | 04 요구사항 정의서 | 1298 | C-28·32·36·41·42·43 정의 (6건) |
-| `rt-tc` | 06 테스트 케이스 | 1406 | 92건, 참조 전용 |
+| `rt-tc` | 06 테스트 케이스 | 1406 | 106건, 참조 전용 |
 | `rt-spec` | 01 화면설계 | 1456 | **주 작업 대상** · 파일 끝(3398)까지 |
 
 > C-nn **정의 전문은 `docs/REQUIREMENTS.md` 3절에 사본**이 있습니다. 불일치 시 `index.html`이 우선입니다.

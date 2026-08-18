@@ -15,7 +15,7 @@
 3. `docs/RULES.md` — 금지사항과 그 사고 이력
 4. `docs/MARKUP.md` — `rt-spec` 프레임 마크업 규약 (코드 수정 시 필수)
 5. `docs/DECISIONS.md` — 확정 / 이월
-6. `docs/REQUIREMENTS.md` — C-01~C-47 전문 · 명세 원칙 · 추적성
+6. `docs/REQUIREMENTS.md` — C-01~C-59 전문 · 명세 원칙 · 추적성
 7. `docs/VALIDATION.md` — 검증 매트릭스
 8. 작업과 직접 관련된 `index.html` 영역
 

@@ -27,18 +27,18 @@ Release
 Post-release Evidence
 ```
 
-**2026-08-14 기준으로 Test Case 단계까지 실체가 생겼습니다** — 06 테스트 케이스 탭 92건이 각 케이스의 근거 열에 C-nn과 STEP을 달고 있습니다.
+**Test Case 단계까지 실체가 있습니다** — 06 테스트 케이스 탭 106건이 각 케이스의 근거 열에 C-nn과 STEP을 달고 있습니다.
 
 ## 현재 사용 중인 식별자
 | 종류 | 형식 | 범위 |
 |---|---|---|
 | Problem | `P-n` | P1 ~ P5 (전건 해소) |
-| Confirmed requirement | `C-nn` | C-01 ~ C-47 |
-| Open item | `O-nn` | O-17 ~ O-20 (O-18만 이월, 나머지 해소) |
+| Confirmed requirement | `C-nn` | C-01 ~ C-59 |
+| Open item | `O-nn` | O-17 ~ O-27 (O-18 이월 · O-27 범위 밖, 나머지 해소) |
 | Screen / Area | `S-02_X` | S-02_A ~ S-02_G |
 | Report section | `rt-*` | rt-spec / rt-proto / rt-func / rt-req / rt-plan / rt-tc |
 | 프레임 앵커 | `fs-*` | fs-info / fs-log / fs-index / fs-full / fs-a ~ fs-g |
-| Test case | `TC-*` | 기능 `TC-F-nn` 등, 총 92건 |
+| Test case | `TC-*` | 기능 `TC-F-nn` 등, 총 106건 |
 | 검증 시퀀스 | `STEP n` | STEP 1 ~ 14 (03 기능정의) |
 
 ## 코드 칩 — 문서 내 자동 추적
@@ -49,9 +49,9 @@ Post-release Evidence
 ## 현재 알려진 추적성 결함
 | 항목 | 상태 |
 |---|---|
-| `C-26` | 내용 반영 O / **01 화면설계에 코드 태그 X** → 영향 추적 누락 |
+| ~~`C-26`~~ | **2026-08-17 해소** — E 영역 · 부록 2 · 부록 4 3곳에 칩 부착 |
 | `C-41` | 정의 탭(04) 외 05에도 표기 |
-| 참조 0건 | C-02 · C-05 · C-06 · C-12 · C-33 · C-44 — 배경·범위 서술 성격, 결함 아님 |
+| 참조 0건 | C-02 · C-05 · C-06 · C-44 — 배경·범위 서술 성격, 결함 아님 |
 
 전체 매트릭스는 `docs/REQUIREMENTS.md` 4절에 있습니다.
 
