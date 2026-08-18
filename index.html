@@ -350,7 +350,8 @@ select{font-family:inherit;cursor:pointer}
 .sum{font-size:12.5px;font-weight:700;background:var(--main-weak);border-radius:11px;padding:9px 13px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center;gap:8px;animation:fadeIn .2s ease}
 .sum.idle{background:var(--bg);color:var(--muted);justify-content:center;font-weight:600}
 .sum .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--main)}
-.sum .pr{flex-shrink:0;font-weight:800}
+.sum .pr{flex-shrink:0;font-weight:800;display:flex;align-items:baseline;gap:5px}
+.sum .pr em{font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted)}
 .cta{width:100%;padding:15px;border-radius:13px;background:linear-gradient(135deg,var(--main) 0%,var(--main-deep) 100%);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;letter-spacing:-.01em;box-shadow:0 6px 16px rgba(91,75,225,.3);transition:all .15s}
 .cta:hover{filter:brightness(1.05)}
 .cta:active{transform:scale(.985)}
@@ -2983,12 +2984,11 @@ function stickyHtml(st, key){
     var base = price(sel);
     /* C-51 — 부가세포함 월 납부 금액은 요금제 기준 금액이며 제휴카드 할인을 반영하지 않는다.
        제휴카드 할인은 카드사에 별도 신청해야 적용되므로 선택 화면에서 '예상' 금액으로만 보여 준다 (C-52 · C-60). */
+    /* C-51 — 요금제명 + 부가세포함 월 납부 금액을 한 행에 둔다.
+       별도의 '부가세포함 월 납부 금액' 행은 같은 금액을 두 번 말할 뿐이어서 삭제했다.
+       라벨은 금액 앞에 붙여 부가세 포함 여부를 잃지 않게 한다. */
     var h = '<div class="sum"><span class="nm">' + esc(sel.name) + '</span>'
-          + '<span class="pr">월 ' + won(base) + '</span>'
-          + '<span class="amt">'
-          + '<span class="lb">부가세포함 월 납부 금액</span>'
-          + '<span class="v">' + won(base) + '</span>'
-          + '</span>';
+          + '<span class="pr"><em>부가세포함</em>월 ' + won(base) + '</span>';
     /* C-60 — Sticky 에서 제휴카드 할인금액 행을 제거한다.
        Sticky 는 요금제 기준 금액만 말하고(C-51), 예상 할인액은 선택 화면 안에서만 보여 준다.
        두 곳에 같은 금액을 두면 '월 납부 금액이 할인 반영된 값'으로 오인될 여지가 남는다. */
