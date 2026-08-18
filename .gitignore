@@ -1,0 +1,17 @@
+# 세션에서 직접 삭제할 수 없어 모아 둔 삭제 대기 파일
+_to_delete/
+
+# 전송·백업용 압축 파일
+*.zip
+
+# 임시 · 백업
+*.tmp
+*.bak
+*~
+_incoming.*
+_update.*
+
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
