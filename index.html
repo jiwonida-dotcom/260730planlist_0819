@@ -1499,9 +1499,11 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tr><td><span class="cid n">실측</span></td><td>배포된 프로토타입에서 계측한 값</td></tr>
         
 <tr><td><b style="font-size:10px;color:var(--muted-2)">SYS</b></td><td>화면에 그려지는 요소가 없는 <b>시스템 · 공통 규칙</b> 행 — 번호를 붙이지 않으므로 SCREEN의 빨간 번호와 대응하지 않습니다. 그 외 번호는 SCREEN의 번호와 <b>1:1로 대응</b>합니다</td></tr>
-<tr><td><span class="cid">C-nn</span></td><td>요구사항 정의서의 <b>확정</b> 항목 — 변경 시 요구사항 정의서와 함께 개정. 상세 정의는 44건 중 <b>38건이 「05 개선안」 탭, 6건이 「04 요구사항 정의서」 탭</b>에 있습니다 (본 문서는 참조만 하며 정의를 두지 않습니다)</td></tr>
+<tr><td><span class="cid">C-nn</span></td><td>요구사항 정의서의 <b>확정</b> 항목 — 변경 시 요구사항 정의서와 함께 개정. 상세 정의는 47건 중 <b>41건이 「05 개선안」 탭, 6건이 「04 요구사항 정의서」 탭</b>에 있습니다 (본 문서는 참조만 하며 정의를 두지 않습니다)</td></tr>
         
-<tr><td><span class="cid d">O-nn</span></td><td><b>미확정</b> 항목 — 결정 대기, 개발 착수 전 확정 필요</td></tr>
+<tr><td><span class="cid d">O-nn</span></td><td><b>미확정</b> 항목 — 결정 대기 시 개발 착수 전 확정 필요. 현재 결정 대기는 <b>없으며</b>, <b>O-18</b>만 디자인 시안 단계로 <b>이월</b>되어 있습니다</td></tr>
+
+<tr><td><b style="font-size:10px;color:var(--muted-2)">표기</b></td><td><b>피그마 컴포넌트 · 프레임 명칭은 원문을 그대로 유지</b>하고, <b>일반 서술문만 교정</b>합니다 — 원본과 대조할 때 명칭이 어긋나지 않게 하기 위한 것입니다. 따라서 <code class="k">Worning</code> · <code class="k">LABLE</code> · <code class="k">Abled</code>처럼 원문 표기가 그대로 남아 있는 항목이 있습니다</td></tr>
         
 <tr><td><span class="cid">WCAG</span></td><td>웹 접근성 지침 준수 항목 — 번호가 붙은 표기(<b>WCAG 4.1.2</b> 등)는 커서를 올리면 <b>부록 4 접근성 명세</b>의 해당 요건이 뜨고, 클릭하면 그 위치로 이동합니다</td></tr>
       
@@ -1552,6 +1554,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
+<tr><td class="dt">26.08.17</td><td><span class="fs-kind mod">수정</span></td><td class="tg">문서 사용 안내 · E · 부록 2 · 부록 4</td><td>추적성 · 표기 기준 보완 — <b>C-26 태그 누락 보완</b>(선택 상태 3중 단서 요건이 내용상 반영되어 있으나 코드 태그가 없어 요구사항 개정 시 영향 추적에서 빠지던 문제. E 영역 선택 상태 명세 · 부록 2 상태 정의 · 부록 4 접근성 명세 3곳에 부착), <b>표기 교정 정책 명문화</b>(피그마 컴포넌트 · 프레임 명칭은 원문 유지, 일반 서술문만 교정 — <code class="k">Worning</code> · <code class="k">LABLE</code> · <code class="k">Abled</code>가 남아 있는 이유를 문서 사용 안내에 명시), C-nn 건수 표기를 44건 중 38건에서 <b>47건 중 41건</b>으로 정정, O-nn 설명에 결정 대기 0건 · O-18 이월 상태 반영</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">A · B · D · E · F · G · 부록 1</td><td>PC 상태 정비 · 코드 칩 상세·이동 — C-nn · O-nn · WCAG 칩에 커서를 올리면 정의가 노출되고 클릭 시 정의 위치로 이동(칩 106개 연결 · 부록 구성 자동 전환 · 원래 위치로 복귀 버튼 제공), SCREEN 좌측 상단에 기기 라벨(MOBILE 394 / PC 700) 표시, 상태별 「모바일 대비 차이」 요약 블록 추가, 부록 대조표에 하단 고정 기준 · 닫기 동작 · 방향키 이동 순서 · 빈 상태 4항목 보강, 문서 사용 안내에 영역별 PC 상태 구성표 추가, 브레이크포인트 단일 기준 미확정을 O-20으로 승격</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">D · 전체</td><td>화면 표시 보정 — D 영역 PC 필터 패널 목업의 라벨·셀렉트 간격 오류 수정(콜아웃이 첫 자식이 되면서 <code class="k">:first-child</code> 규칙이 빗나가 라벨이 82px 블록으로 렌더됨), 상단 「영역 이동」에 현재 보고 있는 영역 표시 추가, 스티키 툴바 뒤 배경 밴드 추가로 뒤로 지나가는 콘텐츠가 모서리 옆에 비치는 현상 제거</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.14</td><td><span class="fs-kind mod">수정</span></td><td class="tg">E · 부록 1 · 04 요구사항</td><td>미확정 사항 정리 — <b>O-17 해소</b>(프로모션 지급 개월을 배너로만 표기, 추가 정보 불필요 → C-45 확정), <b>O-20 해소</b>(769px 단일 기준으로 확정 → C-46, 목록 2열 · 필터 2열 · 중앙 모달 동시 전환), <b>O-18 이월</b>(화면설계는 목업 단계 기준 유지, 압축 범위는 디자인 시안 단계 검토). 미확정 4 → 1건(O-19)</td><td class="wr">허지원 책임</td></tr>
@@ -1856,7 +1859,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>[Circle Radio-checked]</p></dd></div><div><dt>Value</dt><dd><p>선택 상태 표시</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">02</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (카드)</p></dd></div><div><dt>Action</dt><dd><p>선택 단서 3중 적용 : 보더 + 채움 + 라디오 (색상 단독 금지) <span class="cid">WCAG 1.4.1</span></p></dd></div><div><dt>Memo</dt><dd><p>선택 전후 카드 크기가 변하지 않아야 함 — 목록이 미세하게 흔들리는 것을 방지</p><p>hover · press 상태 제공 (포인터 환경) — 표현은 디자인 시안에서 확정</p><p>포커스 표시는 선택 상태 표시와 겹치지 않게 구분 <span class="cid">WCAG 2.4.7</span></p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>AREA (카드)</p></dd></div><div><dt>Action</dt><dd><p>선택 단서 3중 적용 : 보더 + 채움 + 라디오 (색상 단독 금지) <span class="cid">C-26</span> <span class="cid">WCAG 1.4.1</span></p></dd></div><div><dt>Memo</dt><dd><p>선택 전후 카드 크기가 변하지 않아야 함 — 목록이 미세하게 흔들리는 것을 방지</p><p>hover · press 상태 제공 (포인터 환경) — 표현은 디자인 시안에서 확정</p><p>포커스 표시는 선택 상태 표시와 겹치지 않게 구분 <span class="cid">WCAG 2.4.7</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Action</dt><dd><p>스크롤 위치 유지 <span class="cid">C-18</span></p><p>목록 전체 재생성 금지 <span class="cid">C-42</span></p><p>F. FOOT STICKY 선택 요약 즉시 갱신</p></dd></div><div><dt>Memo</dt><dd><p>교체 범위는 해당 카드 + F. FOOT STICKY로 한정</p></dd></div></div></div>
@@ -1898,6 +1901,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
+<div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>선택 상태 명세에 C-26 추적성 태그 부착</em></div>
 <div class="fs-hrow"><span>26.08.14</span><b>허지원 책임</b><em>SCREEN 기기 라벨 표시 · PC 상태 「모바일 대비 차이」 요약 추가</em></div>
 <div class="fs-hrow"><span>26.08.13</span><b>허지원 책임</b><em>문서 생성</em></div>
 </div></div>
@@ -2095,7 +2099,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
         
 <tr><td>press</td><td>누르는 중</td></tr>
         
-<tr><td><b>선택</b></td><td>카드 클릭 또는 Space — 보더 · 채움 · 라디오 <b>3중 단서</b>로 표시 (색상 단독 금지)</td></tr>
+<tr><td><b>선택</b></td><td>카드 클릭 또는 Space — 보더 · 채움 · 라디오 <b>3중 단서</b>로 표시 (색상 단독 금지) <span class="cid">C-26</span></td></tr>
         
 <tr><td>키보드 포커스</td><td>키보드로 이동한 경우 — <b>선택 상태 표시와 구분</b>되게 표시</td></tr>
       
@@ -2179,7 +2183,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
         
 <tr><td>포커스 표시</td><td>포커스는 <b>선택 상태 표시와 구분</b>되게 표시 (겹치면 판별 불가)</td><td>WCAG 2.4.7</td></tr>
         
-<tr><td>선택 상태 인지</td><td>색상 단독 금지 — <b>보더 + 채움 + 라디오</b> 3중 단서</td><td>WCAG 1.4.1</td></tr>
+<tr><td>선택 상태 인지</td><td>색상 단독 금지 — <b>보더 + 채움 + 라디오</b> 3중 단서 <span class="cid">C-26</span></td><td>WCAG 1.4.1</td></tr>
         
 <tr><td>탭 선택 상태</td><td>단일 선택 탭 그룹의 <b>선택된 탭</b>을 보조기술에 전달 (시각 강조만으로는 부족)</td><td>WCAG 4.1.2</td></tr>
         
