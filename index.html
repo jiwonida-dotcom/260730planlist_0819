@@ -1138,7 +1138,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <dl class="r-m"><dt>개선 범위</dt><dd>화면 전면 개선 + 프로세스 재배치</dd></dl>
       <dl class="r-m"><dt>분석 기간</dt><dd>2026-06-29 ~ 07-29 <em>30일</em></dd></dl>
       <dl class="r-m"><dt>근거</dt><dd>Clarity · 시안 · 워크스루</dd></dl>
-      <dl class="r-m ok"><dt>확정 상태</dt><dd>확정 47 · 미확정 0 · 이월 1</dd></dl>
+      <dl class="r-m ok"><dt>확정 상태</dt><dd>확정 66 · 미확정 0 · 이월 1</dd></dl>
       <dl class="r-m"><dt>디바이스 기준</dt><dd>모바일 우선 <em>81%</em></dd></dl>
     </div>
   </div>
@@ -1585,108 +1585,122 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </section>
   <section id="rt-req" class="r-view">
 <div class="r-grid r-g3" style="margin-bottom:30px">
-  <div class="r-kpi ok"><div class="v">59</div><div class="l">확정 사항 (C-01 ~ C-59) — 상세 정의 53건은 04 개선안 · 6건은 본 탭</div></div>
-  <div class="r-kpi ok"><div class="v">0</div><div class="l">미확정 사항 — 결정 대기 없음 · 해소 O-17 · O-19 ~ O-27 · 이월 O-18</div></div>
+  <div class="r-kpi ok"><div class="v">66</div><div class="l">확정 사항 (C-01 ~ C-66) — 상세 정의 <b>60건은 04 개선안</b> · 6건은 본 탭 3장</div></div>
+  <div class="r-kpi"><div class="v">0</div><div class="l">결정 대기 — O-17 · O-19 ~ O-27 <b>전건 해소</b> · <b>O-18 이월 1건</b></div></div>
   <div class="r-kpi"><div class="v">5</div><div class="l">핵심 페인포인트 (P1 ~ P5) — 전건 해소</div></div>
   <div class="r-kpi"><div class="v">6</div><div class="l">개선 원칙 (G-01 ~ G-06)</div></div>
 </div>
 
+<div class="r-lead"><h1>요구사항 정의서</h1><p>이 탭은 <b>기준</b>을 다룹니다 — 왜 고치는가(문제) · 무엇을 지키는가(원칙) · 화면 전체에 걸리는 공통 규칙 · 무엇으로 개선을 판정하는가. <b>확정 사항의 상세 정의는 04 개선안</b>(가 ~ 바 그룹 60건)이, <b>영역별 요소 명세는 02 화면설계</b>가 단일 출처이며 <b>여기서 다시 적지 않습니다.</b> 본 탭은 <b>어느 그룹에도 속하지 않는 공통 기준 6건</b>과 문제 · 원칙 · 문구 · 측정만 정의합니다.</p></div>
+
 <div class="r-sec">
   <h2><span class="no">1</span>핵심 문제 정의</h2>
-  <p class="d">페인포인트는 <b>"선택과 확정 사이가 끊어져 있다"</b>는 단일 결함에서 파생됩니다.</p>
+  <p class="d">페인포인트는 <b>"선택과 확정 사이가 끊어져 있다"</b>는 단일 결함에서 파생됩니다. 근거 수치의 전개는 <b>04 개선안 1장 「개선 배경」</b>에 있습니다.</p>
   <table class="r-t">
     <thead><tr><th>ID</th><th>우선순위</th><th>페인포인트</th><th>근거</th><th>해소 설계</th><th>판정</th></tr></thead>
     <tbody>
-      <tr><td class="id"><b>P1</b></td><td><span class="cid x">Critical</span></td><td><b>선택과 확정 사이에 확인 수단 부재</b> — 하단 버튼으로 이동하지만 무엇을 골랐는지 알려주지 않고, 확인 영역은 되돌아온 뒤에야 나타난다</td><td>C-07, Quick Back 74.6%</td><td>C-18 · C-20 · C-26</td><td><span class="cid p">해소</span></td></tr>
-      <tr><td class="id"><b>P2</b></td><td><span class="cid x">Critical</span></td><td>확정 CTA 최하단 비고정 + 비활성 사유 미안내</td><td>C-08, 모바일 81%</td><td>C-19 · C-20</td><td><span class="cid p">해소</span></td></tr>
-      <tr><td class="id"><b>P3</b></td><td><span class="cid d">High</span></td><td>확신 없이 확정 후 되돌아오는 재선택 루프</td><td>C-04 Quick Back 74.6%</td><td>C-19 · C-23~C-25 · C-28 · C-31</td><td><span class="cid p">구조적 해소</span></td></tr>
-      <tr><td class="id"><b>P4</b></td><td><span class="cid d">High</span></td><td>카드 선택 어포던스 부재, 장식 요소의 클릭 기대</td><td>C-09, Dead Click 4.2만</td><td>C-15~C-18 · C-26 · C-37</td><td><span class="cid p">해소</span></td></tr>
-      <tr><td class="id"><b>P5</b></td><td><span class="cid">Medium</span></td><td>배너 오조작 · 그룹핑 탐색 비용 · 가격 근거 불명</td><td>C-10 · C-11</td><td>C-13 · C-14 · C-21 · C-22 · C-27 · C-29 · C-30</td><td><span class="cid p">해소</span></td></tr>
+      <tr><td class="id"><span class="cid n">P1</span></td><td><span class="cid x">Critical</span></td><td><b>선택과 확정 사이에 확인 수단 부재</b> — 하단 버튼으로 이동하지만 무엇을 골랐는지 알려주지 않고, 확인 영역은 되돌아온 뒤에야 나타난다</td><td>C-07 · Quick Back <b>74.6%</b></td><td><span class="cid">C-18</span> <span class="cid">C-20</span> <span class="cid">C-26</span> <span class="cid">C-51</span></td><td><span class="cid p">해소</span></td></tr>
+      <tr><td class="id"><span class="cid n">P2</span></td><td><span class="cid x">Critical</span></td><td>확정 CTA 최하단 비고정 + 비활성 사유 미안내</td><td>C-08 · 모바일 <b>81%</b></td><td><span class="cid">C-19</span> <span class="cid">C-20</span></td><td><span class="cid p">해소</span></td></tr>
+      <tr><td class="id"><span class="cid n">P3</span></td><td><span class="cid d">High</span></td><td>확신 없이 확정 후 되돌아오는 <b>재선택 루프</b></td><td>C-04 · Quick Back <b>74.6%</b></td><td><span class="cid">C-19</span> <span class="cid">C-23</span>~<span class="cid">C-25</span> <span class="cid">C-28</span> <span class="cid">C-31</span></td><td><span class="cid p">구조적 해소</span></td></tr>
+      <tr><td class="id"><span class="cid n">P4</span></td><td><span class="cid d">High</span></td><td>카드 선택 어포던스 부재 · 장식 요소의 클릭 기대</td><td>C-09 · Dead Click <b>4.2만</b></td><td><span class="cid">C-15</span>~<span class="cid">C-18</span> <span class="cid">C-26</span> <span class="cid">C-37</span></td><td><span class="cid p">해소</span></td></tr>
+      <tr><td class="id"><span class="cid n">P5</span></td><td>Medium</td><td>배너 오조작 · 그룹핑 탐색 비용 · 가격 근거 불명</td><td>C-10 · C-11</td><td><span class="cid">C-13</span> <span class="cid">C-14</span> <span class="cid">C-21</span> <span class="cid">C-22</span> <span class="cid">C-27</span> <span class="cid">C-29</span> <span class="cid">C-30</span> <span class="cid">C-45</span></td><td><span class="cid p">해소</span></td></tr>
     </tbody>
   </table>
-  <div class="r-note" style="margin-top:12px">
-    <b>우선순위 근거</b> — P1·P2는 모든 사용자가 매번 겪는 구조적 마찰(워크스루로 직접 재현), P3·P4는 데이터로 규모가 확인된 이탈·왕복 요인, P5는 조건부 마찰입니다.
+  <div class="r-note" style="margin-top:14px">
+    <b>우선순위 근거</b> — P1 · P2는 <b>모든 사용자가 매번 겪는 구조적 마찰</b>(워크스루로 직접 재현), P3 · P4는 <b>데이터로 규모가 확인된</b> 이탈 · 왕복 요인, P5는 조건부 마찰입니다.
   </div>
 </div>
 
 <div class="r-sec">
   <h2><span class="no">2</span>개선 원칙</h2>
+  <p class="d">개별 확정 사항이 서로 충돌할 때 <b>어느 쪽을 따를지 판단하는 상위 기준</b>입니다.</p>
   <table class="r-t">
     <thead><tr><th>ID</th><th>원칙</th><th>내용</th></tr></thead>
     <tbody>
-      <tr><td class="id"><span class="cid">G-01</span></td><td>선택-확정 무결성</td><td>선택부터 확정까지 화면 이동이 필요 없다</td></tr>
-      <tr><td class="id"><span class="cid">G-02</span></td><td>맥락 보존</td><td>시스템이 스크롤 위치·탐색 맥락을 임의로 바꾸지 않는다</td></tr>
-      <tr><td class="id"><span class="cid">G-03</span></td><td>모바일 우선</td><td>모바일(81%) 기준 설계, PC는 반응형 수용</td></tr>
-      <tr><td class="id"><span class="cid">G-04</span></td><td>판단과 진행의 분리</td><td>비교·판단은 여정 초반에 완결, 신청서는 진행만 담당</td></tr>
-      <tr><td class="id"><span class="cid">G-05</span></td><td>측정 가능한 개선</td><td>개선별 관측 지표와 로깅을 사전 정의</td></tr>
-      <tr><td class="id"><span class="cid">G-06</span></td><td>추천의 설명 가능성</td><td>추천·정렬 기준은 검증 가능한 실적 기반</td></tr>
+      <tr><td class="id"><span class="cid n">G-01</span></td><td>선택-확정 무결성</td><td>선택부터 확정까지 <b>화면 이동이 필요 없다</b></td></tr>
+      <tr><td class="id"><span class="cid n">G-02</span></td><td>맥락 보존</td><td>시스템이 <b>스크롤 위치 · 탐색 맥락을 임의로 바꾸지 않는다</b></td></tr>
+      <tr><td class="id"><span class="cid n">G-03</span></td><td>모바일 우선</td><td>모바일(81%) 기준 설계, PC는 반응형 수용</td></tr>
+      <tr><td class="id"><span class="cid n">G-04</span></td><td>판단과 진행의 분리</td><td>비교 · 판단은 <b>여정 초반에 완결</b>, 신청서는 진행만 담당</td></tr>
+      <tr><td class="id"><span class="cid n">G-05</span></td><td>측정 가능한 개선</td><td>개선별 관측 지표와 로깅을 <b>사전 정의</b></td></tr>
+      <tr><td class="id"><span class="cid n">G-06</span></td><td>추천의 설명 가능성</td><td>추천 · 정렬 기준은 <b>검증 가능한 실적 기반</b></td></tr>
     </tbody>
   </table>
 </div>
 
 <div class="r-sec">
   <h2><span class="no">3</span>공통 기준 (Baseline)</h2>
-  <p class="d">후속 산출물은 별도 이슈 목록을 두지 않고 이 절의 ID를 참조합니다. 변경 시 이 절을 먼저 갱신하고 본문에 반영합니다.</p>
-  <div class="r-note" style="margin:0 0 16px"><b>ID 정의 위치</b> — 확정 사항 44건 중 <b>38건(가·나·다·라·마 그룹)의 상세 정의는 「04 개선안」 탭</b>에 리포트 형식으로 전개되어 있습니다. <b>본 탭에는 6건</b>(사 그룹 <span class="cid">C-41</span> <span class="cid">C-42</span> <span class="cid">C-43</span> · 바 그룹 <span class="cid">C-28</span> <span class="cid">C-32</span> <span class="cid">C-36</span>)<b>의 상세 정의</b>와 미확정 사항 · 개선 원칙 · 표준 문구 · 측정 기준이 있습니다. 「03 기능정의」 · 「02 화면설계」 탭은 정의를 두지 않고 ID로 <b>참조만</b> 합니다.</div>
+  <p class="d">특정 영역이 아니라 <b>화면 전체에 예외 없이 걸리는</b> 확정 사항 <b>6건</b>입니다. 후속 산출물은 별도 이슈 목록을 두지 않고 이 절의 ID를 참조합니다.</p>
 
-  <div class="r-sub"><span class="g">사</span>구현 규칙 · 접근성</div>
-  <p class="d" style="margin:0 0 10px">UI/UX 교차 검증에서 발견된 결함을 규칙으로 확정한 항목입니다. 기존 확정 사항이 <b>무엇을 보여줄지</b>였다면, 이 그룹은 <b>어떻게 갱신하고 어떻게 전달할지</b>를 정합니다.</p>
+  <div class="r-note" style="margin:0 0 16px">
+    <b>ID 정의 위치</b> — 확정 사항 <b>66건 중 60건</b>(가 · 나 · 다 · 라 · 마 · 바 그룹)의 상세 정의는 <b>「04 개선안」</b> 탭에 리포트 형식으로 전개되어 있습니다. <b>본 탭에는 6건</b>(<b>사</b> 상태 · 예외 정책 <span class="cid">C-28</span> <span class="cid">C-32</span> <span class="cid">C-36</span> · <b>아</b> 구현 규칙 · 접근성 <span class="cid">C-41</span> <span class="cid">C-42</span> <span class="cid">C-43</span>)<b>의 상세 정의</b>와 문제 · 원칙 · 표준 문구 · 측정 기준이 있습니다. 「01 프로토타입」 · 「02 화면설계」 · 「03 기능정의」 · 「06 테스트 케이스」는 정의를 두지 않고 ID로 <b>참조만</b> 합니다.
+  </div>
+
+  <div class="r-sub"><span class="g">사</span>상태 · 예외 정책</div>
+  <p class="d">화면이 <b>기억할 것과 잊을 것</b>, 그리고 <b>검증하지 않을 것</b>을 정합니다.</p>
   <table class="r-t">
     <thead><tr><th>ID</th><th>항목</th><th>확정 내용</th></tr></thead>
     <tbody>
-      <tr><td class="id"><span class="cid">C-41</span></td><td>보조기술 상태 전달</td><td>목록은 <code class="k">role="radiogroup"</code>, 카드 선택 영역은 <code class="k">role="radio"</code> + <code class="k">aria-checked</code>로 선택 여부를 전달. <b>비교 담기는 선택 버튼과 형제 요소로 분리</b>해 <code class="k">&lt;button&gt;</code> + <code class="k">aria-pressed</code>로 구현(중첩 인터랙션 금지). 방향키·Home·End 이동과 roving tabindex로 탭 스톱 1개 유지, <code class="k">:focus-visible</code> 링 명시. 토스트는 <code class="k">role="status"</code> <code class="k">aria-live="polite"</code>, 비활성 CTA는 <code class="k">aria-disabled</code></td></tr>
-      <tr><td class="id"><span class="cid">C-42</span></td><td>상태 갱신 방식</td><td><b>목록 전체 재생성(innerHTML 교체) 금지.</b> 선택·토스트·비교 시트는 해당 요소만 부분 갱신하고, 목록을 실제로 다시 그려야 하는 점진 렌더만 스크롤 복원 경로를 사용한다. 근거: 전체 재생성은 ① 스크롤 위치 소실 ② 키보드 포커스 소실 ③ 진입 애니메이션 전체 재생을 유발해 C-18(맥락 보존)과 정면 충돌</td></tr>
-      <tr><td class="id"><span class="cid">C-43</span></td><td>복귀 시 상태 정책</td><td>상품 정보 입력(S-03)에서 <b>브라우저 뒤로가기로 요금제 화면에 복귀한 경우 직전 선택을 복원</b>한다. C-32(첫 페이지 재진입 시 미복원)와 구분되는 별도 경로이며, Quick Back이 본 개선의 핵심 지표인 만큼 가장 빈번한 복귀 동선</td></tr>
+      <tr><td class="id"><span class="cid">C-28</span></td><td>가입자 유형 제약</td><td>제한 요금제는 <b>사전 필터링하지 않고</b> 가입자 유형 선택 단계에서 예외처리한다 — <b>현행 로직이 이미 그렇게 동작하므로 현행 유지</b>. 요금제 선택 화면은 선택 전 인지를 위한 <b>제약 표기만</b> 두고 <b>검증하지 않는다</b> <span class="cid">C-49</span></td></tr>
+      <tr><td class="id"><span class="cid">C-32</span></td><td>재진입 미복원</td><td>이탈 후 <b>첫 페이지 재진입</b> 시 이전 선택을 복원하지 않는다(초기 상태). <span class="cid">C-43</span>과 <b>구분되는 별도 경로</b>다</td></tr>
+      <tr><td class="id"><span class="cid">C-36</span></td><td>변경 시 데이터 처리</td><td>요금제를 바꾸면 신청서 데이터를 <b>최종 선택 요금제로 갱신</b>한다 — 기입력값은 유지하고 요금제만 교체</td></tr>
     </tbody>
   </table>
 
-  <div class="r-sub">미확정 사항 — 기획 결정 대기</div>
-  <table class="r-t">
-    <thead><tr><th>ID</th><th>항목</th><th>Owner</th><th>배경 · 막히는 것</th></tr></thead>
-    <tbody>
-      <tr><td class="id"><span class="cid d">O-17</span></td><td>프로모션 적용 기간 표기</td><td>기획 / 법무</td><td>C-30은 판매가·프로모션가 구조만 정했고 <b>적용 기간과 종료 후 금액을 다루지 않는다.</b> 혜택 면에는 "(24개월)"이 표기되는데 가격에는 없어 표기 기준이 어긋난다. P5의 '가격 근거 불명'이 실질 미해소이며, 요금 재확인 욕구는 Quick Back의 유력한 동인. 표시·광고 규제 검토 필요</td> <b>26.08.14 해소 — 배너로 지급 개월만 표기하는 것으로 확정 (C-45). 추가 정보 불필요</b></tr>
-      <tr><td class="id"><span class="cid d">O-18</span></td><td>카드 정보 밀도</td><td>기획 / 디자인</td><td>카드 높이 약 300px로 첫 화면에 1~2개만 보인다. 비교·판단이 목적인 화면인데 동시 비교가 어려워 비교 시트 의존도가 높아진다. 스펙 면·혜택 면 압축으로 240px대까지 줄이면 2개 노출이 가능하나 정보량 축소 범위는 결정 필요. <b>26.08.13 실측 : 혜택 없는 카드 298px · 혜택 있는 카드 353px로 미해소 상태</b></td> <b>26.08.14 이월 — 화면설계는 목업 단계 기준 유지, 압축 범위는 디자인 시안 단계에서 검토</b></tr>
-      <tr><td class="id"><span class="cid d">O-19</span></td><td>비교 시트 상세 목업</td><td>기획</td><td>G. Modal Bottom Sheet(비교 시트)의 항목 구성·순서·PC 중앙 모달 전환 형태가 확정되지 않아 화면설계서 G 영역은 구조 수준까지만 정의되어 있다. 상세 목업 확정 후 02 화면설계 탭 G 프레임 교체 필요. <b>26.08.13 신규 — 05 재구성 시 O-18로 잘못 부여되어 O-19로 분리</b></td> <b>26.08.14 해소 — 항목 5행 고정(혜택 비노출) · 값 줄바꿈 · 동일 위계 · PC 520px 중앙 모달 · 프로토타입 기준 전환으로 확정 (C-47)</b></tr>
-      <tr><td class="id"><span class="cid d">O-20</span></td><td>브레이크포인트 단일 기준</td><td>기획 / 퍼블리싱</td><td>모바일 · PC 레이아웃 전환 기준이 확정되지 않았다. 원 서비스 미디어쿼리 실측 분기점이 <b>674 · 720 · 768 · 769 · 1440</b>으로 여러 개여서, 2열 격자 · 필터 2열 · 중앙 모달이 어느 폭부터 적용되는지 퍼블리싱이 판단해야 하는 상태. 본 설계서는 <b>769px 이상을 PC 레이아웃</b>으로 기술하되 단일 기준 확정 필요. <b>26.08.14 신규</b></td> <b>26.08.14 해소 — 769px 단일 기준으로 확정 (C-46)</b></tr>
-    </tbody>
-  </table>
-
-  <div class="r-sub"><span class="g">바</span>상태 · 예외 정책</div>
+  <div class="r-sub" style="margin-top:22px"><span class="g">아</span>구현 규칙 · 접근성</div>
+  <p class="d">기존 확정 사항이 <b>무엇을 보여줄지</b>였다면, 이 그룹은 <b>어떻게 갱신하고 어떻게 전달할지</b>를 정합니다. UI/UX 교차 검증에서 발견된 결함을 규칙으로 확정한 항목입니다.</p>
   <table class="r-t">
     <thead><tr><th>ID</th><th>항목</th><th>확정 내용</th></tr></thead>
     <tbody>
-      <tr><td class="id"><span class="cid">C-32</span></td><td>재진입 미복원</td><td>이탈 후 첫 페이지 재진입 시 이전 선택을 복원하지 않음(초기 상태)</td></tr>
-      <tr><td class="id"><span class="cid">C-36</span></td><td>변경 시 데이터 처리</td><td>요금제 변경 시 신청서 데이터를 <b>최종 선택 요금제로 갱신</b>(기입력값 유지 + 요금제만 교체)</td></tr>
-      <tr><td class="id"><span class="cid">C-28</span></td><td>가입자 유형 제약</td><td>제한 요금제는 사전 필터링 없이 <b>가입자 유형 선택 단계에서 예외처리</b> — 현행 반영되어 있어 현행 유지. 요금제 선택 화면에서는 선택 전 인지를 위한 <b>제약 표기만</b> 두고 검증하지 않는다 <span class="cid">C-49</span></td></tr>
+      <tr><td class="id"><span class="cid">C-41</span></td><td>보조기술 상태 전달</td><td><b>시각 표현과 보조기술 전달은 별개 요건</b>이다 — 색상 대비를 맞췄다고 접근성이 확보되지 않는다. 상태는 <b>역할 선언으로</b> 전달하고, <b>중첩 인터랙션을 만들지 않으며</b>(비교 담기는 선택 영역과 형제로 분리), 반복되는 컨트롤에는 <b>구별되는 이름</b>을 준다. 목록은 <b>탭 스톱 1개</b>를 유지하고 방향키로 이동한다. 사유를 안내해야 하는 비활성 컨트롤은 <b>포커스가 닿을 수 있게</b> 둔다.<br>요건별 구현과 WCAG 기준은 <b>「02 화면설계」 부록 4 「접근성 명세」가 단일 출처</b>이며 여기서 나열하지 않는다</td></tr>
+      <tr><td class="id"><span class="cid">C-42</span></td><td>상태 갱신 방식</td><td><b>목록 전체 재생성 금지.</b> 선택 · 토스트 · 비교 시트는 <b>해당 요소만 부분 갱신</b>하고, 목록을 실제로 다시 그려야 하는 점진 렌더만 스크롤 복원 경로를 쓴다.<br><b>근거</b> — 전체 재생성은 ① 스크롤 위치 소실 ② 키보드 포커스 소실 ③ 진입 애니메이션 전체 재생을 유발해 <b>맥락 보존</b>과 정면 충돌한다 <span class="cid">C-18</span> <span class="cid n">G-02</span></td></tr>
+      <tr><td class="id"><span class="cid">C-43</span></td><td>복귀 시 상태 정책</td><td>상품 정보 입력(S-03)에서 <b>브라우저 뒤로가기로 요금제 화면에 복귀한 경우 직전 선택을 복원</b>한다. <span class="cid">C-32</span>와 별개 경로이며, <b>Quick Back이 본 개선의 핵심 지표인 만큼 가장 빈번한 복귀 동선</b>이다</td></tr>
     </tbody>
   </table>
-  <p class="d" style="margin:10px 0 0">가·나·다·라·마 그룹은 <b>개선안</b> 탭에서 리포트 형식으로 전개했습니다. 사 그룹(구현 규칙·접근성)은 위 표를 참조하세요.</p>
 
-  <div class="r-sub">표준 문구 · 명칭</div>
-  <p class="d" style="margin:0 0 10px">확정된 카피의 원본 목록입니다. 각 문구가 <b>어디에 어떤 상태로 노출되는지</b>는 <b>02 화면설계</b>의 A~G 영역 요소 명세에서 다룹니다.</p>
+  <div class="r-sub" style="margin-top:22px">미확정 사항 — 결정 대기 0건 · 이월 1건</div>
+  <p class="d">해소 근거와 논의 경과는 <code class="k">docs/DECISIONS.md</code>가 단일 출처입니다. 여기에는 <b>ID와 결과</b>만 둡니다.</p>
+  <table class="r-t">
+    <thead><tr><th>ID</th><th>항목</th><th>Owner</th><th>결과</th></tr></thead>
+    <tbody>
+      <tr style="background:var(--warn-bg)"><td class="id"><span class="cid d">O-18</span></td><td><b>카드 정보 밀도</b></td><td>기획 · 디자인</td><td><b>이월</b> — 카드 높이 때문에 첫 화면 동시 비교가 어렵다. 압축하면 2개 노출이 가능하나 <b>정보량 축소 범위가 미정</b>이다. 화면설계는 목업 단계 기준을 유지하고 <b>압축 범위는 디자인 시안 단계에서 검토</b>한다. 제휴카드 이관 <span class="cid">C-62</span>으로 하단 고정 영역이 줄어 <b>부분 완화</b>됐다</td></tr>
+      <tr><td class="id"><span class="cid d">O-17</span></td><td>프로모션 적용 기간 표기</td><td>기획 · 법무</td><td><span class="cid p">해소</span> — <b>배너로 지급 개월만 표기</b>하고 추가 정보는 두지 않는다 <span class="cid">C-45</span></td></tr>
+      <tr><td class="id"><span class="cid d">O-19</span></td><td>비교 시트 상세 목업</td><td>기획</td><td><span class="cid p">해소</span> — <b>5행 고정</b> · 혜택 비노출 · 동일 위계 · PC 중앙 모달 <span class="cid">C-47</span></td></tr>
+      <tr><td class="id"><span class="cid d">O-20</span></td><td>브레이크포인트 단일 기준</td><td>기획 · 퍼블리싱</td><td><span class="cid p">해소</span> — 원 서비스 실측 분기점이 여러 개였으나 <b>769px 단일 기준</b>으로 통합 <span class="cid">C-46</span></td></tr>
+      <tr><td class="id"><span class="cid d">O-23</span></td><td>제휴카드 유지 여부</td><td>기획</td><td><span class="cid p">해소 · 재결정</span> — 2026-08-17에 「유지 + 축약」으로 해소했으나 축약만으로는 하단 고정 영역 과점을 풀지 못했다. <b>제휴카드 일체를 S-02 밖으로 이관</b>하는 <span class="cid">C-62</span>로 <b>대체</b>했다</td></tr>
+      <tr><td class="id"><span class="cid d">O-21</span> <span class="cid d">O-22</span> <span class="cid d">O-24</span>~<span class="cid d">O-27</span></td><td>원본 대조 도출 6건</td><td>기획</td><td><span class="cid p">해소</span> — 사은품 단계 위치 <span class="cid">C-48</span> · 자격 제한 안내 방식 <span class="cid">C-49</span> · 단독 노출 탭 <span class="cid">C-57</span> · 문구 보정 · 3종 시트 위치 <span class="cid">C-53</span>. <b>O-27</b>(안내형 사은품 인지 경로)만 <b>S-02 범위 밖</b>으로 남겼다</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="r-sec">
+  <h2><span class="no">4</span>표준 문구 · 명칭</h2>
+  <p class="d">확정된 카피의 <b>원본 목록</b>입니다. 각 문구가 <b>어디에 어떤 상태로 노출되는지</b>는 <b>02 화면설계</b>의 A~G 영역 요소 명세에서 다룹니다.</p>
   <table class="r-t">
     <thead><tr><th>구분</th><th>확정 값</th></tr></thead>
     <tbody>
       <tr><td>화면 헤드라인</td><td>"가입하실 요금제를 선택해 주세요."</td></tr>
-      <tr><td>확정 CTA</td><td>"신청서 작성하기"</td></tr>
-      <tr><td>Sticky 미선택 / 선택</td><td>"요금제를 선택해 주세요." / "{요금제명} 월 {프로모션가}원"</td></tr>
       <tr><td>탭 명칭</td><td>주간(BEST) / 전체 / LTE / 5G</td></tr>
-      
+      <tr><td>목록 컨트롤</td><td>"요금제 N개" · 필터 · 정렬 · "비교 N/2"</td></tr>
+      <tr><td>하단 고정 영역 — 미선택</td><td>"요금제를 선택해 주세요."</td></tr>
+      <tr><td>하단 고정 영역 — 선택</td><td>"{요금제명}" + <b>"부가세포함 월 {금액}원"</b> — 한 행에 함께 두고 별도 금액 행을 만들지 않는다 <span class="cid">C-51</span></td></tr>
+      <tr><td>확정 CTA</td><td>"신청서 작성하기"</td></tr>
     </tbody>
   </table>
-
+  <div class="r-warn" style="margin-top:14px">
+    <b>카피 확정 대기 2건</b> — <b>진입 안내</b>(정보통신망법 조항)와 <b>약정 안내</b>(반환금 조건 · 기간별 비율)는 <b>법무 · 기획 확정 문구로 교체가 필요</b>합니다 <span class="cid">C-55</span> <span class="cid">C-65</span>. 특히 원본 반환금 비율의 <b>17~20개월 −20% · 21~24개월 −40%</b>는 <b>음수 부호가 붙은 원본 표기 그대로</b>이며 확인이 필요합니다.
   </div>
+</div>
 
 <div class="r-sec">
-  <h2><span class="no">4</span>측정 기준</h2>
-  <p class="d">근거 데이터(Clarity · 2026-06-29~07-29 30일)의 상세 수치는 <b>개선안 탭 1장 「개선 배경」</b>에 전개했습니다. 여기서는 개선 효과를 판정하는 기준만 정의합니다.</p>
+  <h2><span class="no">5</span>측정 기준</h2>
+  <p class="d">근거 데이터(Clarity · 2026-06-29 ~ 07-29 30일)의 상세 수치는 <b>04 개선안 1장 「개선 배경」</b>에 전개했습니다. 여기서는 <b>개선 효과를 판정하는 기준만</b> 정의합니다.</p>
   <table class="r-t">
     <thead><tr><th>구분</th><th>기준</th></tr></thead>
     <tbody>
-      <tr><td>비교 불가 사유</td><td>프로세스 재배치(C-19·C-24)로 화면 순서가 바뀌어, 기존 Quick Back 74.6%와 <b>동일 조건 비교가 불가</b>합니다. 이 수치는 개선의 동기이자 참조값으로만 사용합니다.</td></tr>
-      <tr><td>신규 기준선</td><td>① 요금제 화면 확정 클릭률 ② 케이스 A/B 진입 비율 ③ 신청서 선형 구간 단계별 이탈률 ④ 요금제 변경 목적 이탈률</td></tr>
-      <tr><td>보조 관측</td><td>필터·정렬 사용률 · 비교 사용률과 비교 후 선택 전환율 · 탭별 선택 분포 · Dead Click 건수</td></tr>
-      <tr><td>해석 규칙</td><td>데이터로 확인되지 않은 인과 해석은 <b>신호·추정</b>으로 표기합니다.</td></tr>
+      <tr><td>비교 불가 사유</td><td>프로세스 재배치 <span class="cid">C-19</span> <span class="cid">C-24</span>로 화면 순서가 바뀌어 기존 Quick Back 74.6%와 <b>동일 조건 비교가 불가</b>합니다. 이 수치는 <b>개선의 동기이자 참조값</b>으로만 사용합니다</td></tr>
+      <tr><td>신규 기준선</td><td>① 요금제 화면 <b>확정 클릭률</b> ② <b>케이스 A/B 진입 비율</b> ③ 신청서 선형 구간 <b>단계별 이탈률</b> ④ <b>요금제 변경 목적 이탈률</b></td></tr>
+      <tr><td>보조 관측</td><td>필터 · 정렬 사용률 · 비교 사용률과 <b>비교 후 선택 전환율</b> · 탭별 선택 분포 · Dead Click 건수</td></tr>
+      <tr><td>해석 규칙</td><td>데이터로 확인되지 않은 인과 해석은 <b>신호 · 추정</b>으로 표기합니다 <span class="cid n">G-05</span></td></tr>
     </tbody>
   </table>
 </div>
@@ -1752,6 +1766,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">05 요구사항 정의서 전면 · 문서 헤더</td><td><b>요구사항 정의서를 기능정의와 같은 규칙으로 정리</b> — 4장 108줄 → <b>5장 122줄</b>. 절이 늘어난 건 <b>흩어져 있던 표준 문구 · 측정 기준을 독립 절로 올렸기</b> 때문이고, 중복 서술은 걷어냈다.<br><b>역할을 「기준」으로 좁혔다</b> — 왜 고치는가(문제) · 무엇을 지키는가(원칙) · 화면 전체에 걸리는 공통 규칙 · 무엇으로 판정하는가. 확정 사항 상세는 04, 요소 명세는 02가 단일 출처임을 리드에 명시.<br><b>그룹 라벨 충돌 해소 ★</b> — <b>「바」가 두 탭에서 서로 다른 그룹을 가리키고 있었다.</b> 04의 바는 <b>제휴카드</b>, 05의 바는 <b>상태 · 예외 정책</b>이었다. 05를 <b>사 상태 · 예외 정책 → 아 구현 규칙 · 접근성</b>으로 재부여했다. 종전에는 05 안에서도 <b>사 → 바</b> 역순이었다.<br><b>죽은 코드 칩 해소 ★</b> — <span class="cid d">O-23</span>이 문서에서 2회 참조되는데 <b>정의가 없었다.</b> 미확정 표에 「제휴카드 유지 여부 → C-62로 대체」로 추가해 해소. <b>전 문서 죽은 칩 0건.</b><br><b>KPI 정정 3건</b> — 확정 사항 <b>59 → 66건</b>, 정의 위치 <b>「44건 중 38건」 → 「66건 중 60건」</b>, 문서 헤더 확정 상태 <b>47 → 66</b>. 세 곳 모두 코드가 늘어난 뒤 갱신되지 않은 값이었다.<br><b>정합 정정 · 중복 제거</b> — 표준 문구의 하단 고정 영역 표기가 구식(<b>「{요금제명} 월 {프로모션가}원」</b>)이었다 → <b>「요금제명 + 부가세포함 월 {금액}원」 한 행</b>으로 <span class="cid">C-51</span>. 미확정 표의 긴 배경 서술은 <code class="k">docs/DECISIONS.md</code>가 단일 출처이므로 <b>ID와 결과만</b> 남기고 <b>해소 6건을 한 행으로</b> 묶었다. <span class="cid">C-41</span>의 접근성 구현 나열은 <b>02 부록 4와 통째로 겹쳐</b> 원칙 수준으로 줄이고 부록 4를 단일 출처로 지정. 3절 말미의 「가·나·다·라·마 그룹은 개선안 탭에」 문장은 <b>같은 절 상단 안내와 중복</b>이라 삭제.<br><b>추가</b> — 표준 문구에 <b>목록 컨트롤</b> 행을 넣고, <b>카피 확정 대기 2건</b>(진입 안내 · 약정 안내)을 경고 블록으로 올렸다 — 원본 반환금 비율의 음수 부호 확인 건을 여기에 함께 적어 <b>카피 확정의 단일 창구</b>로 만들었다</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">03 기능정의 전면 · 05 요구사항 정의서</td><td><b>기능정의를 프로토타입 · 개선안 현재 버전으로 재구성</b> — 5장 200줄 → <b>4장 112줄</b>. 내용은 줄지 않고 <b>중복만 걷어냈다.</b><br><b>역할을 「판정」으로 좁혔다</b> — 이 탭이 답할 질문은 <b>무엇을 · 어떤 순서로 · 어떤 조건으로 판단하는가</b>다. 영역별 요소 명세(02 A~G · 부록 4 접근성 · 부록 5 데이터 매핑)와 개선 근거(04 개선안)는 다른 탭이 단일 출처이므로 <b>참조만</b> 한다.<br><b>삭제한 중복 3건</b> — ① 1장의 「S-02 영역 구성」 표는 02의 <b>화면 구성 · INDEX</b>와 같은 내용이었다. ② 3장 「노출 데이터」 전체(카드 · 컨트롤/Sticky · 비교 시트 · S-01 추가 영역 4표)는 02의 <b>A~G 요소 명세</b>와 겹쳤다. ③ 5장 데이터 연동 표의 <b>표기용 데이터</b>는 02 <b>부록 5</b>와 겹쳤다.<br><b>살려서 옮긴 고유 요건</b> — 「주간 순위는 요금제 고유값이라 필터 · 정렬 후에도 불변(목록 인덱스가 아님)」을 <b>STEP 5</b>로, 「비교 최대 2개 · 탭 이동 시 유지」를 <b>STEP 11b</b>로 신설해 담았다. 데이터 표는 <b>판정에 쓰는 값만</b> 남겨 9행으로 줄이고 <b>신규 연동 1건을 첫 행에 강조</b>했다.<br><b>정합 정정 3건</b> — ① 3장 Sticky 행에 남아 있던 구식 표기(「{요금제명} 월 {요금}원」 + 별도 금액 행)를 걷어냈다 — STEP 10과 모순이었다. ② S-02 개발 범위의 코드 열거(C-13~C-59)를 <b>「04 개선안 다 · 라 · 마 그룹 전건」</b>으로 바꿨다 — 코드가 늘 때마다 낡는 표기였고 이미 C-62~C-66이 빠져 있었다. ③ 「범위 밖」 항목(제휴카드 · 사은품 · 동일 IP)을 1장 하단에 <b>한 곳으로 모았다</b> — 종전에는 세 절에 흩어져 있었다.<br><b>구조</b> — 1 화면 · 개발 범위 / 2 판정 시퀀스(진입 · 선택 · 확정) / 3 예외 처리 / 4 판정 데이터 조달. 선택 구간에 <b>「제약 판정 없음」</b>을 소제목으로 명시해 판정이 진입(표기)과 확정(분기)으로 나뉘어 있다는 설계 의도를 구조로 드러냈다. 05 요구사항 정의서의 「노출 데이터」 참조 1건을 02 화면설계로 정정. <b>죽은 코드 칩 0건</b>(참조 31종 전건 정의 존재)</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">문서 구조 · 전체</td><td><b>메뉴 구조 재편</b> — 「변경 이력」을 화면설계 안에서 꺼내 <b>1뎁스 탭으로 분리</b>(07)하고, 탭 순서를 <b>01 프로토타입 · 02 화면설계 · 03 기능정의 · 04 개선안 · 05 요구사항 정의서 · 06 테스트 케이스 · 07 변경 이력</b>으로 재배열. 동작하는 화면을 먼저 보고 명세 → 기능 → 근거(개선안 · 요구사항) → 검증 순으로 읽도록 순서를 맞춘 것. 변경 이력은 문서 전체를 대상으로 하므로 특정 문서 아래 두지 않는다. 이에 따라 본문의 <b>탭 번호 표기 49건</b>과 코드 칩 이동 라벨을 새 번호로 갱신했고, 화면설계 「영역 이동」에서 변경 이력 링크를 제거했다. <b>id는 종전대로 유지</b>(<code class="k">rt-*</code> · <code class="k">fs-log</code>) — 앵커 · CSS가 id 기준</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.18</td><td><span class="fs-kind mod">수정</span></td><td class="tg">01 프로토타입 · F · 04 개선안</td><td><b>FOOT STICKY 축소</b> <span class="cid">C-51</span> — 요금제 선택 시 Sticky가 <b>123 → 227px</b>로 커져 목록이 <b>103px(-17%)</b> 줄고, 고른 뒤 다른 요금제와 비교하려는 순간에 탐색 영역이 가장 좁아지던 문제. <b>카드명 · 예상 할인액 · 진입을 한 줄로 병합</b>해 <b>169px</b>로 줄이고(시각 30px · 터치 타깃 44px 분리), <b>스크롤 축약</b>을 더해 아래로 훑는 동안에는 <b>131px</b>까지 접는다. 요금제명 · 금액 · CTA는 항상 유지. 포커스가 Sticky에 들어오면 즉시 펼쳐 키보드 접근을 막지 않는다. <b>실측 — 목록 뷰포트 520 → 577~615px 회복</b>. 카드 2장 완전 노출은 카드 높이(혜택 있음 379px) 때문에 <span class="cid d">O-18</span> 압축과 함께 가야 도달</td><td class="wr">허지원 책임</td></tr>
