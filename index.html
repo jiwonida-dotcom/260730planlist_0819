@@ -6,6 +6,24 @@
 <title>U+유모바일 요금제 선택 화면 개선 — 통합 리포트</title>
 <style>
 
+/* ============================================================
+   C-66 — 타이포 · 간격 스케일
+   값이 제각각이면 화면마다 위계가 달라 보인다. 실측 결과 프로토타입 영역에서
+   글자 크기 23종 · 여백 14종 · 라운드 16종이 쓰이고 있었다.
+   아래 단계로 고정하고, 새 요소는 반드시 이 안에서 고른다.
+
+   글자   9단  10 · 11 · 12 · 13 · 15 · 17 · 19 · 22 · 28
+          마이크로 · 캡션 · 보조 · 본문 · 강조 · 소제목 · 제목 · 금액 · 대형금액
+   굵기   4단  600(보조) · 700(본문) · 800(강조) · 900(금액)
+   행간   4단  1.35(짧은 강조) · 1.5(라벨) · 1.6(한 줄 텍스트) · 1.7(여러 줄 본문)
+   여백   8단  2 · 4 · 6 · 8 · 10 · 12 · 16 · 20   (3px 이하 미세 정렬은 예외)
+   라운드 8단  6 · 8 · 10 · 12 · 14 · 18 · 22 · 99
+
+   ※ 이 스케일은 구현 값이다. 01 화면설계 명세에는 치수를 적지 않고
+     「글자 크기는 9단으로 고정한다」처럼 요건으로 바꿔 적는다 (docs/RULES.md 1절).
+   ※ 선택 상태에서 보더가 굵어지는 요소(.card · .opt · .ccitem · .dep-f input)는
+     증가분만큼 padding 을 줄여 크기를 유지한다. 이 쌍은 스케일 정리 대상에서 제외한다.
+   ============================================================ */
 :root{
   --bg:#F3F3F8; --bg-deep:#EBEBF2; --surface:#FFFFFF; --line:#ECECF2; --line-2:#DFDEE9;
   --text:#16161E; --muted:#6C6C7C; --muted-2:#9C9CAB;
@@ -22,7 +40,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:"Pretendard","Apple SD Gothic Neo",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-deep) 100%);min-height:100vh;color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{font-family:"Pretendard","Apple SD Gothic Neo",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Malgun Gothic",sans-serif;background:linear-gradient(180deg,var(--bg) 0%,var(--bg-deep) 100%);min-height:100vh;color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 select{font-family:inherit;cursor:pointer}
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -31,14 +49,14 @@ select{font-family:inherit;cursor:pointer}
 
 /* ===== 상단 ===== */
 .top{background:rgba(255,255,255,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);padding:14px 24px;position:sticky;top:0;z-index:100}
-.top-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.top-in{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .brand{font-size:15px;font-weight:800;letter-spacing:-.015em}
 .brand small{display:block;font-size:11px;font-weight:600;color:var(--muted-2);letter-spacing:0;margin-top:1px}
 .top-r{margin-left:auto;display:flex;align-items:center;gap:10px}
 .navtabs{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:12px}
-.navtabs button{padding:8px 16px;border-radius:9px;font-size:13px;font-weight:700;color:var(--muted);transition:all .15s}
+.navtabs button{padding:8px 16px;border-radius:10px;font-size:13px;font-weight:700;color:var(--muted);transition:all .15s}
 .navtabs button.on{background:var(--surface);color:var(--main);box-shadow:var(--shadow-s)}
-.reload-top{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;border:1px solid var(--line-2);background:var(--surface);font-size:12.5px;font-weight:700;color:var(--muted);transition:all .15s;box-shadow:var(--shadow-s)}
+.reload-top{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:12px;border:1px solid var(--line-2);background:var(--surface);font-size:12px;font-weight:700;color:var(--muted);transition:all .15s;box-shadow:var(--shadow-s)}
 .reload-top:hover{color:var(--main);border-color:var(--main-mid);box-shadow:var(--ring)}
 .reload-top svg{width:13px;height:13px;stroke:currentColor;stroke-width:2.4;fill:none}
 
@@ -57,29 +75,29 @@ select{font-family:inherit;cursor:pointer}
 @media (max-width:1160px){ .split.pcwide{grid-template-columns:minmax(0,1fr)} .split.pcwide .panel-side{margin-top:4px} }
 @media(max-width:980px){.split{grid-template-columns:1fr}.panel-side{order:2}}
 
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow-s)}
-.panel h3{font-size:14px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow-s)}
+.panel h3{font-size:15px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
 .panel h3 .dot{width:7px;height:7px;border-radius:50%;background:var(--main)}
 .panel .sub{font-size:12px;color:var(--muted);margin:5px 0 15px;line-height:1.6}
 
 .refbar{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 18px;font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.7;display:flex;gap:16px;align-items:center;flex-wrap:wrap;box-shadow:var(--shadow-s)}
 .refbar b{color:var(--text)}
-.refbar .kbd{display:inline-block;background:var(--main-ghost);color:var(--main);border:1px solid var(--main-mid);border-radius:6px;padding:0 7px;font-size:10.5px;font-weight:800;margin:0 1px}
+.refbar .kbd{display:inline-block;background:var(--main-ghost);color:var(--main);border:1px solid var(--main-mid);border-radius:6px;padding:0 7px;font-size:10px;font-weight:800;margin:0 1px}
 
 /* ===== 기기 프레임 ===== */
 /* PC 실측 기준 (www.uplusumobile.com/onsale/joinHowtoOpen, 2026-08 관측)
    신청서는 오버레이 위 '풀 팝업' — 설계 1000px에 zoom:.7 → 실렌더 700px
    패널 700 / 콘텐츠 644 / 헤더 84 / 카드 315 · gap 14 / 브레이크포인트 768–769 */
 .phone-col{display:flex;flex-direction:column;align-items:center;gap:12px;position:sticky;top:68px}
-.phone-col.pc{gap:14px}  /* 프레임은 모바일과 완전히 동일 — 별도 배경·패딩 없음 */
+.phone-col.pc{gap:12px}  /* 프레임은 모바일과 완전히 동일 — 별도 배경·패딩 없음 */
 .devtog{display:inline-flex;gap:4px;background:var(--bg);padding:4px;border-radius:12px;margin-left:6px}
-.devtog button{padding:8px 13px;border-radius:9px;font-size:12.5px;font-weight:700;color:var(--muted);transition:all .15s}
+.devtog button{padding:8px 13px;border-radius:10px;font-size:12px;font-weight:700;color:var(--muted);transition:all .15s}
 .devtog button.on{background:var(--surface);color:var(--main);box-shadow:var(--shadow-s)}
 .devtog button:hover:not(.on){color:var(--text)}
 .phone{width:394px;max-width:100%;height:940px;max-height:calc(100vh - 96px);min-height:660px;background:var(--surface);border:1px solid var(--line-2);border-radius:34px;box-shadow:var(--shadow-l);overflow:hidden;display:flex;flex-direction:column;position:relative}
 .notch{flex-shrink:0;height:24px;display:flex;align-items:flex-end;justify-content:center}
 .notch i{width:110px;height:9px;background:var(--bg-deep);border-radius:99px}
-.ph-status{height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:10.5px;color:var(--muted-2);font-weight:700;letter-spacing:.02em}
+.ph-status{height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-size:10px;color:var(--muted-2);font-weight:700;letter-spacing:.02em}
 .ph-head{flex-shrink:0;display:flex;align-items:center;padding:11px 16px;border-bottom:1px solid var(--line);font-size:15px;font-weight:800}
 .ph-head .ic{width:28px;font-size:17px;color:var(--muted);font-weight:400}
 .ph-head .t{flex:1;text-align:center;letter-spacing:-.01em}
@@ -90,11 +108,11 @@ select{font-family:inherit;cursor:pointer}
 /* --- PC 풀 팝업 모드 --- */
 .phone.pc{width:700px}   /* 베젤(라운드·보더·그림자)은 모바일 .phone과 동일하게 상속 */
 .phone.pc .notch,.phone.pc .ph-status{display:none}
-.phone.pc .ph-head{height:84px;padding:0 28px;font-size:18px;border-bottom:1px solid #ddd}
-.phone.pc .ph-head .ic{width:34px;font-size:21px}
+.phone.pc .ph-head{height:84px;padding:0 28px;font-size:17px;border-bottom:1px solid #ddd}
+.phone.pc .ph-head .ic{width:34px;font-size:22px}
 .phone.pc .ph-body{padding:26px 28px 12px}
 .phone.pc .ph-sticky{padding:14px 28px 18px}
-.phone.pc .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:stretch}
+.phone.pc .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
 /* 2열에서 같은 행 카드의 하단 비교 영역을 같은 높이로 정렬.
    button은 여백이 생기면 내용을 세로 중앙에 맞추므로, 짧은 카드의 요금제명·가격이
    옆 카드보다 아래로 밀린다(관측 28px). flex 컬럼으로 바꿔 상단 정렬을 고정하고
@@ -104,55 +122,55 @@ select{font-family:inherit;cursor:pointer}
 /* PC 필터 패널 — 조건 2열 · 라벨 상단 · 액션 우측 정렬
    (1열 + 전체폭 셀렉트는 모바일 관성. 644px에서 세로 232→약 160px) */
 .phone.pc .fb-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.phone.pc .filterbox label{flex-direction:column;align-items:stretch;gap:7px}
-.phone.pc .filterbox label>span{flex:0 0 auto;font-size:12.5px}
+.phone.pc .filterbox label{flex-direction:column;align-items:stretch;gap:8px}
+.phone.pc .filterbox label>span{flex:0 0 auto;font-size:12px}
 .phone.pc .filterbox select{width:100%;font-size:13px}
 .phone.pc .fb-act{justify-content:flex-end}
 .phone.pc .fb-reset{margin-right:auto}
 .phone.pc .fb-done{flex:0 0 auto;min-width:184px;padding:0 26px}
-.phone.pc .h1{font-size:22px;line-height:1.45}
+.phone.pc .h1{font-size:22px;line-height:1.5}
 .phone.pc .s3-pick>div{padding:20px 12px}
 /* PC 비교 화면 — 바텀시트는 모바일 제스처 전제 UI다.
    PC에서는 화면 중앙 모달로 전환: 네 모서리 라운드, 드래그 핸들 제거,
    아래에서 올라오는 대신 중앙에서 확대되며 나타난다 */
 .phone.pc .sheet{left:50%;right:auto;bottom:auto;top:50%;width:520px;max-width:calc(100% - 48px);max-height:78%;
-  border-radius:20px;box-shadow:0 24px 60px rgba(18,18,40,.28);
+  border-radius:18px;box-shadow:0 24px 60px rgba(18,18,40,.28);
   transform:translate(-50%,-46%) scale(.96);opacity:0;
   transition:transform .22s cubic-bezier(.3,1,.4,1), opacity .18s ease}
 .phone.pc .sheet.on{transform:translate(-50%,-50%) scale(1);opacity:1}
 .phone.pc .grab{display:none}
 .phone.pc .sheet-h{padding:16px 20px 13px}
-.phone.pc .sheet-h b{font-size:16px}
+.phone.pc .sheet-h b{font-size:17px}
 .phone.pc .sheet-b{padding:16px 20px 18px}
-.phone.pc .ctable{font-size:12.5px}
+.phone.pc .ctable{font-size:12px}
 .phone.pc .ctable th,.phone.pc .ctable td{padding:11px 9px}
 .phone.pc .ctable th:first-child,.phone.pc .ctable td:first-child{width:88px}
-.phone.pc .ctable thead th{font-size:13.5px}
-.phone.pc .ctable .big{font-size:16px}
-.phone.pc .ctable .sm{font-size:11.5px}
-.phone.pc .selbtn{font-size:12.5px;min-height:48px;padding:12px 6px}
+.phone.pc .ctable thead th{font-size:13px}
+.phone.pc .ctable .big{font-size:17px}
+.phone.pc .ctable .sm{font-size:11px}
+.phone.pc .selbtn{font-size:12px;min-height:48px;padding:12px 6px}
 .phone.pc .sheet-foot{padding:4px 20px 20px}
 .phone.pc .alert{max-width:420px}
 @media (max-width:820px){ .phone.pc{width:100%;max-width:394px} .phone.pc .list{grid-template-columns:1fr} }
-.reload-under{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;border:1px solid var(--line-2);background:var(--surface);font-size:11.5px;font-weight:700;color:var(--muted);transition:all .15s}
+.reload-under{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:99px;border:1px solid var(--line-2);background:var(--surface);font-size:11px;font-weight:700;color:var(--muted);transition:all .15s}
 .reload-under:hover{color:var(--main);border-color:var(--main-mid)}
 .reload-under svg{width:12px;height:12px;stroke:currentColor;stroke-width:2.4;fill:none}
 
 /* ===== 화면 요소 ===== */
-.h1{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;line-height:1.4}
+.h1{font-size:17px;font-weight:800;letter-spacing:-.02em;margin-bottom:16px;line-height:1.5}
 .h1 em{font-style:normal;color:var(--main)}
 
 .tabbar{position:sticky;top:-18px;z-index:5;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);padding:8px 0 12px;margin:-8px 0 0;display:flex;gap:6px;flex-wrap:wrap}
-.tabbar button{padding:8px 15px;border-radius:99px;background:var(--bg);font-size:12.5px;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:5px;min-height:44px;transition:all .16s;border:1px solid transparent}
+.tabbar button{padding:8px 15px;border-radius:99px;background:var(--bg);font-size:12px;font-weight:700;color:var(--muted);display:inline-flex;align-items:center;gap:4px;min-height:44px;transition:all .16s;border:1px solid transparent}
 .tabbar button:hover:not(.on){border-color:var(--line-2);color:var(--text)}
 .tabbar button.on{background:linear-gradient(135deg,var(--main) 0%,var(--main-deep) 100%);color:#fff;box-shadow:0 4px 12px rgba(91,75,225,.28)}
-.tabbar .bst{font-size:9px;background:rgba(255,255,255,.26);padding:1.5px 6px;border-radius:5px;letter-spacing:.03em;font-weight:800}
+.tabbar .bst{font-size:10px;background:rgba(255,255,255,.26);padding:1.5px 6px;border-radius:6px;letter-spacing:.03em;font-weight:800}
 .tabbar button:not(.on) .bst{background:var(--main-weak);color:var(--main)}
 
 .ctrls{display:flex;align-items:center;gap:6px;margin:12px 0 4px;flex-wrap:wrap}
-.ctrls .cnt{font-size:12.5px;font-weight:700;margin-right:auto;color:var(--muted)}
-.ctrls .cnt b{color:var(--main);font-size:14px}
-.chip{padding:7px 12px;border:1px solid var(--line-2);border-radius:10px;font-size:11.5px;font-weight:700;color:var(--muted);background:var(--surface);min-height:44px;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
+.ctrls .cnt{font-size:12px;font-weight:700;margin-right:auto;color:var(--muted)}
+.ctrls .cnt b{color:var(--main);font-size:15px}
+.chip{padding:7px 12px;border:1px solid var(--line-2);border-radius:10px;font-size:11px;font-weight:700;color:var(--muted);background:var(--surface);min-height:44px;display:inline-flex;align-items:center;gap:4px;transition:all .15s}
 .chip:hover{border-color:var(--main-mid);color:var(--main)}
 .chip.act{border-color:var(--main);color:var(--main);background:var(--main-weak);box-shadow:var(--ring)}
 .chip .chev{width:12px;height:12px;stroke:currentColor;stroke-width:2.3;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:transform .22s ease}
@@ -162,25 +180,25 @@ select{font-family:inherit;cursor:pointer}
 .filterbox.open{max-height:320px;opacity:1;padding:13px 14px;margin:10px 0 2px;border-color:var(--line)}
 /* 패널 내부 — 타이틀 / 라벨 열 / 컨트롤 열 3단 정렬 */
 .fb-head{margin-bottom:12px}
-.fb-head b{font-size:12.5px;font-weight:800;color:var(--text);letter-spacing:-.01em}
-.fb-fields{display:flex;flex-direction:column;gap:9px}
+.fb-head b{font-size:12px;font-weight:800;color:var(--text);letter-spacing:-.01em}
+.fb-fields{display:flex;flex-direction:column;gap:8px}
 .filterbox label{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--muted)}
 .filterbox label>span{flex:0 0 82px}
-.filterbox select{flex:1;min-width:0;padding:0 11px;border:1px solid var(--line-2);border-radius:10px;font-size:12.5px;font-weight:700;background:#fff;color:var(--text);min-height:44px}
+.filterbox select{flex:1;min-width:0;padding:0 11px;border:1px solid var(--line-2);border-radius:10px;font-size:12px;font-weight:700;background:#fff;color:var(--text);min-height:44px}
 .filterbox select:focus{outline:none;border-color:var(--main);box-shadow:var(--ring)}
-.fb-act{display:flex;gap:8px;margin-top:13px;padding-top:12px;border-top:1px solid var(--main-weak)}
+.fb-act{display:flex;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--main-weak)}
 .fb-reset{flex:0 0 auto;padding:0 15px;min-height:44px;border:1px solid var(--line-2);background:var(--surface);border-radius:10px;font-size:12px;font-weight:700;color:var(--muted);transition:all .15s}
 .fb-reset:hover{color:var(--main);border-color:var(--main-mid)}
 /* 비활성 표시를 투명도가 아니라 '면 제거'로 — opacity .45는 대비 2:1 수준이라 읽히지 않음.
    텍스트는 --muted(약 5:1)로 유지하고, 흰 면과 hover를 없애 버튼이 아님을 전달 */
 .fb-reset:disabled{opacity:1;background:transparent;border-color:var(--line);color:var(--muted);cursor:default}
 .fb-reset:disabled:hover{color:var(--muted);border-color:var(--line)}
-.fb-done{flex:1;min-height:44px;border-radius:10px;background:var(--main);color:#fff;font-size:12.5px;font-weight:800;transition:filter .15s}
+.fb-done{flex:1;min-height:44px;border-radius:10px;background:var(--main);color:#fff;font-size:12px;font-weight:800;transition:filter .15s}
 .fb-done:hover{filter:brightness(1.06)}
 
 
 /* ===== 카드 ===== */
-.list{display:flex;flex-direction:column;gap:11px;margin-top:12px}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:12px}
 /* 카드 = 컨테이너(div). 선택 버튼(.card-main)과 비교 담기 버튼을 형제로 분리
    → button 내부 조작 요소 중첩 제거 + 비교 담기가 키보드로 도달 가능 */
 .card{border:1px solid var(--line);border-radius:var(--r);padding:16px;background:var(--surface);position:relative;transition:border-color .15s, box-shadow .15s, transform .1s;animation:cardIn .28s ease both}
@@ -189,27 +207,28 @@ select{font-family:inherit;cursor:pointer}
 .card:active{transform:scale(.994)}
 .card.sel{border:2px solid var(--main);padding:15px;box-shadow:0 6px 20px rgba(91,75,225,.15)}
 .card-main{display:block;width:100%;text-align:left;padding:0}
-.card-top{display:flex;align-items:flex-start;gap:9px;margin-bottom:10px}
+.card-top{display:flex;align-items:flex-start;gap:8px;margin-bottom:10px}
 .rank{flex-shrink:0;min-width:24px;height:24px;padding:0 5px;border-radius:8px;background:linear-gradient(135deg,var(--main),var(--main-deep));color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;box-shadow:0 2px 6px rgba(91,75,225,.25)}
-.badges{display:flex;gap:5px;flex-wrap:wrap;flex:1;min-width:0}
-.bdg{font-size:11px;font-weight:700;padding:4.5px 10px;border-radius:7px;background:#EEEEF4;color:#5A5A6B;letter-spacing:-.01em;white-space:nowrap;line-height:1.3}
+.badges{display:flex;gap:4px;flex-wrap:wrap;flex:1;min-width:0}
+.bdg{font-size:11px;font-weight:700;padding:4.5px 10px;border-radius:8px;background:#EEEEF4;color:#5A5A6B;letter-spacing:-.01em;white-space:nowrap;line-height:1.35}
 .bdg.best{background:#E1F6EA;color:#0E8B52}
 .bdg.combo{background:var(--main-weak);color:var(--main-deep)}
+.bdg.ctr{background:#FFF1E0;color:#A85A00}   /* 약정형 · 더알뜰플랜2 — 조건이 붙는 요금제 C-65 */
 .radio{flex-shrink:0;width:23px;height:23px;border-radius:50%;border:1.5px solid var(--line-2);background:transparent;display:flex;align-items:center;justify-content:center;position:relative;transition:all .18s}
 .radio svg{width:12px;height:12px;stroke:var(--line-2);stroke-width:2.8;fill:none;transition:stroke .18s}
 .card.sel .radio{background:var(--main);border-color:var(--main);transform:scale(1.06);box-shadow:0 2px 8px rgba(91,75,225,.35)}
 .card.sel .radio svg{stroke:#fff}
 .hit{position:absolute;inset:-11px;border-radius:50%}
 /* ── 카드 내부 단일 그리드: 모든 블록이 카드 콘텐츠 좌·우 경계에 정렬 ── */
-.pname{display:block;font-size:17.5px;font-weight:800;letter-spacing:-.02em;line-height:1.32}
-.prices{display:flex;align-items:baseline;justify-content:flex-end;gap:9px;margin-top:8px}
-.p-old{font-size:13.5px;color:var(--muted-2);text-decoration:line-through;font-weight:600}
-.p-new{font-size:21px;font-weight:800;color:var(--main);letter-spacing:-.025em}
-.p-only{font-size:21px;font-weight:800;letter-spacing:-.025em}
+.pname{display:block;font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.35}
+.prices{display:flex;align-items:baseline;justify-content:flex-end;gap:8px;margin-top:8px}
+.p-old{font-size:13px;color:var(--muted-2);text-decoration:line-through;font-weight:600}
+.p-new{font-size:22px;font-weight:800;color:var(--main);letter-spacing:-.025em}
+.p-only{font-size:22px;font-weight:800;letter-spacing:-.025em}
 .per{font-size:13px;color:var(--muted);font-weight:700}
 /* 스펙 — 배경 박스 대신 헤어라인 구분, 텍스트가 콘텐츠 경계에서 시작 */
 /* 스펙 영역 — 면(surface) 구성 + 센터 정렬 */
-.info{margin-top:13px;background:var(--bg);border-radius:12px;padding:14px 14px 13px;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:14px;font-weight:700;text-align:center}
+.info{margin-top:12px;background:var(--bg);border-radius:12px;padding:14px 14px 13px;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:15px;font-weight:700;text-align:center}
 /* 제공량 3항목 — 한 줄 고정 3열.
    아이콘·텍스트를 가로로 두면 폭이 모자라 '문자'가 다음 줄로 떨어지므로(100GB, 11GB+일2GB)
    아이콘을 텍스트 위로 올려 항목 폭을 텍스트 폭까지 줄인다. 값 길이와 무관하게 항상 1행.
@@ -219,10 +238,10 @@ select{font-family:inherit;cursor:pointer}
 .info .chips svg{width:18px;height:18px;flex-shrink:0;stroke:var(--muted-2);stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .card .info{border-radius:12px 12px 0 0}
 /* 혜택 — 정보 면: 스펙과 동일하게 센터 */
-.benefit{margin-top:9px;padding:11px 13px;background:var(--main-ghost);border:1px solid var(--main-weak);border-radius:12px;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--main-deep);text-align:center}
+.benefit{margin-top:8px;padding:11px 13px;background:var(--main-ghost);border:1px solid var(--main-weak);border-radius:12px;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--main-deep);text-align:center}
 /* 자격 제한 라인 C-49 — 선택 전에 인지되도록 카드 안에 상시 표기. Alert을 쓰지 않는다 */
-.card .lim{margin-top:9px;display:flex;align-items:center;justify-content:center;gap:6px;
-  font-size:11.5px;font-weight:700;color:var(--warn);line-height:1.45;text-align:center}
+.card .lim{margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:11px;font-weight:700;color:var(--warn);line-height:1.5;text-align:center}
 .card .lim svg{width:13px;height:13px;flex:0 0 auto;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round}
 /* 프로모션 문구 C-59 — 미등록 시에도 높이를 유지해 카드 높이가 흔들리지 않게 한다 */
 .prices .pnote{width:100%;margin-top:3px;font-size:11px;font-weight:700;color:var(--muted);min-height:16px;line-height:16px}
@@ -231,7 +250,7 @@ select{font-family:inherit;cursor:pointer}
 .card .sprow{margin-top:-1px;padding:11px 14px;background:var(--bg);border-radius:0 0 12px 12px;
   display:flex;align-items:center;justify-content:center;gap:2px;position:relative}
 .card .sprow:before{content:"";position:absolute;left:14px;right:14px;top:0;height:1px;background:var(--line-2)}
-.card .sprow .sp{display:inline;width:auto;padding:0;border:0;font-size:12.5px;font-weight:600;color:var(--muted);line-height:1.5;text-align:center}
+.card .sprow .sp{display:inline;width:auto;padding:0;border:0;font-size:12px;font-weight:600;color:var(--muted);line-height:1.5;text-align:center}
 /* 가격 행 — 프로모션 문구가 한 줄을 차지하므로 줄바꿈을 허용한다 (C-59) */
 .card .prices{flex-wrap:wrap}
 .qbtn{flex:0 0 auto;width:44px;height:44px;margin:-14px 0;display:flex;align-items:center;justify-content:center;color:var(--muted-2);border-radius:50%;transition:color .15s,background .15s}
@@ -239,10 +258,10 @@ select{font-family:inherit;cursor:pointer}
 .qbtn b{width:17px;height:17px;border-radius:50%;border:1.4px solid currentColor;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;font-style:normal}
 /* Sticky 금액 명세 C-51 · 제휴카드 C-52 — 행 수를 늘리지 않아 카드 노출 수를 지킨다 (O-18) */
 .sum{flex-wrap:wrap}
-.sum .amt{width:100%;margin-top:7px;padding-top:7px;border-top:1px solid var(--main-weak);
-  display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11.5px;font-weight:700;color:var(--muted)}
+.sum .amt{width:100%;margin-top:8px;padding-top:7px;border-top:1px solid var(--main-weak);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;font-weight:700;color:var(--muted)}
 .sum .amt .lb{display:flex;align-items:center;gap:6px;min-width:0}
-.sum .amt .v{flex:0 0 auto;font-weight:800;color:var(--text);font-size:12.5px}
+.sum .amt .v{flex:0 0 auto;font-weight:800;color:var(--text);font-size:12px}
 .sum .amt.disc .v{color:var(--main-deep)}
 .ccbtn{flex:0 0 auto;min-height:28px;padding:0 9px;border-radius:8px;border:1px solid var(--line-2);
   background:var(--surface);font-size:11px;font-weight:800;color:var(--main);transition:all .15s}
@@ -268,25 +287,25 @@ select{font-family:inherit;cursor:pointer}
 .ccrd svg{width:11px;height:11px;stroke:#fff;stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round;opacity:0}
 .ccitem.on .ccrd svg{opacity:1}
 .ccbody{flex:1 1 auto;min-width:0}
-.ccnm{font-size:13.5px;font-weight:800;color:var(--text);line-height:1.4}
+.ccnm{font-size:13px;font-weight:800;color:var(--text);line-height:1.5}
 /* 최대 할인액 — 목록을 훑을 때 가장 먼저 잡히는 값이므로 이름 바로 아래 단독 행으로 둔다.
    이름 행에 함께 넣으면 카드명 길이에 따라 행이 접혀 목록 높이가 흔들린다. */
-.ccmax{display:block;margin-top:4px;font-size:12.5px;font-weight:800;color:var(--main-deep);
+.ccmax{display:block;margin-top:4px;font-size:12px;font-weight:800;line-height:1.35;color:var(--main-deep);
   letter-spacing:-.01em;font-variant-numeric:tabular-nums}
 /* 실적 구간 — 카드명·최대 할인액의 부속 정보이므로 한 단계 내려 박스로 묶는다 */
-.cctiers{margin-top:8px;padding:7px 9px;background:var(--bg);border-radius:9px;
+.cctiers{margin-top:8px;padding:7px 9px;background:var(--bg);border-radius:10px;
   display:flex;flex-direction:column;gap:4px}
 .ccitem.on .cctiers{background:var(--surface)}
-.cctier{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:600;color:var(--muted)}
+.cctier{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:600;line-height:1.5;color:var(--muted)}
 .cctier b{font-weight:800;color:var(--text);font-variant-numeric:tabular-nums}
 .ccitem.none .ccbody{display:flex;align-items:center;min-height:19px}
-.ccpane .btns{margin-top:14px}
+.ccpane .btns{margin-top:12px}
 /* 유의사항 — 접이식을 쓰지 않는다. 조건을 접힘 뒤에 두면 선택 전에 읽히지 않는다.
    본문 대비를 muted-2 → muted 로 올려 소형 텍스트 가독성을 확보한다 */
 .ccnote{margin-top:12px;padding-top:11px;border-top:1px solid var(--line);text-align:left}
-.cctt{font-size:11.5px;font-weight:800;color:var(--text);margin-bottom:5px}
+.cctt{font-size:11px;font-weight:800;color:var(--text);margin-bottom:4px}
 .ccnote ul{margin:0;padding-left:15px}
-.ccnote li{font-size:11px;font-weight:600;color:var(--muted);line-height:1.7;margin-bottom:3px;list-style:disc}
+.ccnote li{font-size:11px;font-weight:600;color:var(--muted);line-height:1.7;margin-bottom:4px;list-style:disc}
 .ccnote li:last-child{margin-bottom:0}
 .ccnote li b{color:var(--text);font-weight:800}
 /* 키보드 포커스 — 마우스 클릭에는 링을 그리지 않고 키보드에만 그린다 */
@@ -298,18 +317,67 @@ select{font-family:inherit;cursor:pointer}
    overflow:hidden 은 쓰지 않는다 — 목업으로 옮길 때 콜아웃이 잘린다 (MARKUP 규약) */
 .alert.ccpane{padding:16px 16px 14px;text-align:left}
 .cchead{display:flex;align-items:flex-start;gap:8px;margin-bottom:3px}
-.cchead .ttl{flex:1 1 auto;margin-bottom:0;font-size:15.5px;line-height:1.35}
+.cchead .ttl{flex:1 1 auto;margin-bottom:0;font-size:15px;line-height:1.35}
 .alert button.ccx{flex:0 0 auto;width:44px;height:44px;min-height:44px;margin:-13px -13px 0 0;padding:0;
   background:none;color:var(--muted-2);border-radius:12px;box-shadow:none;font-size:19px;font-weight:700;
   display:flex;align-items:center;justify-content:center}
 .alert button.ccx:hover{background:var(--bg);color:var(--text)}
 .ccpane .body{max-height:42vh;margin-bottom:0}
+
+/* ── C-65 약정 안내 팝업 ──────────────────────────────────
+   원문은 약관이라 손대지 않는다. 대신 위계를 만든다 :
+   히어로(무엇인가) → 이 요금제의 금액 변화(동의 대상) → 핵심 3칸(스캔) →
+   번호 섹션(정독) → 반환금 비율 표. 동의 버튼은 스크롤 밖에 고정한다. */
+.alert.agpane{padding:16px;text-align:left}
+.aghead{display:flex;align-items:flex-start;gap:8px;margin-bottom:12px}
+.aghead .ttl{flex:1 1 auto;margin-bottom:0;font-size:15px;line-height:1.35}
+.agpn,.agst{line-height:1.35}
+.agpv b{line-height:1.35}
+.aghero{background:linear-gradient(135deg,var(--main-weak),var(--main-ghost));border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.aghero b{display:block;font-size:15px;font-weight:800;color:var(--main-deep);letter-spacing:-.01em;margin-bottom:4px}
+.aghero p{font-size:12px;font-weight:700;color:var(--muted);line-height:1.6}
+.aghero p b{display:inline;font-size:12px;color:var(--main-deep)}
+/* 동의 대상이 곧 금액이므로 맨 위에 둔다 (원본 1-A) */
+.agplan{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
+  border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--surface)}
+.agpn{font-size:12px;font-weight:800;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.agpv{flex:0 0 auto;display:flex;align-items:baseline;gap:6px}
+.agpv s{font-size:11px;font-weight:700;color:var(--muted-2)}
+.agpv em{font-style:normal;font-size:11px;color:var(--muted-2)}
+.agpv b{font-size:15px;font-weight:900;color:var(--main-deep);font-variant-numeric:tabular-nums}
+/* 핵심 3칸 — 정독 전에 무엇에 동의하는지 먼저 잡히게 한다 */
+.agkey{display:flex;gap:6px;list-style:none;margin-bottom:12px}
+.agkey li{flex:1 1 0;min-width:0;background:var(--bg);border-radius:12px;padding:10px 8px;text-align:center}
+.agkey span{display:block;font-size:10px;font-weight:700;color:var(--muted-2);margin-bottom:2px;line-height:1.35}
+.agkey b{display:block;font-size:12px;font-weight:800;color:var(--text);letter-spacing:-.01em;word-break:keep-all;line-height:1.35}
+.agpane .body{max-height:36vh;margin-bottom:12px}
+.agsec{padding-top:12px;margin-top:12px;border-top:1px solid var(--line)}
+.agsec:first-child{padding-top:0;margin-top:0;border-top:0}
+.agst{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--text);margin-bottom:8px}
+.agsn{flex:0 0 auto;width:18px;height:18px;border-radius:6px;background:var(--main);color:#fff;
+  font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.agsec p{font-size:12px;font-weight:600;color:var(--muted);line-height:1.7;margin-bottom:6px}
+.agsec p:last-child{margin-bottom:0}
+.agli{list-style:none;margin-top:6px}
+.agli li{position:relative;padding-left:9px;font-size:11px;font-weight:600;color:var(--muted);line-height:1.7;margin-bottom:4px}
+.agli li:last-child{margin-bottom:0}
+.agli li:before{content:"";position:absolute;left:0;top:8px;width:3px;height:3px;border-radius:50%;background:var(--muted-2)}
+/* 반환금 비율 — 원본은 한 줄 나열이라 어느 구간인지 짚기 어렵다. 표로 되돌린다 */
+.agtbl{width:100%;border-collapse:collapse;margin:8px 0 4px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.agtbl th,.agtbl td{padding:7px 10px;font-size:11px;text-align:left;border-bottom:1px solid var(--line)}
+.agtbl thead th{background:var(--bg);font-weight:800;color:var(--muted);font-size:11px}
+.agtbl tbody th{font-weight:700;color:var(--muted)}
+.agtbl tbody td{font-weight:800;color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+.agtbl tr:last-child th,.agtbl tr:last-child td{border-bottom:0}
+.a11y{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.phone.pc .alert.agpane{padding:20px 20px 16px}
+.phone.pc .agpane .body{max-height:44vh}
 .ccnmrow{display:flex;align-items:center;flex-wrap:wrap;gap:6px}
 /* 선택 단서 — 보더 색 · 보더 두께 · 배경 · 라디오 채움에 더해 텍스트 라벨(색상 비의존) C-26.
    display:none 이 아니라 visibility 로 숨긴다 — 선택할 때 라벨이 끼어들어 이름 행이 접히면
    목록 높이가 변한다(실제로 U+ 라이프 신한카드에서 발생). 자리를 항상 잡아 두어 높이를 고정한다. */
 .ccsel{visibility:hidden;flex:0 0 auto;font-size:10px;font-weight:800;color:var(--main);
-  background:var(--main-weak);border-radius:5px;padding:1.5px 5px;line-height:1.5}
+  background:var(--main-weak);border-radius:6px;padding:1.5px 5px;line-height:1.5}
 .ccitem.on .ccsel{visibility:visible}
 /* Sticky 진입 버튼 — 시각 크기는 유지하고 히트 영역만 44px 로 넓힌다 C-38 */
 .ccbtn{position:relative}
@@ -317,8 +385,8 @@ select{font-family:inherit;cursor:pointer}
 /* Sticky 제휴카드 행 — 시각 높이 30px, 히트 영역 44px.
    카드명은 한 줄 말줄임, 금액은 축약하지 않는다 */
 .sum .ccrow{position:relative;width:100%;margin-top:8px;min-height:30px;padding:0 10px;
-  border:1px solid var(--line-2);border-radius:9px;background:var(--surface);
-  display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:700;color:var(--main);
+  border:1px solid var(--line-2);border-radius:10px;background:var(--surface);
+  display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--main);
   transition:border-color .15s,background .15s}
 .sum .ccrow:after{content:"";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:44px}
 .sum .ccrow:hover{border-color:var(--main-mid);background:var(--main-ghost)}
@@ -334,25 +402,45 @@ select{font-family:inherit;cursor:pointer}
 .alert .btns button{flex:1}
 .alert button.gh{background:var(--surface);color:var(--muted);border:1px solid var(--line-2);box-shadow:none}
 .alert button.gh:hover{border-color:var(--main-mid);color:var(--main)}
-.alert .ttl{font-size:14.5px;font-weight:800;margin-bottom:9px;color:var(--text)}
-.alert .body{max-height:38vh;overflow-y:auto;text-align:left;margin-bottom:18px}
-.alert .body p{font-size:12.5px;font-weight:600;line-height:1.65;color:var(--muted);margin-bottom:8px}
+.alert .ttl{font-size:15px;font-weight:800;margin-bottom:8px;color:var(--text)}
+.alert .body{max-height:38vh;overflow-y:auto;text-align:left;margin-bottom:16px}
+.alert .body p{font-size:12px;font-weight:600;line-height:1.7;color:var(--muted);margin-bottom:8px}
 .alert .body p:last-child{margin-bottom:0}
 .alert .body b{color:var(--text);font-weight:800}
-.benefit .gi{flex-shrink:0;width:22px;height:22px;border-radius:7px;background:var(--main-weak);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+/* C-66 — .alert p 의 기본 문단 여백(20px)이 약정 팝업까지 내려와 배너 아래에 빈칸을 만들었다.
+   팝업 안의 문단 여백은 아래에서 단독으로 정한다. 규칙 순서상 여기가 뒤여야 한다 */
+.alert.agpane p{margin-bottom:0}
+/* 헤더 타이틀은 flex 행 안이라 아래 여백이 헤더 높이만 늘린다 */
+.alert.agpane .ttl{margin-bottom:0}
+/* 제휴카드 레이어도 같은 문제를 안고 있었다 — 리드 문장 아래 여백이 20px 로 벌어졌다 */
+.alert.ccpane .cclead{margin-bottom:12px}
+.alert.ccpane .ttl{margin-bottom:0}
+
+/* 레이어 높이를 프레임에 묶는다.
+   기존에는 스크롤 영역 높이를 뷰포트 비율(vh)로 잡아, 세로가 짧은 기기에서
+   레이어가 프레임을 넘어 헤더와 버튼이 잘렸다(실측 704 프레임에 726px).
+   프레임 높이를 상한으로 두고 부족한 만큼 스크롤 영역이 줄어들게 한다 —
+   헤더 · 리드 · 유의사항 · 버튼은 줄어들지 않는다 */
+.alert.ccpane,.alert.agpane{display:flex;flex-direction:column;max-height:100%}
+.ccpane>*,.agpane>*{flex:0 0 auto}
+.ccpane .body,.agpane .body{flex:0 1 auto;min-height:0}
+.alert.agpane .aghero p{line-height:1.6}
+.alert.agpane .agsec p{margin-bottom:6px;line-height:1.7}
+.alert.agpane .agsec p:last-child{margin-bottom:0}
+.benefit .gi{flex-shrink:0;width:22px;height:22px;border-radius:8px;background:var(--main-weak);display:inline-flex;align-items:center;justify-content:center;font-size:12px}
 
 /* 비교 담기 — 액션: 우측 컨트롤 축. 구분선 없이 여백으로 분리
    컨트롤은 히트 영역이 곧 요소이므로 라디오와 동일하게 '박스 경계'를 우측 그리드에 정렬 */
 .cmprow{margin-top:4px;display:flex;align-items:center;justify-content:flex-end}
-.cmpbox{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--muted);padding:0 11px;min-height:44px;border-radius:11px;transition:background .15s, color .15s;white-space:nowrap}
+.cmpbox{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--muted);padding:0 11px;min-height:44px;border-radius:12px;transition:background .15s, color .15s;white-space:nowrap}
 .cmpbox:hover{background:var(--bg);color:var(--main)}
 .cmpbox.on{color:var(--main);background:var(--main-weak)}
 .cmpbox.on:hover{background:var(--main-mid)}
-.cb{width:18px;height:18px;border:1.5px solid var(--line-2);border-radius:5px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:transparent;transition:all .15s;background:var(--surface)}
+.cb{width:18px;height:18px;border:1.5px solid var(--line-2);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:transparent;transition:all .15s;background:var(--surface)}
 .cb.on{background:var(--main);border-color:var(--main);color:#fff}
 
 .sentinel{height:1px}
-.loading{text-align:center;font-size:11.5px;color:var(--muted-2);padding:14px 0 8px;font-weight:600}
+.loading{text-align:center;font-size:11px;color:var(--muted-2);padding:14px 0 8px;font-weight:600}
 .loading .dots span{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--main-mid);margin:0 2px;animation:blink 1.1s infinite}
 .loading .dots span:nth-child(2){animation-delay:.18s}
 .loading .dots span:nth-child(3){animation-delay:.36s}
@@ -361,62 +449,62 @@ select{font-family:inherit;cursor:pointer}
 /* 빈 상태 */
 .empty{text-align:center;padding:58px 16px;animation:fadeIn .25s ease}
 .empty .eicon{width:52px;height:52px;border-radius:18px;background:var(--bg);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:22px;color:var(--muted-2)}
-.empty p{font-size:13.5px;color:var(--muted);margin-bottom:16px;font-weight:600}
-.empty button{padding:10px 20px;border:1px solid var(--main);color:var(--main);border-radius:11px;font-size:12.5px;font-weight:800;background:var(--main-weak);min-height:44px;transition:all .15s}
+.empty p{font-size:13px;color:var(--muted);margin-bottom:16px;font-weight:600}
+.empty button{padding:10px 20px;border:1px solid var(--main);color:var(--main);border-radius:12px;font-size:12px;font-weight:800;background:var(--main-weak);min-height:44px;transition:all .15s}
 .empty button:hover{box-shadow:var(--ring)}
 
 /* sticky bar */
-.sum{font-size:12.5px;font-weight:700;background:var(--main-weak);border-radius:11px;padding:9px 13px;margin-bottom:9px;display:flex;justify-content:space-between;align-items:center;gap:8px;animation:fadeIn .2s ease}
+.sum{font-size:12px;font-weight:700;background:var(--main-weak);border-radius:12px;padding:9px 13px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;animation:fadeIn .2s ease}
 .sum.idle{background:var(--bg);color:var(--muted);justify-content:center;font-weight:600}
 .sum .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--main)}
-.sum .pr{flex-shrink:0;font-weight:800;display:flex;align-items:baseline;gap:5px}
-.sum .pr em{font-style:normal;font-size:10.5px;font-weight:700;color:var(--muted)}
-.cta{width:100%;padding:15px;border-radius:13px;background:linear-gradient(135deg,var(--main) 0%,var(--main-deep) 100%);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;letter-spacing:-.01em;box-shadow:0 6px 16px rgba(91,75,225,.3);transition:all .15s}
+.sum .pr{flex-shrink:0;font-weight:800;display:flex;align-items:baseline;gap:4px}
+.sum .pr em{font-style:normal;font-size:10px;font-weight:700;color:var(--muted)}
+.cta{width:100%;padding:15px;border-radius:14px;background:linear-gradient(135deg,var(--main) 0%,var(--main-deep) 100%);color:#fff;font-size:15px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;letter-spacing:-.01em;box-shadow:0 6px 16px rgba(91,75,225,.3);transition:all .15s}
 .cta:hover{filter:brightness(1.05)}
 .cta:active{transform:scale(.985)}
 .cta.off{background:var(--gray-btn);cursor:not-allowed;box-shadow:none}
 .cta.off:hover{filter:none}
 
 /* 개통방법 / 완료 화면 */
-.sect-t{font-size:12.5px;font-weight:800;color:var(--muted);margin:16px 0 8px;letter-spacing:.01em}
+.sect-t{font-size:12px;font-weight:800;color:var(--muted);margin:16px 0 8px;letter-spacing:.01em}
 /* C-62 — 작성 내용 확인 단계로 옮긴 제휴카드 블록의 주석 행 */
-.s3-cap{font-size:11px;line-height:1.55;color:var(--muted-2);font-weight:600;margin-top:8px}
-.opt{border:1px solid var(--line);border-radius:var(--r);padding:15px;display:flex;gap:11px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);margin-bottom:10px;transition:all .15s}
+.s3-cap{font-size:11px;line-height:1.6;color:var(--muted-2);font-weight:600;margin-top:8px}
+.opt{border:1px solid var(--line);border-radius:var(--r);padding:15px;display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:var(--surface);margin-bottom:10px;transition:all .15s}
 .opt:hover{border-color:var(--main-mid)}
 .opt.sel{border:2px solid var(--main);padding:14px;box-shadow:0 6px 20px rgba(91,75,225,.12)}
 .opt .radio{margin-top:1px}
 .opt.sel .radio{background:var(--main);border-color:var(--main)}
 .opt.sel .radio svg{stroke:#fff}
-.opt b{font-size:14.5px;font-weight:800;display:block}
-.opt small{font-size:11.5px;color:var(--muted);display:block;margin-top:3px}
+.opt b{font-size:15px;font-weight:800;display:block}
+.opt small{font-size:11px;color:var(--muted);display:block;margin-top:3px}
 .ro{border:1px solid var(--line);border-radius:var(--r);padding:16px;background:linear-gradient(180deg,#FCFCFE,#F8F8FB)}
-.ro .lock{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--muted-2);margin-top:12px;font-weight:700;background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:4px 9px}
-.s3-step{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-bottom:16px;font-size:11.5px;color:var(--muted)}
+.ro .lock{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--muted-2);margin-top:12px;font-weight:700;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 9px}
+.s3-step{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:16px;font-size:11px;color:var(--muted)}
 .s3-step span{width:20px;height:20px;border-radius:50%;background:var(--bg);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
 .s3-step span.on{background:var(--main);color:#fff}
 .s3-step b{font-weight:700;color:var(--text);margin-right:4px}
-.s3-pick{display:flex;gap:10px;margin-top:14px}
+.s3-pick{display:flex;gap:10px;margin-top:12px}
 .s3-pick>div{flex:1;border:1px solid var(--line);border-radius:var(--r);padding:15px 10px;text-align:center;background:var(--surface)}
 .s3-pick b{display:block;font-size:13px;font-weight:800;color:var(--text)}
-.s3-pick small{display:block;margin-top:5px;font-size:11px;color:var(--muted);line-height:1.4}
+.s3-pick small{display:block;margin-top:4px;font-size:11px;color:var(--muted);line-height:1.5}
 .done{padding:34px 8px 20px;text-align:center;animation:fadeIn .3s ease}
 .done .ck{width:60px;height:60px;border-radius:50%;background:var(--ok-bg);color:var(--ok);font-size:28px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:pop .35s cubic-bezier(.2,1.6,.5,1) both}
 @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
-.done h4{font-size:16.5px;font-weight:800;margin-bottom:6px;letter-spacing:-.01em}
-.done p{font-size:12.5px;color:var(--muted)}
+.done h4{font-size:17px;font-weight:800;margin-bottom:6px;letter-spacing:-.01em}
+.done p{font-size:12px;color:var(--muted)}
 .carry{margin-top:20px;text-align:left;background:var(--bg);border-radius:14px;padding:15px}
-.carry dt{font-size:10.5px;font-weight:800;color:var(--muted);letter-spacing:.06em;margin-bottom:9px}
-.carry div{display:flex;justify-content:space-between;font-size:12.5px;padding:4.5px 0;gap:10px}
+.carry dt{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.06em;margin-bottom:8px}
+.carry div{display:flex;justify-content:space-between;font-size:12px;padding:4.5px 0;gap:10px}
 .carry div span:first-child{color:var(--muted);flex-shrink:0}
 .carry div span:last-child{font-weight:700;text-align:right}
 
 /* 오버레이 */
 .dim{position:absolute;inset:0;background:rgba(18,18,34,.46);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;padding:28px;z-index:40}
 .dim.on{display:flex;animation:fadeIn .18s ease}
-.alert{background:var(--surface);border-radius:20px;padding:26px 20px 16px;width:100%;text-align:center;box-shadow:var(--shadow-l);animation:pop .28s cubic-bezier(.2,1.4,.5,1) both}
-.alert p{font-size:13.5px;font-weight:700;line-height:1.6;margin-bottom:20px}
-.alert button{width:100%;padding:13px;border-radius:12px;background:linear-gradient(135deg,var(--main),var(--main-deep));color:#fff;font-size:14px;font-weight:800;min-height:48px}
-.toast{position:absolute;left:16px;right:16px;bottom:112px;background:rgba(22,22,32,.94);color:#fff;font-size:12.5px;font-weight:700;padding:12px 15px;border-radius:12px;text-align:center;z-index:45;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none;box-shadow:var(--shadow-m)}
+.alert{background:var(--surface);border-radius:18px;padding:26px 20px 16px;width:100%;text-align:center;box-shadow:var(--shadow-l);animation:pop .28s cubic-bezier(.2,1.4,.5,1) both}
+.alert p{font-size:13px;font-weight:700;line-height:1.6;margin-bottom:20px}
+.alert button{width:100%;padding:13px;border-radius:12px;background:linear-gradient(135deg,var(--main),var(--main-deep));color:#fff;font-size:15px;font-weight:800;min-height:48px}
+.toast{position:absolute;left:16px;right:16px;bottom:112px;background:rgba(22,22,32,.94);color:#fff;font-size:12px;font-weight:700;padding:12px 15px;border-radius:12px;text-align:center;z-index:45;opacity:0;transform:translateY(8px);transition:all .2s;pointer-events:none;box-shadow:var(--shadow-m)}
 .toast.on{opacity:1;transform:none}
 
 /* 비교 시트 */
@@ -426,8 +514,8 @@ select{font-family:inherit;cursor:pointer}
 .grab{flex-shrink:0;padding:9px 0 2px;display:flex;justify-content:center}
 .grab i{width:38px;height:4.5px;border-radius:99px;background:var(--line-2)}
 .sheet-h{display:flex;align-items:center;padding:8px 18px 11px;border-bottom:1px solid var(--line)}
-.sheet-h b{font-size:14.5px;font-weight:800;flex:1;letter-spacing:-.01em}
-.sheet-h button{font-size:19px;color:var(--muted);width:44px;height:44px;border-radius:9px;transition:background .15s}
+.sheet-h b{font-size:15px;font-weight:800;flex:1;letter-spacing:-.01em}
+.sheet-h button{font-size:19px;color:var(--muted);width:44px;height:44px;border-radius:10px;transition:background .15s}
 .sheet-h button:hover{background:var(--bg)}
 .sheet-b{overflow-y:auto;padding:13px 16px 16px}
 /* ============================================================
@@ -442,84 +530,88 @@ select{font-family:inherit;cursor:pointer}
    ============================================================ */
 
 /* ── 리드 ── 왜 이 시트가 떴는지 한 문장 */
-.dep-lead{font-size:13px;font-weight:700;color:var(--text);line-height:1.62;margin-bottom:16px}
+.dep-lead{font-size:13px;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:16px;
+  word-break:keep-all;text-wrap:pretty}
 .dep-lead b{color:var(--main-deep);font-weight:800}
 
 /* ── 그룹 ── 영역은 전부 같은 카드 규격을 쓴다. 위계는 배경·보더로만 나눈다 */
 .dep-grp{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px;margin-bottom:12px}
 .dep-grp:last-child{margin-bottom:0}
 .dep-grp.sub{background:var(--bg);border-color:transparent}          /* 유의사항 — 한 단계 아래 */
-.dep-grp.ext{background:var(--bg);border:1px dashed var(--line-2)}   /* 외부 페이지 — 서비스 밖 C-63 */
+.dep-grp.ext{background:var(--main-ghost);border:1px dashed var(--main-mid)}  /* 외부 페이지 — 서비스 밖 C-63 */
 .dep-gt{display:block;font-size:11px;font-weight:800;color:var(--muted-2);letter-spacing:.04em;margin-bottom:10px}
 
 /* ── 입력 필드 ── */
 .dep-f{margin-bottom:12px}
 .dep-f:last-child{margin-bottom:0}
-.dep-f>label{display:block;font-size:12.5px;font-weight:800;color:var(--text);margin-bottom:6px}
-.dep-f input{width:100%;min-height:48px;padding:0 13px;border:1px solid var(--line-2);border-radius:11px;
-  background:var(--surface);font-size:14px;font-weight:700;color:var(--text);
+.dep-f>label{display:block;font-size:12px;font-weight:800;color:var(--text);margin-bottom:6px}
+.dep-f input{width:100%;min-height:48px;padding:0 13px;border:1px solid var(--line-2);border-radius:12px;
+  background:var(--surface);font-size:15px;font-weight:700;color:var(--text);
   font-family:inherit;transition:border-color .15s}
 .dep-f input::placeholder{color:var(--muted-2);font-weight:600;font-size:13px}
 .dep-f input:hover{border-color:var(--main-mid)}
 .dep-f input:focus{outline:none;border-color:var(--main);border-width:2px;padding:0 12px}
 /* 오류는 색상만으로 알리지 않는다 — 아이콘 + 문구 + 보더를 함께 쓴다 C-26 */
 .dep-f.err input{border-color:var(--err);border-width:2px;padding:0 12px}
-.dep-err{display:flex;align-items:flex-start;gap:5px;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--err);line-height:1.55}
+.dep-err{display:flex;align-items:flex-start;gap:4px;margin-top:8px;font-size:11px;font-weight:700;color:var(--err);line-height:1.6}
 .dep-err b{flex:0 0 auto;width:14px;height:14px;margin-top:1px;border-radius:50%;background:var(--err);color:#fff;
   font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center}
 
 /* ── 외부 인증 호출 C-63 ── 서비스 밖이라는 사실을 라벨 · URL · 파선 보더로 드러낸다 */
-.dep-exth{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:10px}
-.dep-extb{flex:0 0 auto;font-size:10px;font-weight:800;color:var(--main-deep);background:var(--main-weak);border-radius:5px;padding:2.5px 7px}
-.dep-exth code{font-size:11px;font-weight:700;color:var(--muted);word-break:break-all}
-.dep-extl{font-size:12.5px;font-weight:700;color:var(--text);line-height:1.62;margin-bottom:10px}
-.dep-extw{display:flex;gap:6px;flex-wrap:wrap;list-style:none}
-.dep-extw li{font-size:11.5px;font-weight:700;color:var(--muted);background:var(--surface);border:1px solid var(--line-2);border-radius:8px;padding:6px 10px}
+.dep-extl{font-size:13px;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:12px;
+  word-break:keep-all;text-wrap:pretty}
+/* 인증 수단 3칸 — 글자만 있는 칩은 무엇이 다른지 한눈에 안 잡힌다. 아이콘을 얹어 형태로 구분한다 */
+.dep-extw{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;list-style:none}
+.dep-extw li{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  padding:12px 6px;background:var(--surface);border:1px solid var(--line-2);border-radius:12px}
+.dep-exti{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:10px;background:var(--main-weak);color:var(--main-deep)}
+.dep-exti svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dep-extt{font-size:11px;font-weight:800;color:var(--text);text-align:center;line-height:1.35;word-break:keep-all}
 
 /* ── 유의사항 ── 세 시트 모두 같은 자리 · 같은 크기 */
-.dep-note p{font-size:11.5px;font-weight:600;color:var(--muted);line-height:1.7;margin-bottom:6px;padding-left:9px;position:relative}
+.dep-note p{font-size:11px;font-weight:600;color:var(--muted);line-height:1.7;margin-bottom:6px;padding-left:9px;position:relative}
 .dep-note p:last-child{margin-bottom:0}
 .dep-note p:before{content:"";position:absolute;left:0;top:8px;width:3px;height:3px;border-radius:50%;background:var(--muted-2)}
 .dep-note b{color:var(--text);font-weight:800}
 
 /* ── 액션 ── 보조는 폭을 고정하고 주 액션이 넓이를 갖는다 */
 .dep-btns{flex-shrink:0;display:flex;gap:8px;padding:12px 16px 16px;border-top:1px solid var(--line);background:var(--surface)}
-.dep-btns button{flex:1;min-height:50px;padding:13px;border-radius:12px;font-size:14.5px;font-weight:800;
+.dep-btns button{flex:1;min-height:50px;padding:13px;border-radius:12px;font-size:15px;font-weight:800;
   background:linear-gradient(135deg,var(--main),var(--main-deep));color:#fff}
 .dep-btns button.gh{flex:0 0 auto;min-width:112px;background:var(--surface);color:var(--muted);border:1px solid var(--line-2)}
 .dep-btns button.gh:hover{border-color:var(--main-mid);color:var(--main)}
 .dep-btns button.off{background:var(--line-2);color:var(--surface);cursor:default}
 .phone.pc .dep-btns{padding:14px 20px 18px}
-.ctable{width:100%;border-collapse:collapse;font-size:11.5px;table-layout:fixed}
+.ctable{width:100%;border-collapse:collapse;font-size:11px;table-layout:fixed}
 .ctable th,.ctable td{padding:9px 7px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle;word-break:keep-all}
 .ctable th:first-child,.ctable td:first-child{text-align:left;color:var(--muted);font-weight:700;width:62px}
 .ctable th:nth-child(2),.ctable td:nth-child(2){border-right:1px solid var(--line)}
 .ctable thead th{font-size:12px;font-weight:800;color:var(--text);border-bottom:1.5px solid var(--line-2);line-height:1.35;padding-bottom:11px}
 .ctable thead th:nth-child(2){background:var(--main-ghost);border-radius:8px 0 0 0}
 .ctable thead th:nth-child(3){background:var(--main-ghost);border-radius:0 8px 0 0}
-.ctable .big{font-size:14.5px;font-weight:800;color:var(--main)}
-.ctable .sm{font-size:10.5px;color:var(--muted-2);text-decoration:line-through}
+.ctable .big{font-size:15px;font-weight:800;color:var(--main)}
+.ctable .sm{font-size:10px;color:var(--muted-2);text-decoration:line-through}
 /* 각 요금제 열에 매핑된 선택 버튼 */
 .ctable tfoot td{padding:14px 7px 4px;border-bottom:none;border-right:none !important}
 /* 비교 시트 선택 버튼 — 위계를 행동 기준으로 둔다.
    '선택됨'은 아무 동작이 없는 상태 표시이므로 채움을 쓰지 않고,
    실제로 누를 수 있는 '요금제 선택' 쪽을 채움 버튼으로 올린다 */
-.selbtn{width:100%;padding:11px 4px;border-radius:11px;background:var(--main);color:#fff;font-size:12px;font-weight:800;min-height:46px;transition:all .15s;line-height:1.3;box-shadow:0 4px 12px rgba(91,75,225,.24)}
+.selbtn{width:100%;padding:11px 4px;border-radius:12px;background:var(--main);color:#fff;font-size:12px;font-weight:800;min-height:46px;transition:all .15s;line-height:1.35;box-shadow:0 4px 12px rgba(91,75,225,.24)}
 .selbtn:hover{filter:brightness(1.06)}
-.selbtn.on{background:var(--surface);color:var(--main);border:1.5px solid var(--main);box-shadow:none;cursor:default;display:inline-flex;align-items:center;justify-content:center;gap:5px}
+.selbtn.on{background:var(--surface);color:var(--main);border:1.5px solid var(--main);box-shadow:none;cursor:default;display:inline-flex;align-items:center;justify-content:center;gap:4px}
 .selbtn.on:hover{filter:none}
 /* 비교 목록 비우기 — 보조 액션: 아웃라인 필 버튼 (주 CTA와 위계 분리) */
 .sheet-foot{padding:10px 16px 18px;display:flex;justify-content:center}
-.sheet-foot button{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-size:12px;font-weight:700;color:var(--muted);padding:0 18px;min-height:42px;border:1px solid var(--line-2);border-radius:99px;background:var(--surface);transition:all .15s}
+.sheet-foot button{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:700;color:var(--muted);padding:0 18px;min-height:42px;border:1px solid var(--line-2);border-radius:99px;background:var(--surface);transition:all .15s}
 .sheet-foot button:hover{color:var(--err);border-color:#F3C4C4;background:var(--err-bg)}
 .sheet-foot button svg{width:14px;height:14px;flex-shrink:0;stroke:currentColor;stroke-width:1.9;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
 /* ===== 시뮬레이터 ===== */
 .scn{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
-.scn button{text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:var(--surface);font-size:12.5px;font-weight:700;display:flex;gap:10px;align-items:flex-start;transition:all .15s}
+.scn button{text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-size:12px;font-weight:700;display:flex;gap:10px;align-items:flex-start;transition:all .15s}
 .scn button:hover{border-color:var(--main-mid);box-shadow:var(--shadow-s)}
 .scn button.on{border-color:var(--main);background:var(--main-ghost);box-shadow:var(--ring)}
-.scn .tag{flex-shrink:0;font-size:9.5px;font-weight:800;padding:2.5px 7px;border-radius:6px;margin-top:1px;letter-spacing:.02em}
+.scn .tag{flex-shrink:0;font-size:10px;font-weight:800;padding:2.5px 7px;border-radius:6px;margin-top:1px;letter-spacing:.02em}
 .tag.n{background:var(--ok-bg);color:var(--ok)}
 .tag.e{background:var(--err-bg);color:var(--err)}
 .tag.w{background:var(--warn-bg);color:var(--warn)}
@@ -527,8 +619,8 @@ select{font-family:inherit;cursor:pointer}
 .tag.c{background:var(--main-weak);color:var(--main)}
 .scn small{display:block;font-size:11px;font-weight:600;color:var(--muted);margin-top:2px;line-height:1.5}
 
-.log{background:#13131C;border-radius:15px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.75;max-height:430px;overflow-y:auto;box-shadow:inset 0 2px 8px rgba(0,0,0,.25)}
-.log .ln{display:flex;gap:9px;color:#B9B9C8}
+.log{background:#13131C;border-radius:14px;padding:14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.7;max-height:430px;overflow-y:auto;box-shadow:inset 0 2px 8px rgba(0,0,0,.25)}
+.log .ln{display:flex;gap:8px;color:#B9B9C8}
 .log .st{flex-shrink:0;width:58px;color:#6E6E85}
 .log .rs{flex-shrink:0;width:40px;font-weight:700}
 .log .rs.p{color:#4ADE80}
@@ -538,8 +630,8 @@ select{font-family:inherit;cursor:pointer}
 .log .msg{flex:1;word-break:break-word}
 .log .hd{color:#8B7CF6;font-weight:700;margin:7px 0 3px}
 .log .empty2{color:#5A5A70}
-.legend{font-size:11px;color:var(--muted);margin-top:11px;line-height:1.7}
-.legend code{background:var(--bg);padding:1.5px 6px;border-radius:5px;font-size:10.5px;font-weight:700}
+.legend{font-size:11px;color:var(--muted);margin-top:12px;line-height:1.7}
+.legend code{background:var(--bg);padding:1.5px 6px;border-radius:6px;font-size:10px;font-weight:700}
 
 /* ===== 포커스 표시 — UA 기본에 의존하지 않고 명시 (WCAG 2.4.7) ===== */
 .card-main:focus-visible,.cmpbox:focus-visible,.tabbar button:focus-visible,.chip:focus-visible,
@@ -981,6 +1073,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 .fs-kind.add{background:var(--ok-bg);color:var(--ok)}
 .fs-kind.mod{background:var(--warn-bg);color:var(--warn)}
 .fs-kind.del{background:var(--err-bg);color:var(--err)}
+.fs-kind.fix{background:#E8F1FE;color:#1D4ED8}   /* 보정 — 정의 변경 없이 구현 결함을 고친 항목 */
 @media (max-width:640px){
   .fs-logtbl,.fs-logtbl tbody,.fs-logtbl tr,.fs-logtbl td{display:block;width:auto!important}
   .fs-logtbl thead{display:none}
@@ -1244,7 +1337,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id"><span class="cid">C-33</span></td><td>요금제 단계 목록 제약 없음</td><td>요금제 선택 단계에 <b>유심 유형·가입 방법으로 인한 목록 제약은 없다</b> — 해당 제약 요금제가 존재하지 않음. 단 요금제 자체의 가입 자격·약정 조건에 따른 <b>표기와 팝업은 존재</b>한다 <span class="cid">C-49</span> <span class="cid">C-50</span></td></tr>
 <tr><td class="id"><span class="cid">C-48</span></td><td>사은품 선택 단계</td><td>사은품 선택은 <b>가입 방법 선택 직후</b>에 두고, <b>선택할 사은품이 있을 경우에만</b> 노출한다. 노출 조건이 개통방식 · 가입유형 · 요금제 세 값에 의존하므로 가입유형 확정 전에는 목록을 확정할 수 없다. 선택형 사은품이 있는데 미선택으로 확인하면 선택을 요구한다.<br><b>26.08.18 보강</b> — 시트는 <b>선택형 · 추첨 · 선착순 3분류</b>로 구성되며 <b>선택 액션은 선택형에만</b> 있다(선택허용갯수만큼). 나머지 둘은 <b>안내만</b> 한다. 각 그룹에 <b>지급 안내 툴팁</b>을 둔다. 전용 요금제 진입 <span class="cid">C-57</span>은 <b>타이틀 · 유의사항이 해당 요금제 전용 문구로 치환</b>된다</td></tr>
 <tr><td class="id"><span class="cid">C-53</span></td><td>확정 후 요금제 종속 입력</td><td>확정 직후 <b>요금제에 종속된 추가 입력</b>이 있으면 시트로 처리한 뒤 상품 정보 입력으로 이동한다. 대상 — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보. 가입유형에 의존하지 않으므로 <b>요금제 화면에 남긴다</b>.<br><b>26.08.18 보강</b> — 시트별 입력 조건 : <b>망내 1회선</b>은 3-4-4 구분자 입력 + 유플러스망 검증, 실패 시 안내 후 재입력 / <b>쿠팡 회원정보</b>는 이름 + 이메일 형식 ID, <b>형식 충족 후 포커스가 빠질 때 CTA 활성</b> / <b>NPay</b>는 외부 인증 호출이므로 화면 내 입력 폼을 두지 않는다 <span class="cid">C-63</span>. 세 시트 모두 완료 시 다음 단계로 이동한다.<br><b>26.08.18 확정 — 기존 기능 · 화면 재구성</b> : 버튼 라벨을 <b>실제 귀결에 맞춘다</b>. <b>확인 / 다음 / 인증</b> = 입력하고 진행 · <b>「나중에 입력」</b> = 건너뛰고 진행(<b>건너뛸 수 있는 시트만</b> 노출) · <b>닫기(X · 딤)</b> = 진행하지 않고 목록 복귀, 선택은 유지. 원본은 1회선 시트의 「취소」가 실제로는 건너뛰기여서 라벨과 동작이 어긋나 있었다.<br>검증 실패는 <b>Alert이 아니라 입력 칸 인라인 오류</b>로 돌려준다 <span class="cid">C-50</span>. <b>CTA는 형식 요건만으로 활성</b>하고, 조회로만 알 수 있는 값(유플러스망 가입 여부)은 활성 판단에 쓰지 않는다 — 화면이 알 수 없는 값으로 버튼을 잠그면 원인을 알 수 없다. 완료·건너뜀은 <b>세션에 기록</b>해 재확정 시 다시 묻지 않는다 <span class="cid">C-12</span>. 요소 명세는 <b>부록 6 「요금제 종속 입력 시트」</b></td></tr>
-<tr><td class="id"><span class="cid">C-63</span></td><td>NPay 외부 인증 호출</td><td>NPay 요금제의 네이버인증 시트는 <b>자체 입력 폼이 아니라 외부 인증 호출</b>이다. 시트에는 <b>입력 칸을 두지 않고</b> 안내 문구와 <b>「네이버 ID 확인」 단일 버튼</b>만 두며, 그 버튼이 <b>네이버 로그인 페이지를 호출</b>한다 (인증 수단 — ID 로그인 · 일회용 번호 · QR코드). <b>신청서는 계정 정보를 받지도 저장하지도 않는다.</b> <b>신청서 안에 「인증 완료」 확인 단계를 두지 않는다</b> — 인증 결과는 인증을 마치는 즉시 <b>시스템 간 동기화로 반영</b>되므로, 같은 사실을 사용자에게 다시 확인시키면 단계만 늘어난다. 「네이버 ID 확인」을 누르면 <b>인증 페이지를 호출하면서 다음 단계로 진행</b>한다. 외부 페이지라는 사실은 <b>구역 라벨 · 호출 주소 · 파선 테두리</b> 세 단서로 화면에 드러낸다 — 계정 정보를 어디에 넣는지 오인하면 피싱 위험이 생긴다.<br><b>26.08.19 확정</b> — 원본 93p(<code class="k">MO9_0301_L03</code>) 대조 결과. 원본 슬라이드 우측의 ID · 비밀번호 입력 칸은 <b>신청서가 아니라 네이버 로그인 페이지의 것</b>이며, 이를 신청서 입력 폼으로 옮겨 적은 것은 <b>오독</b>이었다 — 정정</td></tr><tr><td class="id"><span class="cid">C-64</span></td><td>입력 서식 자동 적용</td><td>휴대폰번호 칸은 숫자를 넣는 동안 <b>화면이 구분자를 자동으로 넣는다</b> — 10자리는 <b>3-3-4</b>, 11자리는 <b>3-4-4</b>. 사람이 구분자를 직접 넣게 하면 형식 오류의 상당수가 <b>구분자 때문에</b> 발생한다. 원본 92p도 <b>「3자리-4자리-4자리 구분자(-) 표시」</b>를 요구하고 있다.<br>커서 위치는 <b>앞에 있는 숫자 개수</b>로 되짚어 구분자가 끼어들어도 제자리에 남는다. <b>구분자 바로 뒤에서 지우면 숫자 한 자리가 지워진다</b> — 구분자만 사라져 아무 일도 없어 보이는 상태를 만들지 않는다. 자리수는 <b>최대 11자리</b>로 제한하고, 숫자가 아닌 입력은 받지 않는다.<br>안내 문구는 <b>「- 없이 숫자만 입력」에서 예시 형식으로 바꾼다</b> — 구분자를 넣지 말라는 지시가 필요 없어졌기 때문. 검증은 종전대로 <b>숫자만 추출해</b> 판정하므로 서식이 검증 결과를 바꾸지 않는다. <b>26.08.19 확정</b></td></tr>
+<tr><td class="id"><span class="cid">C-63</span></td><td>NPay 외부 인증 호출</td><td>NPay 요금제의 네이버인증 시트는 <b>자체 입력 폼이 아니라 외부 인증 호출</b>이다. 시트에는 <b>입력 칸을 두지 않고</b> 안내 문구와 <b>「네이버 ID 확인」 단일 버튼</b>만 두며, 그 버튼이 <b>네이버 로그인 페이지를 호출</b>한다 (인증 수단 — ID 로그인 · 일회용 번호 · QR코드). <b>신청서는 계정 정보를 받지도 저장하지도 않는다.</b> <b>신청서 안에 「인증 완료」 확인 단계를 두지 않는다</b> — 인증 결과는 인증을 마치는 즉시 <b>시스템 간 동기화로 반영</b>되므로, 같은 사실을 사용자에게 다시 확인시키면 단계만 늘어난다. 「네이버 ID 확인」을 누르면 <b>인증 페이지를 호출하면서 다음 단계로 진행</b>한다. 외부 페이지라는 사실은 <b>파선 테두리</b>와 <b>목적지를 밝힌 안내 문장</b>으로 드러낸다 — 계정 정보를 어디에 넣는지 오인하면 피싱 위험이 생긴다. <b>26.08.19</b> — 호출 주소(URL)와 구역 라벨은 화면에서 <b>노출하지 않는다</b>. 주소는 사용자가 확인할 수 있는 정보가 아니고, 구역 라벨은 안내 문장이 이미 목적지를 말하고 있어 같은 말이 두 번 된다. 대신 <b>인증 수단 3종을 아이콘 카드</b>로 펼쳐 무엇을 고르게 되는지 먼저 보이게 한다. 외부 페이지 신호는 <b>파선 테두리</b>와 <b>목적지를 밝힌 안내 문장</b> 두 가지가 담당한다.<br><b>26.08.19 확정</b> — 원본 93p(<code class="k">MO9_0301_L03</code>) 대조 결과. 원본 슬라이드 우측의 ID · 비밀번호 입력 칸은 <b>신청서가 아니라 네이버 로그인 페이지의 것</b>이며, 이를 신청서 입력 폼으로 옮겨 적은 것은 <b>오독</b>이었다 — 정정</td></tr><tr><td class="id"><span class="cid">C-64</span></td><td>입력 서식 자동 적용</td><td>휴대폰번호 칸은 숫자를 넣는 동안 <b>화면이 구분자를 자동으로 넣는다</b> — 10자리는 <b>3-3-4</b>, 11자리는 <b>3-4-4</b>. 사람이 구분자를 직접 넣게 하면 형식 오류의 상당수가 <b>구분자 때문에</b> 발생한다. 원본 92p도 <b>「3자리-4자리-4자리 구분자(-) 표시」</b>를 요구하고 있다.<br>커서 위치는 <b>앞에 있는 숫자 개수</b>로 되짚어 구분자가 끼어들어도 제자리에 남는다. <b>구분자 바로 뒤에서 지우면 숫자 한 자리가 지워진다</b> — 구분자만 사라져 아무 일도 없어 보이는 상태를 만들지 않는다. 자리수는 <b>최대 11자리</b>로 제한하고, 숫자가 아닌 입력은 받지 않는다.<br>안내 문구는 <b>「- 없이 숫자만 입력」에서 예시 형식으로 바꾼다</b> — 구분자를 넣지 말라는 지시가 필요 없어졌기 때문. 검증은 종전대로 <b>숫자만 추출해</b> 판정하므로 서식이 검증 결과를 바꾸지 않는다. <b>26.08.19 확정</b></td></tr>
 <tr><td class="id"><span class="cid">C-54</span></td><td>동일 IP 다회선 제한</td><td>동일 IP · 가입유형 신규 · 최근 3개월 · 신청서 <b>4건 초과</b>(임시저장 · 가입취소 제외)면 안내 후 신청서를 종료한다. <b>가입유형 확정 이후 검증</b>이므로 요금제 화면이 아니라 가입 방법 선택 이후 구간에서 수행</td></tr>
     </tbody>
   </table>
@@ -1284,8 +1377,16 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id"><span class="cid">C-20</span></td><td>Sticky</td><td>선택 요금제 정보 + 버튼 영역을 뷰포트 하단 고정</td></tr>
       <tr><td class="id"><span class="cid">C-35</span></td><td>비교하기</td><td>전 탭 노출. 카드 내 담기 + 상단 <code class="k">비교 N/2</code> 상태. 담은 항목은 <b>탭 이동 시에도 유지</b>, 2건이면 하단 시트로 비교 후 시트에서 바로 선택</td></tr>
       <tr><td class="id"><span class="cid">C-38</span></td><td>터치 타깃</td><td>44×44px은 요금제 화면 한정 적용이며, <b>화면 내 모든 상시 노출 컨트롤에 예외 없이 적용</b> — 탭·목록 컨트롤 칩·필터 셀렉트·패널 버튼·시트 닫기 · 속도 안내 버튼 <span class="cid">C-58</span> · 제휴카드 계산 버튼 <span class="cid">C-52</span> 포함. 퍼널 전체 표준화는 후속</td></tr>
-<tr><td class="id"><span class="cid">C-49</span></td><td>자격 제한 표기</td><td>가입 자격이 제한된 요금제는 <b>카드 스펙 면 하단에 제약 라인</b>으로 표기한다(예: 만 65세 이상 가입). <b>Alert을 띄우지 않아</b> 선택 피드백의 즉시성을 보존한다 <span class="cid">C-18</span> <span class="cid">C-26</span>. 실제 자격 검증은 가입자 유형 선택의 현행 예외처리를 준용 <span class="cid">C-28</span>. 대상 — 시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단(0GB).<br><b>26.08.18 보강</b> — 원본은 이 구간을 <b>선택 시점 Alert 5종</b>으로 처리했다. 이 중 <b>개통 방식이 바뀌는 경우만</b> 경로 전환 확인으로 남기고 <span class="cid">C-50</span>, <b>정보성 안내</b>(온라인 · 전화 상담 진입 시 "상담사가 개통을 진행합니다")는 <b>제약 라인에 흡수</b>한다 — 진행을 막지 않는 안내를 Alert으로 띄우면 선택 흐름만 끊기기 때문. 연령 기준이 상대 연도로 표기되는 항목은 <b>기준 연도를 화면에서 계산</b>해 표기한다</td></tr>
-<tr><td class="id"><span class="cid">C-50</span></td><td>조건부 팝업</td><td><b>약정 동의와 경로 전환에만 팝업을 쓴다.</b> ① 약정 동의 — 실손약정 · 더알뜰플랜2: 확정 클릭 시 안내 팝업, 동의 / 동의 안함 / 닫기 세 경우 모두 목록으로 복귀하며 <b>동의 상태만 세션에 기록</b> ② 경로 전환 확인 — 셀프개통 + <b>셀프개통 불가 요금제</b>: 해당 요금제도 <b>목록에는 노출</b>하고, 선택 시 <b>상담사 개통으로 작성할지 확인</b>한다. 확인 시 상담사 개통으로 전환하고 선택을 유지하며, <b>취소 시 선택을 해제하고 다른 요금제를 고르도록 안내</b>한다. <b>정보 전달만 하는 안내는 팝업을 쓰지 않고</b> 제약 라인으로 대체 <span class="cid">C-49</span></td></tr>
+<tr><td class="id"><span class="cid">C-49</span></td><td>자격 제한 표기</td><td>가입 자격이 제한된 요금제는 <b>카드 스펙 면 하단에 제약 라인</b>으로 표기한다(예: 만 65세 이상 가입). <b>Alert을 띄우지 않아</b> 선택 피드백의 즉시성을 보존한다 <span class="cid">C-18</span> <span class="cid">C-26</span>. 실제 자격 검증은 가입자 유형 선택의 현행 예외처리를 준용 <span class="cid">C-28</span>. 대상 — 시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단(0GB).
+<br><b>26.08.19 — 원본 78p 제한 케이스 4건 전건 대응</b>. 원본은 넷 모두 <b>선택 시점 Alert</b>이었고, 앞의 셋은 <b>진행을 막지 않는 안내</b>여서 제약 라인으로 흡수했다. 넷째만 <b>개통 방식이 바뀌는 분기</b>라 확인 팝업으로 남긴다 <span class="cid">C-50</span> <span class="cid x">EX-03</span>.
+<table class="r-t" style="margin-top:8px"><thead><tr><th>원본 조건</th><th>원본 문구</th><th>본 설계</th></tr></thead><tbody>
+<tr><td>시니어 요금제 선택</td><td>{요금제명}는 만 65세 이상 고객만 가입 가능합니다.</td><td><b>제약 라인</b> — 「만 65세 이상 고객만 가입 가능」</td></tr>
+<tr><td>이십세 요금제 선택</td><td>{요금제명}는 만 19세 이상 ~ 만 29세 이하 고객만 가입 할 수 있습니다.</td><td><b>제약 라인</b> — 「만 19세 이상 ~ 만 29세 이하 고객만 가입 가능」</td></tr>
+<tr><td>청소년 요금제 선택</td><td>{요금제명}는 만 19세 미만 고객만 가입 가능합니다.</td><td><b>제약 라인</b> — 「만 19세 미만 고객만 가입 가능」</td></tr>
+<tr><td><b>셀프개통 + 청소년 요금제</b></td><td>청소년요금제의 경우 셀프개통 신청이 불가합니다. 온라인신청으로 진행하시겠습니까?</td><td><b>확인 팝업 유지</b> — 「셀프개통으로 신청할 수 없는 요금제입니다. <b>상담사 개통</b>으로 신청서를 작성하시겠습니까?」 확인 = 전환 후 선택 유지 / 취소 = 선택 해제 <span class="cid">C-50</span></td></tr>
+</tbody></table>
+제약 라인은 <b>요금제명을 반복하지 않는다</b> — 카드 안에 있어 어느 요금제 이야기인지 이미 분명하다. 원본의 <code class="k">{요금제명}</code> 치환은 팝업이 카드 밖에 뜨기 때문에 필요했던 것이다.<br><b>26.08.18 보강 · 26.08.19 정정</b> — 원본의 <b>선택 시점 Alert은 6종</b>이다 — 78p 4건(시니어 · 이십세 · 청소년 · 셀프개통+청소년)과 <b>데이터 0GB 차단</b> 2건(85p 셀프개통 · 86p 온라인·전화상담). 종전 「5종」 표기는 실수였다. 이 중 <b>개통 방식이 바뀌는 경우만</b> 경로 전환 확인으로 남기고 <span class="cid">C-50</span>, <b>정보성 안내</b>(온라인 · 전화 상담 진입 시 "상담사가 개통을 진행합니다" · 86p 데이터 0GB 안내)는 <b>제약 라인에 흡수</b>한다 — 진행을 막지 않는 안내를 Alert으로 띄우면 선택 흐름만 끊기기 때문. 연령 기준이 상대 연도로 표기되는 항목은 <b>기준 연도를 화면에서 계산</b>해 표기한다</td></tr>
+<tr><td class="id"><span class="cid">C-50</span></td><td>조건부 팝업</td><td><b>약정 동의와 경로 전환에만 팝업을 쓴다.</b> ① 약정 동의 — <b>약정형</b>(<code class="k">CONTRACT</code>) · <b>더알뜰플랜2</b>(<code class="k">CONTRACT2</code>): 확정 클릭 시 안내 팝업. <b>동의 / 동의 안함 / 닫기(X) / Esc 네 경우 모두</b> 목록으로 복귀하며 <b>동의 상태만 세션에 기록</b>한다 — <b>귀결은 이 항목이 단일 출처</b>이고, 팝업 <b>구성은 <span class="cid">C-65</span></b>가 정의한다 ② 경로 전환 확인 — 셀프개통 + <b>셀프개통 불가 요금제</b>: 해당 요금제도 <b>목록에는 노출</b>하고, 선택 시 <b>상담사 개통으로 작성할지 확인</b>한다. 확인 시 상담사 개통으로 전환하고 선택을 유지하며, <b>취소 시 선택을 해제하고 다른 요금제를 고르도록 안내</b>한다. <b>정보 전달만 하는 안내는 팝업을 쓰지 않고</b> 제약 라인으로 대체 <span class="cid">C-49</span></td></tr><tr><td class="id"><span class="cid">C-65</span></td><td>약정 안내 팝업 구성</td><td><b>약정형</b>(<code class="k">CONTRACT</code> · 「더 알뜰플랜 안내」) · <b>더알뜰플랜2</b>(<code class="k">CONTRACT2</code> · 「더 알뜰플랜2 가입 안내」) 팝업의 <b>구성</b>을 정의한다. 팝업을 쓸지 말지와 버튼 귀결은 <span class="cid">C-50</span>이 정한다. <b>원문은 약관 성격이라 문장을 손대지 않는다.</b> 대신 <b>읽는 순서를 만든다</b> — 원본은 한 덩어리 텍스트여서 동의 버튼까지 스크롤하는 동안 <b>무엇에 동의하는지가 흐려진다</b>.<br><b>위계 5단</b> — ① <b>히어로</b>(무엇인가 · 한 문장) ② <b>이 요금제의 금액 변화</b>(정상가 → 약정가) ③ <b>핵심 3칸</b>(매월 할인 · 약정 기간 · 반환금 / 더알뜰플랜2는 N pay 지급) ④ <b>번호 섹션</b>(원문 1~5 · 더알뜰플랜2는 1~6) ⑤ <b>반환금 비율 표</b>. ②는 원본 1-A(약정할인 반영 금액 출력)를 팝업 안에서 이행한 것으로, <b>동의 대상이 곧 금액</b>이므로 맨 위에 둔다.<br><b>반환금 비율을 표로 바꾼다</b> — 원본은 「0~6개월: 100% / 7~12개월: 50% / …」 한 줄 나열이라 자기 구간을 짚기 어렵다. 값은 원문 그대로 옮긴다.<br><b>약정 조건은 선택 전부터 카드에 표기</b>한다 — <b>약정형</b> · <b>더알뜰플랜2</b> 배지. 되돌리기 어려운 조건을 확정 시점에 처음 알리지 않는다는 점에서 <span class="cid">C-49</span> 제약 라인과 같은 원칙이다.<br><b>이 항목은 구성만 정의한다.</b> <b>노출 조건과 버튼 귀결은 <span class="cid">C-50</span></b>이 단일 출처이며 여기서 다시 적지 않는다. 접근성은 <b>다이얼로그 역할 선언 · 열릴 때 포커스 이동 · 포커스 순환</b>을 갖추고, <b>Esc</b>는 「동의 안함」과 같은 귀결로 처리한다 <span class="cid">WCAG 4.1.2</span> <span class="cid">C-12</span>.<br><b>확인 필요</b> — 원본 반환금 비율의 <b>17~20개월 −20% · 21~24개월 −40%</b>는 <b>음수 부호가 붙어 있다.</b> 원본 표기 그대로 옮겼으며 <b>부호 확인이 필요</b>하다. 문구 전체도 <b>카피 확정 대상</b>이다. <b>26.08.19 확정</b> — 원본 87p · 88p 전문 반영</td></tr><tr><td class="id"><span class="cid">C-66</span></td><td>타이포 · 간격 스케일</td><td>화면 요소의 <b>글자 크기 · 굵기 · 여백 · 모서리</b>를 <b>정해진 단계 안에서만</b> 고른다. 값이 제각각이면 <b>같은 위계의 요소가 화면마다 다르게 보여</b> 사용자가 무엇이 더 중요한지 매번 다시 판단해야 한다.<br><b>글자 9단</b> — 마이크로 · 캡션 · 보조 · 본문 · 강조 · 소제목 · 제목 · 금액 · 대형 금액. <b>굵기 4단</b> — 보조 · 본문 · 강조 · 금액. <b>행간 4단</b> — 짧은 강조 · 라벨 · 한 줄 텍스트 · 여러 줄 본문. <b>여백 8단</b> · <b>모서리 8단</b>. 단계 사이의 중간값을 새로 만들지 않는다 — 한 번 만들면 다음 화면이 그것을 근거로 또 만든다.<br><b>세로 리듬</b> — 여백은 <b>바깥에서 안으로 좁아지게</b> 둔다(영역 사이 &gt; 그룹 사이 &gt; 그룹 안 &gt; 라벨 아래). 간격이 위계를 대신 말하게 하기 위함이다.<br><b>예외</b> — 선택 상태에서 <b>보더가 굵어지는 요소</b>는 증가분만큼 안쪽 여백을 줄여 <b>선택 전후 크기를 유지</b>한다 <span class="cid">C-26</span>. 이 쌍은 스케일 정리 대상이 아니다. <b>터치 타깃 44px</b>는 스케일과 무관하게 항상 우선한다 <span class="cid">C-38</span> — 시각 크기를 줄일 때는 히트 영역을 따로 넓힌다.<br><b>26.08.19 확정</b> — 정리 전 실측 <b>글자 23종 · 행간 13종 · 여백 14종 · 모서리 16종</b> → 정리 후 <b>9 · 4 · 8 · 8종</b>. 행간을 지정하지 않아 상속값을 쓰던 요소가 많아 <b>같은 문단 안에서도 줄 간격이 어긋났다</b> — 값을 지정하는 것 자체가 정리의 일부다. 카드 · 목록 · 하단 고정 영역의 <b>선택 전후 크기 불변</b>과 <b>44px 전건 충족</b>은 정리 후 재검증했다</td></tr>
 <tr><td class="id"><span class="cid">C-51</span></td><td>Sticky 금액 명세</td><td>Sticky에 <b>요금제명과 부가세포함 월 납부 금액을 한 행</b>으로 표기한다. 이 금액은 <b>요금제 기준 금액</b>이다. 미선택 시 안내 문구를 유지한다. 휴대폰 할부금 · 통신요금 분리 표기는 휴대폰 가입 전용이므로 범위 밖.<br><b>26.08.18 개정</b> — 「부가세포함 월 납부 금액」을 <b>별도 행으로 반복하지 않는다</b>. 요금제명 행의 금액과 같은 값을 두 번 말하는 중복이므로, <b>라벨을 금액 앞에 붙여 의미만 유지</b>하고 행은 두지 않는다.<br><b>26.08.19 개정</b> — <b>Sticky는 2행으로 고정</b>한다 — ① 요금제명 + 부가세포함 월 금액 ② 신청서 작성하기. 제휴카드 행을 <b>이 화면에서 걷어냈으므로</b> <span class="cid">C-62</span> 행 수를 늘리는 요인이 남아 있지 않다. 선택 여부 · 스크롤 위치와 무관하게 <b>높이가 변하지 않는다</b> — 확정 판단에 필요한 정보만 남기고 접거나 펴는 장치를 두지 않는다 <span class="cid d">O-18</span></td></tr>
 <tr><td class="id"><span class="cid">C-55</span></td><td>진입 안내 팝업</td><td>원칩 유심 + 셀프개통 + 010 신규가입 <b>세 조건을 모두 만족할 때만</b> 진입 직후 1회 노출. 확인 단일 버튼. 스팸 발송 관련 <b>법적 고지</b>이므로 문구는 원문을 유지한다. <b>26.08.18 보강</b> — 적용 범위는 <b>해당 판매 채널 신청서</b>로 한정되며(원본 : 온세일), 원칩 판정에 쓰는 유심 모델코드는 <b>기존 값을 준용</b>한다</td></tr>
 <tr><td class="id"><span class="cid">C-57</span></td><td>단독 노출 모드</td><td>전용 요금제만 노출되는 진입에서는 <b>탭 영역을 미노출</b>한다 — 네트워크 분기 대상이 없어 빈 탭이 생기기 때문. 목록 컨트롤은 <b>개수 · 정렬만</b> 유지하고 대상 2건 미만이면 비교를 비활성한다. <b>26.08.18 보강</b> — 대상은 <b>전용 요금제만 노출되도록 지정된 진입</b>이며 원본 기준 <b>S Plus · 갤럭시 틴즈 · 쿠팡</b> 경로가 여기 해당한다. 이 진입에서는 <b>제휴카드 영역</b> <span class="cid">C-61</span>과 <b>사은품 시트 문구</b> <span class="cid">C-48</span>도 함께 분기된다</td></tr>
@@ -1408,7 +1509,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
       <tr><td class="id">11</td><td>필터·정렬</td><td><b>클라이언트 처리</b>, 리로드 없음. 적용 후 "요금제 N개" 즉시 갱신</td><td>0건 → <span class="cid x">EX-02</span></td></tr>
       <tr><td class="id">12</td><td>확정 클릭</td><td>선택 요금제 존재</td><td>CTA 비활성 유지 + 안내 토스트</td></tr>
       <tr><td class="id">13</td><td>사용 여부 재검증</td><td>확정 시점 재조회 — 사용 여부 = '사용'</td><td>선택 해제 후 목록 재조회</td></tr>
-      <tr><td class="id">13b</td><td>약정 동의 판정</td><td>실손약정 · 더알뜰플랜2 요금제면 안내 팝업. 동의 / 동의 안함 / 닫기 <b>세 경우 모두 목록으로 복귀</b>하며 동의 상태만 기록 (C-50)</td><td>—</td></tr>
+      <tr><td class="id">13b</td><td>약정 동의 판정</td><td>약정형(CONTRACT) · 더알뜰플랜2(CONTRACT2) 요금제면 안내 팝업. 동의 / 동의 안함 / 닫기(X) / Esc <b>네 경우 모두 목록으로 복귀</b>하며 동의 상태만 기록 (C-50)</td><td>—</td></tr>
       <tr><td class="id">13c</td><td>요금제 종속 입력</td><td>망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보 중 해당 시트 처리 (C-53). <b>형식 검증 통과 시 CTA 활성</b> → 제출 시 <b>조회 검증</b>(망내 1회선은 유플러스망 가입 여부). 완료 · 건너뜀은 세션에 기록해 재확정 시 재노출하지 않음 (C-12)</td><td>형식 오류 · 조회 실패 → <b>인라인 오류</b> 후 재입력 / 「나중에 입력」 → 건너뛰고 진행 / 닫기 → 진행 중단 · 선택 유지</td></tr>
       <tr><td class="id">14</td><td>세션 승계</td><td>선택 요금제 <b>+ 약정 동의 상태 + 종속 입력값</b>을 신청서 세션에 기록 후 S-03 이동 (승계 방식은 개발 분석 단계에서 정의)</td><td>재시도</td></tr>
     </tbody>
@@ -1664,7 +1765,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <p class="d">검증 시퀀스 STEP 1~14 기준 — 진입 판정부터 세션 승계까지 흐름 검증 — <b>30건</b></p>
 <div class="tc-wrap"><table class="r-t tc-t">
 <thead><tr><th>ID</th><th>항목</th><th>선행 조건 · 절차</th><th>기대 결과</th><th>근거</th><th class="c">우선</th><th class="c">프로토</th></tr></thead>
-<tbody><tr><td class="id"><b>TC-F-01</b></td><td>기선택 요금제 있는 진입 (케이스 A)</td><td><span class="pre">S-01에서 요금제를 이미 선택한 상태로 진입</span><br>1. 유입 파라미터·세션에 기선택 요금제를 담아 S-02 진입</td><td>케이스 A로 판정되어 선택 요금제가 반영된 상태로 목록이 열린다</td><td><span class="cid n">STEP 1</span> <span class="cid n">STEP 2</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-02</b></td><td>기선택 없는 진입 (케이스 B)</td><td><span class="pre">기선택 요금제 없음</span><br>1. 기선택 값 없이 S-02 진입</td><td>케이스 B로 판정되어 선택 없는 초기 상태로 목록이 열린다 C-32</td><td><span class="cid n">STEP 1</span> <span class="cid n">STEP 3</span> <span class="cid">C-32</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-03</b></td><td>기선택이 무효한 경우 폴백</td><td><span class="pre">기선택 요금제의 사용 여부 = 미사용</span><br>1. 사용 여부가 미사용인 요금제를 기선택 값으로 두고 진입</td><td>케이스 B로 폴백되어 요금제 화면이 정상 노출된다 (오류 화면 없음)</td><td><span class="cid n">STEP 2</span> <span class="cid">C-40</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-04</b></td><td>개통 방법 미확정 시 이동</td><td><span class="pre">개통 방법 값 없음</span><br>1. 개통 방법 값이 없는 상태로 S-02 직접 진입</td><td>개통 방법 선택 화면(S-01)으로 이동한다</td><td><span class="cid n">STEP 3</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-05</b></td><td>목록 조회 조건</td><td><span class="pre">정상 진입</span><br>1. 목록 로드 확인</td><td>사용 여부 = 사용이고 확정 개통 방법을 지원하는 요금제만 노출된다. 가입자 유형 사전 필터링은 하지 않는다</td><td><span class="cid n">STEP 4</span> <span class="cid">C-40</span> <span class="cid">C-28</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-06</b></td><td>진입 시 결과 0건</td><td><span class="pre">조회 결과가 0건이 되는 조건</span><br>1. 조회 결과 0건 상태로 진입</td><td>EX-02 인라인 빈 상태로 전환되고 Alert은 뜨지 않는다</td><td><span class="cid n">STEP 4</span> <span class="cid n">EX-02</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-07</b></td><td>주간 BEST 탭 구성</td><td><span class="pre">주간 배치 결과 존재</span><br>1. 주간(BEST) 탭 확인</td><td>배치 결과 상위 10개가 확정된 뒤 필터·정렬이 적용되고, 카드에는 고유 순위가 표기된다</td><td><span class="cid n">STEP 5</span> <span class="cid">C-14</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-08</b></td><td>주간 배치 조회 실패</td><td><span class="pre">주간 집계 실패 상황</span><br>1. 주간 집계 실패 상태로 진입</td><td>직전 주 데이터가 유지되고 사용자에게 별도 고지는 없다</td><td><span class="cid n">STEP 5</span> <span class="cid">C-29</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-09</b></td><td>카드 렌더 규칙</td><td><span class="pre">목록 1건 이상</span><br>1. 카드의 가격 · 배지 표기 확인</td><td>프로모션가 유무로 가격 표기가 분기되고, 배지는 등록 순서 상위 2개만 노출된다</td><td><span class="cid n">STEP 6</span> <span class="cid">C-30</span> <span class="cid">C-15</span> <span class="cid">C-37</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-10</b></td><td>초기 선택 상태</td><td><span class="pre">케이스 B 진입</span><br>1. 진입 직후 선택 상태 확인</td><td>선택된 카드가 없고 CTA는 비활성이다</td><td><span class="cid n">STEP 7</span> <span class="cid">C-32</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-11</b></td><td>S-03에서 뒤로가기 복귀</td><td><span class="pre">요금제 선택 후 S-03으로 이동한 상태</span><br>1. S-03에서 뒤로가기로 S-02 복귀</td><td>직전 선택이 복원된다</td><td><span class="cid n">STEP 7</span> <span class="cid">C-43</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-12</b></td><td>카드 단일 선택</td><td><span class="pre">목록 1건 이상</span><br>1. 카드 A 선택<br>2. 카드 B 선택</td><td>B만 선택 상태가 되고 A는 자동 해제된다</td><td><span class="cid n">STEP 8</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-13</b></td><td>같은 카드 재선택</td><td><span class="pre">카드 A 선택 상태</span><br>1. 카드 A를 다시 선택</td><td>선택이 해제되지 않고 그대로 유지된다 (선택은 단일 필수)</td><td><span class="cid n">STEP 8</span> <span class="cid n">S-02_E</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-14</b></td><td>선택 상태 렌더</td><td><span class="pre">카드 선택</span><br>1. 선택된 카드의 시각 상태 확인</td><td>보더 + 채움 + 라디오 3중 단서가 함께 적용된다 (색상 단독 금지)</td><td><span class="cid n">STEP 9</span> <span class="cid">C-26</span> <span class="cid">WCAG 1.4.1</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-15</b></td><td>Sticky 요약 갱신</td><td><span class="pre">카드 선택</span><br>1. 카드 선택 후 하단 바 확인</td><td>선택 요금제명과 월 요금이 표기되고 CTA가 활성화된다</td><td><span class="cid n">STEP 10</span> <span class="cid">C-20</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-16</b></td><td>필터 · 정렬 클라이언트 처리</td><td><span class="pre">목록 1건 이상</span><br>1. 필터 조건 적용<br>2. 정렬 변경</td><td>화면 리로드 없이 목록이 갱신되고 요금제 N개가 즉시 갱신된다</td><td><span class="cid n">STEP 11</span> <span class="cid">C-42</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-17</b></td><td>필터 결과 0건</td><td><span class="pre">필터 적용</span><br>1. 결과가 0건이 되는 필터 조건 적용</td><td>EX-02 빈 상태로 전환되고 탭·컨트롤은 유지된다</td><td><span class="cid n">STEP 11</span> <span class="cid n">EX-02</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-18</b></td><td>선택 후 스크롤 유지</td><td><span class="pre">목록을 아래로 스크롤한 상태</span><br>1. 목록 중간의 카드 선택</td><td>스크롤 위치가 유지되고 목록이 위로 튀지 않는다</td><td><span class="cid n">STEP 8</span> <span class="cid">C-18</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-19</b></td><td>미선택 확정 시도</td><td><span class="pre">선택 없음</span><br>1. 신청서 작성하기 클릭</td><td>확정되지 않고 안내 토스트가 노출된다</td><td><span class="cid n">STEP 12</span> <span class="cid">C-41</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-20</b></td><td>확정 시점 사용 여부 재검증</td><td><span class="pre">선택 요금제가 확정 직전 미사용으로 변경됨</span><br>1. 신청서 작성하기 클릭</td><td>선택이 해제되고 목록이 재조회된다</td><td><span class="cid n">STEP 13</span> <span class="cid">C-40</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-21</b></td><td>세션 승계 후 이동</td><td><span class="pre">요금제 선택</span><br>1. 신청서 작성하기 클릭</td><td>선택 요금제가 신청서 세션에 기록되고 S-03으로 이동한다</td><td><span class="cid n">STEP 14</span> <span class="cid">C-36</span> <span class="cid">C-19</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-22</b></td><td>탭 전환 시 목록 재구성</td><td><span class="pre">목록 1건 이상</span><br>1. 전체 → LTE 탭 전환</td><td>목록이 재구성되고 스크롤이 최상단으로 이동한다 (리로드 없음)</td><td><span class="cid n">S-02_C</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-23</b></td><td>탭 전환 시 선택 유지</td><td><span class="pre">카드 선택 상태</span><br>1. 다른 탭으로 전환</td><td>선택한 요금제가 해제되지 않고 유지된다</td><td><span class="cid n">S-02_C</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-24</b></td><td>탭 전환 시 정렬 기본값</td><td><span class="pre">주간 BEST 탭</span><br>1. 주간 BEST → 전체 탭 전환</td><td>정렬 기본값이 주간 순위순에서 추천순으로 바뀌고 순위 배지가 사라진다</td><td><span class="cid">C-27</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-25</b></td><td>점진 렌더</td><td><span class="pre">목록 다수 건</span><br>1. 목록 하단까지 스크롤</td><td>다음 묶음이 이어 붙고 페이징·무한스크롤 UI는 나타나지 않는다</td><td><span class="cid">C-39</span> <span class="cid">C-21</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-26</b></td><td>진입 안내 팝업 노출</td><td><span class="pre">원칩 유심 + 셀프개통 + 010 신규가입</span><br>1. 해당 조건으로 S-02 진입</td><td>중앙 안내 팝업이 1회 노출되고 확인 시 닫힌다</td><td><span class="cid n">STEP 1b</span> <span class="cid">C-55</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-27</b></td><td>진입 안내 팝업 미노출</td><td><span class="pre">세 조건 중 하나라도 미충족</span><br>1. 원칩이 아닌 유심으로 진입</td><td>안내 팝업이 노출되지 않는다</td><td><span class="cid n">STEP 1b</span> <span class="cid">C-55</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-28</b></td><td>단독 노출 모드 판정</td><td><span class="pre">전용 요금제 진입</span><br>1. 전용 요금제 경로로 S-02 진입</td><td>탭 영역이 노출되지 않고 개수·정렬만 유지된다. 대상 2건 미만이면 비교가 비활성된다</td><td><span class="cid n">STEP 4b</span> <span class="cid">C-57</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-29</b></td><td>약정 동의 팝업</td><td><span class="pre">실손약정 또는 더알뜰플랜2 요금제 선택</span><br>1. 신청서 작성하기 클릭<br>2. 동의 안함 선택</td><td>목록 화면으로 복귀하고 미동의 상태로 기록된다 — 선택은 해제되지 않는다</td><td><span class="cid n">STEP 13b</span> <span class="cid">C-50</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-30</b></td><td>요금제 종속 입력 시트</td><td><span class="pre">망내 1회선 · NPay · 쿠팡 요금제 선택</span><br>1. 신청서 작성하기 클릭</td><td>해당 입력 시트가 열리고 완료 후 S-03으로 이동한다. <b>NPay는 입력 칸 없이</b> 「네이버 ID 확인」이 <b>외부 인증 페이지를 호출하면서 다음 단계로 진행</b>한다 — 신청서에 인증 완료 확인 단계가 없다. <b>망내 1회선</b>은 숫자만 입력해도 <b>3-4-4 구분자가 자동으로 붙는다</b></td><td><span class="cid n">STEP 13c</span> <span class="cid">C-53</span> <span class="cid">C-63</span> <span class="cid">C-64</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr></tbody>
+<tbody><tr><td class="id"><b>TC-F-01</b></td><td>기선택 요금제 있는 진입 (케이스 A)</td><td><span class="pre">S-01에서 요금제를 이미 선택한 상태로 진입</span><br>1. 유입 파라미터·세션에 기선택 요금제를 담아 S-02 진입</td><td>케이스 A로 판정되어 선택 요금제가 반영된 상태로 목록이 열린다</td><td><span class="cid n">STEP 1</span> <span class="cid n">STEP 2</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-02</b></td><td>기선택 없는 진입 (케이스 B)</td><td><span class="pre">기선택 요금제 없음</span><br>1. 기선택 값 없이 S-02 진입</td><td>케이스 B로 판정되어 선택 없는 초기 상태로 목록이 열린다 C-32</td><td><span class="cid n">STEP 1</span> <span class="cid n">STEP 3</span> <span class="cid">C-32</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-03</b></td><td>기선택이 무효한 경우 폴백</td><td><span class="pre">기선택 요금제의 사용 여부 = 미사용</span><br>1. 사용 여부가 미사용인 요금제를 기선택 값으로 두고 진입</td><td>케이스 B로 폴백되어 요금제 화면이 정상 노출된다 (오류 화면 없음)</td><td><span class="cid n">STEP 2</span> <span class="cid">C-40</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-04</b></td><td>개통 방법 미확정 시 이동</td><td><span class="pre">개통 방법 값 없음</span><br>1. 개통 방법 값이 없는 상태로 S-02 직접 진입</td><td>개통 방법 선택 화면(S-01)으로 이동한다</td><td><span class="cid n">STEP 3</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-05</b></td><td>목록 조회 조건</td><td><span class="pre">정상 진입</span><br>1. 목록 로드 확인</td><td>사용 여부 = 사용이고 확정 개통 방법을 지원하는 요금제만 노출된다. 가입자 유형 사전 필터링은 하지 않는다</td><td><span class="cid n">STEP 4</span> <span class="cid">C-40</span> <span class="cid">C-28</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-06</b></td><td>진입 시 결과 0건</td><td><span class="pre">조회 결과가 0건이 되는 조건</span><br>1. 조회 결과 0건 상태로 진입</td><td>EX-02 인라인 빈 상태로 전환되고 Alert은 뜨지 않는다</td><td><span class="cid n">STEP 4</span> <span class="cid n">EX-02</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-07</b></td><td>주간 BEST 탭 구성</td><td><span class="pre">주간 배치 결과 존재</span><br>1. 주간(BEST) 탭 확인</td><td>배치 결과 상위 10개가 확정된 뒤 필터·정렬이 적용되고, 카드에는 고유 순위가 표기된다</td><td><span class="cid n">STEP 5</span> <span class="cid">C-14</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-08</b></td><td>주간 배치 조회 실패</td><td><span class="pre">주간 집계 실패 상황</span><br>1. 주간 집계 실패 상태로 진입</td><td>직전 주 데이터가 유지되고 사용자에게 별도 고지는 없다</td><td><span class="cid n">STEP 5</span> <span class="cid">C-29</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-09</b></td><td>카드 렌더 규칙</td><td><span class="pre">목록 1건 이상</span><br>1. 카드의 가격 · 배지 표기 확인</td><td>프로모션가 유무로 가격 표기가 분기되고, 배지는 등록 순서 상위 2개만 노출된다</td><td><span class="cid n">STEP 6</span> <span class="cid">C-30</span> <span class="cid">C-15</span> <span class="cid">C-37</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-10</b></td><td>초기 선택 상태</td><td><span class="pre">케이스 B 진입</span><br>1. 진입 직후 선택 상태 확인</td><td>선택된 카드가 없고 CTA는 비활성이다</td><td><span class="cid n">STEP 7</span> <span class="cid">C-32</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-11</b></td><td>S-03에서 뒤로가기 복귀</td><td><span class="pre">요금제 선택 후 S-03으로 이동한 상태</span><br>1. S-03에서 뒤로가기로 S-02 복귀</td><td>직전 선택이 복원된다</td><td><span class="cid n">STEP 7</span> <span class="cid">C-43</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-12</b></td><td>카드 단일 선택</td><td><span class="pre">목록 1건 이상</span><br>1. 카드 A 선택<br>2. 카드 B 선택</td><td>B만 선택 상태가 되고 A는 자동 해제된다</td><td><span class="cid n">STEP 8</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-13</b></td><td>같은 카드 재선택</td><td><span class="pre">카드 A 선택 상태</span><br>1. 카드 A를 다시 선택</td><td>선택이 해제되지 않고 그대로 유지된다 (선택은 단일 필수)</td><td><span class="cid n">STEP 8</span> <span class="cid n">S-02_E</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-14</b></td><td>선택 상태 렌더</td><td><span class="pre">카드 선택</span><br>1. 선택된 카드의 시각 상태 확인</td><td>보더 + 채움 + 라디오 3중 단서가 함께 적용된다 (색상 단독 금지)</td><td><span class="cid n">STEP 9</span> <span class="cid">C-26</span> <span class="cid">WCAG 1.4.1</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-15</b></td><td>Sticky 요약 갱신</td><td><span class="pre">카드 선택</span><br>1. 카드 선택 후 하단 바 확인</td><td>선택 요금제명과 월 요금이 표기되고 CTA가 활성화된다</td><td><span class="cid n">STEP 10</span> <span class="cid">C-20</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-16</b></td><td>필터 · 정렬 클라이언트 처리</td><td><span class="pre">목록 1건 이상</span><br>1. 필터 조건 적용<br>2. 정렬 변경</td><td>화면 리로드 없이 목록이 갱신되고 요금제 N개가 즉시 갱신된다</td><td><span class="cid n">STEP 11</span> <span class="cid">C-42</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-17</b></td><td>필터 결과 0건</td><td><span class="pre">필터 적용</span><br>1. 결과가 0건이 되는 필터 조건 적용</td><td>EX-02 빈 상태로 전환되고 탭·컨트롤은 유지된다</td><td><span class="cid n">STEP 11</span> <span class="cid n">EX-02</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-18</b></td><td>선택 후 스크롤 유지</td><td><span class="pre">목록을 아래로 스크롤한 상태</span><br>1. 목록 중간의 카드 선택</td><td>스크롤 위치가 유지되고 목록이 위로 튀지 않는다</td><td><span class="cid n">STEP 8</span> <span class="cid">C-18</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-19</b></td><td>미선택 확정 시도</td><td><span class="pre">선택 없음</span><br>1. 신청서 작성하기 클릭</td><td>확정되지 않고 안내 토스트가 노출된다</td><td><span class="cid n">STEP 12</span> <span class="cid">C-41</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-20</b></td><td>확정 시점 사용 여부 재검증</td><td><span class="pre">선택 요금제가 확정 직전 미사용으로 변경됨</span><br>1. 신청서 작성하기 클릭</td><td>선택이 해제되고 목록이 재조회된다</td><td><span class="cid n">STEP 13</span> <span class="cid">C-40</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-21</b></td><td>세션 승계 후 이동</td><td><span class="pre">요금제 선택</span><br>1. 신청서 작성하기 클릭</td><td>선택 요금제가 신청서 세션에 기록되고 S-03으로 이동한다</td><td><span class="cid n">STEP 14</span> <span class="cid">C-36</span> <span class="cid">C-19</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-22</b></td><td>탭 전환 시 목록 재구성</td><td><span class="pre">목록 1건 이상</span><br>1. 전체 → LTE 탭 전환</td><td>목록이 재구성되고 스크롤이 최상단으로 이동한다 (리로드 없음)</td><td><span class="cid n">S-02_C</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-23</b></td><td>탭 전환 시 선택 유지</td><td><span class="pre">카드 선택 상태</span><br>1. 다른 탭으로 전환</td><td>선택한 요금제가 해제되지 않고 유지된다</td><td><span class="cid n">S-02_C</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-24</b></td><td>탭 전환 시 정렬 기본값</td><td><span class="pre">주간 BEST 탭</span><br>1. 주간 BEST → 전체 탭 전환</td><td>정렬 기본값이 주간 순위순에서 추천순으로 바뀌고 순위 배지가 사라진다</td><td><span class="cid">C-27</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-25</b></td><td>점진 렌더</td><td><span class="pre">목록 다수 건</span><br>1. 목록 하단까지 스크롤</td><td>다음 묶음이 이어 붙고 페이징·무한스크롤 UI는 나타나지 않는다</td><td><span class="cid">C-39</span> <span class="cid">C-21</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-F-26</b></td><td>진입 안내 팝업 노출</td><td><span class="pre">원칩 유심 + 셀프개통 + 010 신규가입</span><br>1. 해당 조건으로 S-02 진입</td><td>중앙 안내 팝업이 1회 노출되고 확인 시 닫힌다</td><td><span class="cid n">STEP 1b</span> <span class="cid">C-55</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-27</b></td><td>진입 안내 팝업 미노출</td><td><span class="pre">세 조건 중 하나라도 미충족</span><br>1. 원칩이 아닌 유심으로 진입</td><td>안내 팝업이 노출되지 않는다</td><td><span class="cid n">STEP 1b</span> <span class="cid">C-55</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-28</b></td><td>단독 노출 모드 판정</td><td><span class="pre">전용 요금제 진입</span><br>1. 전용 요금제 경로로 S-02 진입</td><td>탭 영역이 노출되지 않고 개수·정렬만 유지된다. 대상 2건 미만이면 비교가 비활성된다</td><td><span class="cid n">STEP 4b</span> <span class="cid">C-57</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-29</b></td><td>약정 동의 팝업</td><td><span class="pre">약정형(CONTRACT) 또는 더알뜰플랜2(CONTRACT2) 요금제 선택</span><br>1. 신청서 작성하기 클릭<br>2. 동의 안함 선택</td><td>목록 화면으로 복귀하고 미동의 상태로 기록된다 — 선택은 해제되지 않는다</td><td><span class="cid n">STEP 13b</span> <span class="cid">C-50</span> <span class="cid">C-65</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-31</b></td><td>약정 안내 팝업 구성</td><td><span class="pre">약정형 · 더알뜰플랜2 요금제 선택</span><br>1. 신청서 작성하기 클릭<br>2. 팝업을 끝까지 스크롤<br>3. Esc 입력</td><td>히어로 · <b>선택 요금제의 정상가 → 약정가</b> · 핵심 3칸이 스크롤 밖에 고정되고, 본문에 번호 섹션과 <b>반환금 비율 표</b>가 노출된다. Esc는 <b>동의 안함과 같은 귀결</b>(미동의 · 목록 복귀)이다. 카드에는 <b>약정형 / 더알뜰플랜2 배지</b>가 선택 전부터 보인다</td><td><span class="cid n">STEP 13b</span> <span class="cid">C-65</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-F-30</b></td><td>요금제 종속 입력 시트</td><td><span class="pre">망내 1회선 · NPay · 쿠팡 요금제 선택</span><br>1. 신청서 작성하기 클릭</td><td>해당 입력 시트가 열리고 완료 후 S-03으로 이동한다. <b>NPay는 입력 칸 없이</b> 「네이버 ID 확인」이 <b>외부 인증 페이지를 호출하면서 다음 단계로 진행</b>한다 — 신청서에 인증 완료 확인 단계가 없다. <b>망내 1회선</b>은 숫자만 입력해도 <b>3-4-4 구분자가 자동으로 붙는다</b></td><td><span class="cid n">STEP 13c</span> <span class="cid">C-53</span> <span class="cid">C-63</span> <span class="cid">C-64</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr></tbody>
 </table></div>
 </div>
 <div class="r-sec">
@@ -1680,7 +1781,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <p class="d">A~G 영역별 상태와 요소 명세 기준 — 구성 · 표기 · 조작 검증 — <b>46건</b></p>
 <div class="tc-wrap"><table class="r-t tc-t">
 <thead><tr><th>ID</th><th>항목</th><th>선행 조건 · 절차</th><th>기대 결과</th><th>근거</th><th class="c">우선</th><th class="c">프로토</th></tr></thead>
-<tbody><tr><td class="id"><b>TC-U-01</b></td><td>A 헤더 구성</td><td><span class="pre">정상 진입</span><br>1. 헤더 확인</td><td>뒤로 · 가입신청서 · 닫기 순으로 구성된다</td><td><span class="cid n">S-02_A</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-02</b></td><td>A 뒤로가기</td><td><span class="pre">정상 진입</span><br>1. 뒤로 아이콘 클릭</td><td>History.back() 으로 이전 화면에 복귀한다</td><td><span class="cid n">S-02_A</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-03</b></td><td>A 닫기</td><td><span class="pre">정상 진입</span><br>1. 닫기 아이콘 클릭</td><td>신청서를 이탈한다 (복귀 경로는 현행 준용)</td><td><span class="cid n">S-02_A</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-04</b></td><td>B 타이틀</td><td><span class="pre">정상 진입</span><br>1. 타이틀 확인</td><td>가입하실 요금제를 선택해 주세요. 가 노출되고 서브 타이틀은 없다</td><td><span class="cid n">S-02_B</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-05</b></td><td>C 탭 구성</td><td><span class="pre">정상 진입</span><br>1. 탭 확인</td><td>주간 BEST(기본) · 전체 · LTE · 5G 4개가 노출된다</td><td><span class="cid n">S-02_C</span> <span class="cid">C-14</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-06</b></td><td>C 탭 고정</td><td><span class="pre">목록 스크롤</span><br>1. 아래로 스크롤</td><td>탭이 헤더 하단에 붙어 고정된다</td><td><span class="cid n">S-02_C</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-07</b></td><td>C 선택된 탭 재클릭</td><td><span class="pre">전체 탭 선택 상태</span><br>1. 전체 탭 재클릭</td><td>아무 동작도 일어나지 않는다 (NO ACTION)</td><td><span class="cid n">S-02_C</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-08</b></td><td>D 요금제 개수</td><td><span class="pre">목록 1건 이상</span><br>1. 개수 표기 확인</td><td>요금제 N개가 노출되고 필터·정렬 결과에 즉시 반응한다</td><td><span class="cid n">S-02_D</span> <span class="cid">C-39</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-09</b></td><td>D 컨트롤 순서</td><td><span class="pre">목록 1건 이상</span><br>1. 컨트롤 배치 확인</td><td>필터 › 정렬 › 비교 순서가 전 탭 공통으로 고정된다</td><td><span class="cid n">S-02_D</span> <span class="cid">C-22</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-10</b></td><td>D 필터 패널 펼침</td><td><span class="pre">목록 1건 이상</span><br>1. 필터 클릭</td><td>패널이 인라인으로 펼쳐지고 목록을 덮지 않고 밀어낸다</td><td><span class="cid n">S-02_D</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-11</b></td><td>D 필터 조건 순서</td><td><span class="pre">필터 패널 펼침</span><br>1. 조건 확인</td><td>데이터 제공량 → 월 기본료 순으로 고정된다</td><td><span class="cid n">S-02_D</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-12</b></td><td>D 초기화 비활성</td><td><span class="pre">적용 조건 없음</span><br>1. 초기화 버튼 확인</td><td>비활성 상태이며 투명도가 아닌 대비 유지 방식으로 표기된다</td><td><span class="cid n">S-02_D</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-13</b></td><td>D 정렬 옵션</td><td><span class="pre">목록 1건 이상</span><br>1. 정렬 셀렉트 확인</td><td>옵션 3개이며 첫 옵션 라벨이 탭에 따라 전환된다</td><td><span class="cid n">S-02_D</span> <span class="cid">C-27</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-14</b></td><td>D 비교 카운트</td><td><span class="pre">비교 담기 조작</span><br>1. 카드에서 비교 담기 · 해제</td><td>비교 0/2 → 1/2 → 2/2 로 실시간 반영된다</td><td><span class="cid n">S-02_D</span> <span class="cid">C-35</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-15</b></td><td>E 순위 배지</td><td><span class="pre">주간 BEST 탭</span><br>1. 카드 배지 확인</td><td>주간 순위 1~10이 표기되고 그 외 탭에서는 미노출된다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-16</b></td><td>E 혜택 배지 상한</td><td><span class="pre">배지 3개 이상 등록된 요금제</span><br>1. 카드 배지 확인</td><td>등록 순서 기준 앞의 2개만 노출된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-15</span> <span class="cid">C-37</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-17</b></td><td>E 배지 없는 요금제</td><td><span class="pre">배지 미등록 요금제</span><br>1. 카드 확인</td><td>배지 영역 자체가 노출되지 않는다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-18</b></td><td>E 가격 표기</td><td><span class="pre">프로모션가 있는 요금제</span><br>1. 가격 확인</td><td>판매가 취소선 + 프로모션가 / 월 로 표기되고 할인율·할인액은 없다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-30</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-19</b></td><td>E 프로모션 지급 개월</td><td><span class="pre">프로모션 있는 요금제</span><br>1. 가격 영역 확인</td><td>지급 개월이 배너로만 표기되고 적용 기간·종료 후 금액은 노출되지 않는다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-45</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-20</b></td><td>E 프로모션 없는 요금제</td><td><span class="pre">프로모션가 없는 요금제</span><br>1. 가격 확인</td><td>판매가만 노출된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-30</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-21</b></td><td>E 제공량 면</td><td><span class="pre">목록 1건 이상</span><br>1. 제공량 영역 확인</td><td>데이터 · 통화 · 문자가 3열 1행으로 고정 노출되고 값이 줄바꿈되지 않는다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-22</b></td><td>E 혜택 면 유무</td><td><span class="pre">혜택 없는 요금제</span><br>1. 카드 확인</td><td>혜택 면이 생성되지 않고 카드 높이가 축소된다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-23</b></td><td>E 비교 담기 상한</td><td><span class="pre">비교 2개 담긴 상태</span><br>1. 3번째 카드의 비교 담기 클릭</td><td>담기지 않고 상한 안내 토스트만 노출된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-15</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-24</b></td><td>E 선택 전후 카드 크기</td><td><span class="pre">목록 1건 이상</span><br>1. 카드 선택 · 해제</td><td>카드 크기가 변하지 않아 목록이 흔들리지 않는다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-25</b></td><td>F 미선택 상태</td><td><span class="pre">선택 없음</span><br>1. 하단 바 확인</td><td>요금제를 선택해 주세요 문구와 비활성 CTA가 노출된다</td><td><span class="cid n">S-02_F</span> <span class="cid">C-20</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-26</b></td><td>F 선택 상태</td><td><span class="pre">카드 선택</span><br>1. 하단 바 확인</td><td>선택 요금제명(좌) + 월 요금(우)이 노출되고 CTA가 활성화된다</td><td><span class="cid n">S-02_F</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-27</b></td><td>F 요금제명 넘침</td><td><span class="pre">이름이 긴 요금제 선택</span><br>1. 하단 바 확인</td><td>요금제명만 한 줄 말줄임 처리되고 요금은 축약되지 않는다</td><td><span class="cid n">S-02_F</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-28</b></td><td>F 토스트 단일 노출</td><td><span class="pre">토스트 노출 상태</span><br>1. 소멸 전 다른 토스트 유발</td><td>중첩되지 않고 문구가 교체되며 타이머가 재시작된다</td><td><span class="cid n">S-02_F</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-29</b></td><td>G 비교 시트 자동 노출</td><td><span class="pre">비교 1개 담긴 상태</span><br>1. 두 번째 요금제 담기</td><td>비교 시트가 자동으로 열린다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-30</b></td><td>G 비교 버튼 0개</td><td><span class="pre">비교 0개</span><br>1. 비교 버튼 클릭</td><td>시트가 열리지 않고 담기 안내 토스트만 노출된다</td><td><span class="cid n">S-02_G</span> <span class="cid n">S-02_F</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-31</b></td><td>G 비교 버튼 1개</td><td><span class="pre">비교 1개</span><br>1. 비교 버튼 클릭</td><td>시트가 열리지 않고 1개 더 담으라는 안내가 노출된다</td><td><span class="cid n">S-02_G</span> <span class="cid n">S-02_F</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-32</b></td><td>G 비교 항목 구성</td><td><span class="pre">시트 열림</span><br>1. 비교표 확인</td><td>월 요금 · 판매가 · 데이터 · QOS · 통화/문자 5행만 노출되고 혜택은 표시되지 않는다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-47</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-33</b></td><td>G 긴 값 표현</td><td><span class="pre">QOS 값이 긴 요금제로 비교</span><br>1. QOS 행 확인</td><td>줄바꿈으로 처리되고 말줄임·글자 축소는 없다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-47</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-34</b></td><td>G 값 강조 없음</td><td><span class="pre">두 요금제 비교</span><br>1. 서로 다른 값 확인</td><td>다른 값을 강조하지 않고 전부 같은 위계로 표기된다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-47</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-35</b></td><td>G 판매가 없는 요금제</td><td><span class="pre">프로모션가 없는 요금제 포함</span><br>1. 판매가 행 확인</td><td>해당 열에 - 로 표기된다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-36</b></td><td>G 열별 선택</td><td><span class="pre">시트 열림</span><br>1. 좌측 열의 요금제 선택 클릭</td><td>해당 요금제가 선택되고 시트가 닫히며 카드·하단 바가 동기화된다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-37</b></td><td>G 선택됨 열 재클릭</td><td><span class="pre">시트에서 이미 선택된 요금제</span><br>1. 선택됨 버튼 클릭</td><td>해제되지 않는다 (선택은 단일 필수)</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-38</b></td><td>G 비교 목록 비우기</td><td><span class="pre">시트 열림</span><br>1. 비교 목록 비우기 클릭</td><td>시트가 닫히고 비교 카운트가 0/2로 갱신된다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-39</b></td><td>G 자동 닫힘</td><td><span class="pre">시트 열림</span><br>1. 카드에서 비교 담기 하나 해제</td><td>담긴 항목이 1개가 되어 시트가 자동으로 닫힌다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-47</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-40</b></td><td>G 닫기 · 딤 클릭</td><td><span class="pre">시트 열림</span><br>1. 닫기 아이콘 클릭<br>2. 다시 열고 딤 영역 클릭</td><td>두 경우 모두 동일하게 닫힌다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-41</b></td><td>G 탭 이동 후 유지</td><td><span class="pre">비교 2개 담긴 상태</span><br>1. 다른 탭으로 이동</td><td>담긴 항목이 유지된다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-35</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-42</b></td><td>E 자격 제약 라인</td><td><span class="pre">자격 제한 요금제 포함 목록</span><br>1. 해당 카드 확인<br>2. 카드 선택</td><td>제약 라인이 상시 표기되고, 선택 시 Alert 없이 그 자리에서 선택이 완결된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-49</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-43</b></td><td>E 프로모션 문구 높이</td><td><span class="pre">프로모션 문구 미등록 요금제</span><br>1. 등록 요금제와 카드 높이 비교</td><td>문구만 비노출되고 가격 영역 높이는 동일하게 유지된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-59</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-44</b></td><td>E 속도 안내 버튼</td><td><span class="pre">목록 1건 이상</span><br>1. 속도 안내 버튼 선택</td><td>QoS 상세 레이어가 노출된다. 버튼 터치 타깃이 44px 이상이다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-58</span> <span class="cid">C-38</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-45</b></td><td>F 금액 명세</td><td><span class="pre">카드 선택</span><br>1. 하단 바 확인</td><td>요금제명과 부가세포함 월 납부 금액이 함께 표기되고 바는 2행을 유지한다</td><td><span class="cid n">S-02_F</span> <span class="cid">C-51</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-46</b></td><td>F 제휴카드 미노출</td><td><span class="pre">사용 상태 제휴카드 존재 · 요금제 선택</span><br>1. 하단 바 확인<br>2. 목록을 위아래로 스크롤</td><td>하단 고정 영역에 <b>제휴카드 행 · 진입 버튼이 없다</b>. 바는 선택 여부 · 스크롤 위치와 무관하게 <b>2행 높이를 유지</b>한다. 제휴카드는 가입신청서 작성 내용 확인 단계에서 다룬다</td><td><span class="cid n">S-02_F</span> <span class="cid">C-62</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr></tbody>
+<tbody><tr><td class="id"><b>TC-U-01</b></td><td>A 헤더 구성</td><td><span class="pre">정상 진입</span><br>1. 헤더 확인</td><td>뒤로 · 가입신청서 · 닫기 순으로 구성된다</td><td><span class="cid n">S-02_A</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-02</b></td><td>A 뒤로가기</td><td><span class="pre">정상 진입</span><br>1. 뒤로 아이콘 클릭</td><td>History.back() 으로 이전 화면에 복귀한다</td><td><span class="cid n">S-02_A</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-03</b></td><td>A 닫기</td><td><span class="pre">정상 진입</span><br>1. 닫기 아이콘 클릭</td><td>신청서를 이탈한다 (복귀 경로는 현행 준용)</td><td><span class="cid n">S-02_A</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-04</b></td><td>B 타이틀</td><td><span class="pre">정상 진입</span><br>1. 타이틀 확인</td><td>가입하실 요금제를 선택해 주세요. 가 노출되고 서브 타이틀은 없다</td><td><span class="cid n">S-02_B</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-05</b></td><td>C 탭 구성</td><td><span class="pre">정상 진입</span><br>1. 탭 확인</td><td>주간 BEST(기본) · 전체 · LTE · 5G 4개가 노출된다</td><td><span class="cid n">S-02_C</span> <span class="cid">C-14</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-06</b></td><td>C 탭 고정</td><td><span class="pre">목록 스크롤</span><br>1. 아래로 스크롤</td><td>탭이 헤더 하단에 붙어 고정된다</td><td><span class="cid n">S-02_C</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-07</b></td><td>C 선택된 탭 재클릭</td><td><span class="pre">전체 탭 선택 상태</span><br>1. 전체 탭 재클릭</td><td>아무 동작도 일어나지 않는다 (NO ACTION)</td><td><span class="cid n">S-02_C</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-08</b></td><td>D 요금제 개수</td><td><span class="pre">목록 1건 이상</span><br>1. 개수 표기 확인</td><td>요금제 N개가 노출되고 필터·정렬 결과에 즉시 반응한다</td><td><span class="cid n">S-02_D</span> <span class="cid">C-39</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-09</b></td><td>D 컨트롤 순서</td><td><span class="pre">목록 1건 이상</span><br>1. 컨트롤 배치 확인</td><td>필터 › 정렬 › 비교 순서가 전 탭 공통으로 고정된다</td><td><span class="cid n">S-02_D</span> <span class="cid">C-22</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-10</b></td><td>D 필터 패널 펼침</td><td><span class="pre">목록 1건 이상</span><br>1. 필터 클릭</td><td>패널이 인라인으로 펼쳐지고 목록을 덮지 않고 밀어낸다</td><td><span class="cid n">S-02_D</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-11</b></td><td>D 필터 조건 순서</td><td><span class="pre">필터 패널 펼침</span><br>1. 조건 확인</td><td>데이터 제공량 → 월 기본료 순으로 고정된다</td><td><span class="cid n">S-02_D</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-12</b></td><td>D 초기화 비활성</td><td><span class="pre">적용 조건 없음</span><br>1. 초기화 버튼 확인</td><td>비활성 상태이며 투명도가 아닌 대비 유지 방식으로 표기된다</td><td><span class="cid n">S-02_D</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-13</b></td><td>D 정렬 옵션</td><td><span class="pre">목록 1건 이상</span><br>1. 정렬 셀렉트 확인</td><td>옵션 3개이며 첫 옵션 라벨이 탭에 따라 전환된다</td><td><span class="cid n">S-02_D</span> <span class="cid">C-27</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-14</b></td><td>D 비교 카운트</td><td><span class="pre">비교 담기 조작</span><br>1. 카드에서 비교 담기 · 해제</td><td>비교 0/2 → 1/2 → 2/2 로 실시간 반영된다</td><td><span class="cid n">S-02_D</span> <span class="cid">C-35</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-15</b></td><td>E 순위 배지</td><td><span class="pre">주간 BEST 탭</span><br>1. 카드 배지 확인</td><td>주간 순위 1~10이 표기되고 그 외 탭에서는 미노출된다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-16</b></td><td>E 혜택 배지 상한</td><td><span class="pre">배지 3개 이상 등록된 요금제</span><br>1. 카드 배지 확인</td><td>등록 순서 기준 앞의 2개만 노출된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-15</span> <span class="cid">C-37</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-17</b></td><td>E 배지 없는 요금제</td><td><span class="pre">배지 미등록 요금제</span><br>1. 카드 확인</td><td>배지 영역 자체가 노출되지 않는다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-18</b></td><td>E 가격 표기</td><td><span class="pre">프로모션가 있는 요금제</span><br>1. 가격 확인</td><td>판매가 취소선 + 프로모션가 / 월 로 표기되고 할인율·할인액은 없다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-30</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-19</b></td><td>E 프로모션 지급 개월</td><td><span class="pre">프로모션 있는 요금제</span><br>1. 가격 영역 확인</td><td>지급 개월이 배너로만 표기되고 적용 기간·종료 후 금액은 노출되지 않는다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-45</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-20</b></td><td>E 프로모션 없는 요금제</td><td><span class="pre">프로모션가 없는 요금제</span><br>1. 가격 확인</td><td>판매가만 노출된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-30</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-21</b></td><td>E 제공량 면</td><td><span class="pre">목록 1건 이상</span><br>1. 제공량 영역 확인</td><td>데이터 · 통화 · 문자가 3열 1행으로 고정 노출되고 값이 줄바꿈되지 않는다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-22</b></td><td>E 혜택 면 유무</td><td><span class="pre">혜택 없는 요금제</span><br>1. 카드 확인</td><td>혜택 면이 생성되지 않고 카드 높이가 축소된다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-23</b></td><td>E 비교 담기 상한</td><td><span class="pre">비교 2개 담긴 상태</span><br>1. 3번째 카드의 비교 담기 클릭</td><td>담기지 않고 상한 안내 토스트만 노출된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-15</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-24</b></td><td>E 선택 전후 카드 크기</td><td><span class="pre">목록 1건 이상</span><br>1. 카드 선택 · 해제</td><td>카드 크기가 변하지 않아 목록이 흔들리지 않는다</td><td><span class="cid n">S-02_E</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-25</b></td><td>F 미선택 상태</td><td><span class="pre">선택 없음</span><br>1. 하단 바 확인</td><td>요금제를 선택해 주세요 문구와 비활성 CTA가 노출된다</td><td><span class="cid n">S-02_F</span> <span class="cid">C-20</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-26</b></td><td>F 선택 상태</td><td><span class="pre">카드 선택</span><br>1. 하단 바 확인</td><td>선택 요금제명(좌) + 월 요금(우)이 노출되고 CTA가 활성화된다</td><td><span class="cid n">S-02_F</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-27</b></td><td>F 요금제명 넘침</td><td><span class="pre">이름이 긴 요금제 선택</span><br>1. 하단 바 확인</td><td>요금제명만 한 줄 말줄임 처리되고 요금은 축약되지 않는다</td><td><span class="cid n">S-02_F</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-28</b></td><td>F 토스트 단일 노출</td><td><span class="pre">토스트 노출 상태</span><br>1. 소멸 전 다른 토스트 유발</td><td>중첩되지 않고 문구가 교체되며 타이머가 재시작된다</td><td><span class="cid n">S-02_F</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-29</b></td><td>G 비교 시트 자동 노출</td><td><span class="pre">비교 1개 담긴 상태</span><br>1. 두 번째 요금제 담기</td><td>비교 시트가 자동으로 열린다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-30</b></td><td>G 비교 버튼 0개</td><td><span class="pre">비교 0개</span><br>1. 비교 버튼 클릭</td><td>시트가 열리지 않고 담기 안내 토스트만 노출된다</td><td><span class="cid n">S-02_G</span> <span class="cid n">S-02_F</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-31</b></td><td>G 비교 버튼 1개</td><td><span class="pre">비교 1개</span><br>1. 비교 버튼 클릭</td><td>시트가 열리지 않고 1개 더 담으라는 안내가 노출된다</td><td><span class="cid n">S-02_G</span> <span class="cid n">S-02_F</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-32</b></td><td>G 비교 항목 구성</td><td><span class="pre">시트 열림</span><br>1. 비교표 확인</td><td>월 요금 · 판매가 · 데이터 · QOS · 통화/문자 5행만 노출되고 혜택은 표시되지 않는다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-47</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-33</b></td><td>G 긴 값 표현</td><td><span class="pre">QOS 값이 긴 요금제로 비교</span><br>1. QOS 행 확인</td><td>줄바꿈으로 처리되고 말줄임·글자 축소는 없다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-47</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-34</b></td><td>G 값 강조 없음</td><td><span class="pre">두 요금제 비교</span><br>1. 서로 다른 값 확인</td><td>다른 값을 강조하지 않고 전부 같은 위계로 표기된다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-47</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-35</b></td><td>G 판매가 없는 요금제</td><td><span class="pre">프로모션가 없는 요금제 포함</span><br>1. 판매가 행 확인</td><td>해당 열에 - 로 표기된다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri low">Low</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-36</b></td><td>G 열별 선택</td><td><span class="pre">시트 열림</span><br>1. 좌측 열의 요금제 선택 클릭</td><td>해당 요금제가 선택되고 시트가 닫히며 카드·하단 바가 동기화된다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-37</b></td><td>G 선택됨 열 재클릭</td><td><span class="pre">시트에서 이미 선택된 요금제</span><br>1. 선택됨 버튼 클릭</td><td>해제되지 않는다 (선택은 단일 필수)</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-38</b></td><td>G 비교 목록 비우기</td><td><span class="pre">시트 열림</span><br>1. 비교 목록 비우기 클릭</td><td>시트가 닫히고 비교 카운트가 0/2로 갱신된다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-39</b></td><td>G 자동 닫힘</td><td><span class="pre">시트 열림</span><br>1. 카드에서 비교 담기 하나 해제</td><td>담긴 항목이 1개가 되어 시트가 자동으로 닫힌다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-47</span></td><td class="c"><span class="pri high">High</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-40</b></td><td>G 닫기 · 딤 클릭</td><td><span class="pre">시트 열림</span><br>1. 닫기 아이콘 클릭<br>2. 다시 열고 딤 영역 클릭</td><td>두 경우 모두 동일하게 닫힌다</td><td><span class="cid n">S-02_G</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-41</b></td><td>G 탭 이동 후 유지</td><td><span class="pre">비교 2개 담긴 상태</span><br>1. 다른 탭으로 이동</td><td>담긴 항목이 유지된다</td><td><span class="cid n">S-02_G</span> <span class="cid">C-35</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">●</td></tr><tr><td class="id"><b>TC-U-42</b></td><td>E 자격 제약 라인</td><td><span class="pre">자격 제한 요금제 포함 목록 · 상담사 개통</span><br>1. 시니어 · 이십세 · 청소년 카드 확인<br>2. 각 카드 선택</td><td><b>세 건 모두</b> 제약 라인이 상시 표기되고(만 65세 이상 / 만 19~29세 / 만 19세 미만), 선택 시 <b>Alert 없이</b> 그 자리에서 선택이 완결된다. 제약 라인은 <b>요금제명을 반복하지 않는다</b></td><td><span class="cid n">S-02_E</span> <span class="cid">C-49</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-43</b></td><td>E 프로모션 문구 높이</td><td><span class="pre">프로모션 문구 미등록 요금제</span><br>1. 등록 요금제와 카드 높이 비교</td><td>문구만 비노출되고 가격 영역 높이는 동일하게 유지된다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-59</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-44</b></td><td>E 속도 안내 버튼</td><td><span class="pre">목록 1건 이상</span><br>1. 속도 안내 버튼 선택</td><td>QoS 상세 레이어가 노출된다. 버튼 터치 타깃이 44px 이상이다</td><td><span class="cid n">S-02_E</span> <span class="cid">C-58</span> <span class="cid">C-38</span></td><td class="c"><span class="pri mid">Mid</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-45</b></td><td>F 금액 명세</td><td><span class="pre">카드 선택</span><br>1. 하단 바 확인</td><td>요금제명과 부가세포함 월 납부 금액이 함께 표기되고 바는 2행을 유지한다</td><td><span class="cid n">S-02_F</span> <span class="cid">C-51</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr><tr><td class="id"><b>TC-U-46</b></td><td>F 제휴카드 미노출</td><td><span class="pre">사용 상태 제휴카드 존재 · 요금제 선택</span><br>1. 하단 바 확인<br>2. 목록을 위아래로 스크롤</td><td>하단 고정 영역에 <b>제휴카드 행 · 진입 버튼이 없다</b>. 바는 선택 여부 · 스크롤 위치와 무관하게 <b>2행 높이를 유지</b>한다. 제휴카드는 가입신청서 작성 내용 확인 단계에서 다룬다</td><td><span class="cid n">S-02_F</span> <span class="cid">C-62</span></td><td class="c"><span class="pri high">High</span></td><td class="c">—</td></tr></tbody>
 </table></div>
 </div>
 <div class="r-sec">
@@ -1803,6 +1904,15 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <tbody>
 <tr><td class="dt">26.08.18</td><td><span class="fs-kind mod">수정</span></td><td class="tg">02 프로토타입 · F · 05 개선안</td><td><b>FOOT STICKY 축소</b> <span class="cid">C-51</span> — 요금제 선택 시 Sticky가 <b>123 → 227px</b>로 커져 목록이 <b>103px(-17%)</b> 줄고, 고른 뒤 다른 요금제와 비교하려는 순간에 탐색 영역이 가장 좁아지던 문제. <b>카드명 · 예상 할인액 · 진입을 한 줄로 병합</b>해 <b>169px</b>로 줄이고(시각 30px · 터치 타깃 44px 분리), <b>스크롤 축약</b>을 더해 아래로 훑는 동안에는 <b>131px</b>까지 접는다. 요금제명 · 금액 · CTA는 항상 유지. 포커스가 Sticky에 들어오면 즉시 펼쳐 키보드 접근을 막지 않는다. <b>실측 — 목록 뷰포트 520 → 577~615px 회복</b>. 카드 2장 완전 노출은 카드 높이(혜택 있음 379px) 때문에 <span class="cid d">O-18</span> 압축과 함께 가야 도달</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.18</td><td><span class="fs-kind add">추가</span></td><td class="tg">02 프로토타입 · F · 부록 6 · 03 기능정의 · 05 개선안</td><td><b>요금제 종속 입력 시트 3종 재구성</b> <span class="cid">C-53</span> — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보. <b>기존 기능은 그대로 두고 화면만 재구성</b>. 버튼 라벨을 <b>실제 귀결에 맞춰</b> 정리(확인/다음/인증 = 입력하고 진행 · <b>「나중에 입력」</b> = 건너뛰고 진행 · 닫기 = 진행 중단 후 목록 복귀). 원본은 1회선 시트의 「취소」가 실제로는 건너뛰기여서 라벨과 동작이 어긋나 있었음. 검증 실패를 <b>Alert에서 입력 칸 인라인 오류</b>로 이관 <span class="cid">C-50</span>, <b>CTA는 형식 요건만으로 활성</b>하고 조회 판정(유플러스망 가입 여부)은 제출 시점에 인라인으로 회신. 빈 칸은 포커스 아웃 시 지적하지 않고, 재입력 시작 시 오류 즉시 해제. 부록 6에 <b>「요금제 종속 입력 시트 — 요소 명세」 신설</b>(입력 항목 · 형식/검증 · 버튼 귀결 · 상태/접근성 8항목), 03 기능정의 STEP 13c 분해, 시나리오 시뮬레이터에 케이스 추가(11 → 12건)</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind fix">보정</span></td><td class="tg">02 프로토타입 — 네이버인증 카피</td><td><b>네이버인증 안내 문구 보완</b> <span class="cid">C-63</span><br>「네이버 로그인 페이지<b>로</b> 로그인 후 신청서 다음 단계로 진행됩니다.」 → 「네이버 로그인 페이지<b>에서 로그인을 마치면</b> 신청서 다음 단계로 진행됩니다.」<br><b>조사 정정</b> — 로그인하는 장소는 「~로」가 아니라 「~에서」다. <b>조건 명시</b> — 「로그인 후」는 시점만 말하지만 「로그인을 마치면」은 <b>무엇을 해야 넘어가는지</b>를 말한다. 강조는 결과(다음 단계 진행)에서 <b>사용자가 할 일(로그인을 마치면)</b>로 옮겼다 — 결과는 자동으로 일어나고 사용자가 판단할 것은 앞쪽이기 때문.<br><b>맞춤법</b> — 혜택 문구의 「돌려 받는」을 <b>「돌려받는」</b>으로 붙였다(「돌려받다」는 한 낱말)</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind fix">보정</span></td><td class="tg">02 프로토타입 — C-53 시트 3종</td><td><b>네이버인증 시트 디자인 보정</b> <span class="cid">C-63</span> <span class="cid">C-66</span><br><b>① 외부 구역이 유의사항과 같은 회색</b>이라 「서비스 밖」 신호가 죽어 있었다. 구역 배경과 파선을 <b>강조 계열</b>로 바꿔 회색 블록과 분리했다 — 문구를 덜어낸 만큼 <b>색과 테두리가 신호를 대신</b> 진다.<br><b>② 문장이 단어 중간에서 끊겼다</b>(「…진행됩니 / 다.」 · 「…진 / 행됩니다.」). 리드와 안내 문장에 <b>단어 단위 줄바꿈</b>을 걸어 한 글자만 남는 줄을 없앴다.<br><b>③ 인증 수단 카드가 비어 보였다</b> — 칸 높이에 비해 아이콘이 작았다. 아이콘을 키우고 라벨을 본문 색·굵기로 올려 <b>카드가 하나의 선택지</b>로 읽히게 했다.<br>시트 높이 463 → 477px. 세 시트 공통 골격은 그대로다</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind fix">보정</span></td><td class="tg">02 프로토타입 — 네이버인증 시트 · 05 개선안</td><td><b>「이동할 페이지」 구역 재구성</b> <span class="cid">C-63</span> — <b>호출 주소(URL) 표기를 삭제</b>했다. 사용자가 확인할 수 있는 정보가 아니고, 시트 폭에서 두 줄로 접혀 다른 안내를 밀어냈다.<br>대신 <b>인증 수단 3종을 아이콘 카드</b>로 펼쳤다(ID 로그인 · 일회용 번호 · QR코드) — 글자만 있는 칩은 셋이 무엇이 다른지 한눈에 안 잡힌다. 안내 문장을 한 단계 키우고 <b>「세 가지 중 하나를 고르면 됩니다」</b> 보조 문장을 더해, 이동한 뒤 무엇을 하게 되는지 먼저 보이게 했다.<br><b>26.08.19 2차</b> — 사용자 확정으로 <b>구역 라벨 「이동할 페이지」</b>와 <b>「세 가지 중 하나를 고르면 됩니다」 보조 문장</b>도 삭제했다. 라벨은 안내 문장이 이미 목적지를 말해 중복이고, 보조 문장은 아이콘 카드 3칸이 형태로 이미 말한다. 혜택 문구를 <b>「매월 통신료의 10%를 NPay 포인트로 돌려 받는 혜택」</b>, 안내 문장을 <b>「네이버 로그인 페이지로 로그인 후 신청서 다음 단계로 진행됩니다.」</b>로 교체. 외부 페이지 신호는 <b>파선 테두리 + 목적지를 밝힌 안내 문장</b> 두 가지가 담당한다. 시트 높이 554.7 → <b>463px</b></td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind add">추가</span></td><td class="tg">02 프로토타입 · E · 05 개선안 · 06</td><td><b>원본 78p 제한 케이스 4건 전건 대응</b> <span class="cid">C-49</span> — 원본은 넷 모두 <b>선택 시점 Alert</b>이다. 앞의 셋(시니어 · 이십세 · 청소년)은 <b>진행을 막지 않는 안내</b>여서 <b>제약 라인으로 흡수</b>하고, 넷째(셀프개통 + 청소년)만 <b>개통 방식이 바뀌는 분기</b>라 확인 팝업으로 남겼다 <span class="cid">C-50</span>.<br><b>이십세 요금제 신설</b> — 셋 중 유일하게 프로토타입에 없던 케이스다. <b>LTE 이십세 요금제</b>(제약 라인 「만 19세 이상 ~ 만 29세 이하 고객만 가입 가능」 · 배지 「이십세 전용」)를 추가해 <b>네 케이스를 모두 눌러 볼 수 있게</b> 했다.<br>C-49 정의에 <b>원본 조건 · 원본 문구 · 본 설계</b> 대조표를 실었다. 제약 라인은 <b>요금제명을 반복하지 않는다</b> — 카드 안에 있어 대상이 이미 분명하며, 원본의 요금제명 치환은 팝업이 카드 밖에 뜨기 때문에 필요했던 것이다. 시나리오 C-49를 4건 대응 형태로 재구성, <b>TC-U-42</b>를 세 건 전수 검증으로 확장</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind fix">보정</span></td><td class="tg">01 화면설계 — F 영역</td><td><b>F 영역 SYS 행 중첩 해소 — 좁은 폭에서 명세가 무너지던 결함</b><br><b>증상</b> — 폭 <b>640px 이하</b>에서 F 영역 선택 상태의 명세가 <b>한 글자씩 줄바꿈</b>되며 읽을 수 없게 됐다. 실측 값 열 폭 <b>43px</b>.<br><b>원인</b> — <b>SYS 행이 직전 명세 행 안에 중첩</b>되어 있었다. 직전 행이 자기 태그를 닫지 않은 채 SYS 행이 열려, 바깥 행의 격자(라벨 | 값) 중 <b>값 칸 안에 행 하나가 통째로 들어간</b> 상태였다. 넓은 폭에서는 값 칸이 충분해 드러나지 않다가 좁아질수록 무너졌다.<br><b>범위</b> — <b>원본부터 있던 결함</b>이며 이번 작업으로 생긴 것이 아니다(기준 커밋에서 동일 재현). 문서 전체에서 <b>이 1건뿐</b>임을 전수 검사로 확인했다.<br><b>조치</b> — 직전 행을 제자리에서 닫고 SYS 행을 형제로 되돌렸다. 360 · 420 · 560 · 640 · 700 · 780 · 1180 · 1400 여덟 폭에서 값 칸 폭 정상 확인, 중첩 행 <b>0건</b>. 콜아웃 ↔ 명세 행 1:1 정합은 그대로 유지된다</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind fix">보정</span></td><td class="tg">02 프로토타입 — 약정 팝업 · 제휴카드 레이어</td><td><b>레이어 여백 · 행간 보정 + 프레임 초과 해소</b> <span class="cid">C-66</span><br><b>① 배너 아래 빈칸 20px</b> — <code class="k">.alert p</code>의 기본 문단 여백이 약정 팝업까지 내려와 히어로 아래에 <b>쓰지 않는 여백</b>을 만들고 있었다. 제휴카드 레이어의 리드 문장도 같은 문제로 12px가 아니라 20px로 벌어져 있었다. 팝업 안의 문단 여백을 <b>단독 규칙으로 분리</b>해 해소.<br><b>② 행간 불규칙</b> — 행간을 지정하지 않아 상속값을 쓰던 요소가 많아 같은 문단 안에서도 줄 간격이 어긋났다. <b>13종 → 4단</b>으로 정리하고 상속에 기대던 요소에 값을 명시. 세로 리듬도 <b>바깥에서 안으로 좁아지게</b> 재배치(헤더 12 · 히어로 8 · 금액 8 · 요약 12 · 본문 16).<br><b>③ 프레임 초과 (기존 결함 해소)</b> — 스크롤 영역 높이를 <b>뷰포트 비율</b>로 잡아 세로가 짧은 기기에서 레이어가 프레임을 넘고 헤더·버튼이 잘렸다(704 프레임에 <b>726px</b>). <b>프레임 높이를 상한</b>으로 두고 부족한 만큼 스크롤 영역만 줄어들게 바꿨다 — 헤더 · 리드 · 유의사항 · 버튼은 줄어들지 않는다. 664 · 704 · 904 세 높이에서 <b>초과 0 · 버튼 노출 전건 확인</b>.<br>약정 팝업 높이 <b>767.8 → 740.1px</b> · 히어로 <b>114.8 → 93.6px</b></td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">02 프로토타입 전역 · 05 개선안</td><td><b>타이포 · 간격 스케일 정리</b> <span class="cid">C-66</span> — 프로토타입 영역의 값이 제각각이었다. 실측 <b>글자 23종 · 여백(gap) 14종 · 모서리 16종</b>을 <b>9 · 8 · 8종</b>으로 줄이고, 굵기는 4단으로 고정했다. 조정 건수 — 글자 81 · 여백 40 · 모서리 27.<br><b>지킨 것</b> — 선택 상태에서 보더가 굵어지는 요소(카드 · 개통 방법 · 제휴카드 행 · 입력 칸)의 <b>보더/여백 보정 쌍은 건드리지 않았다.</b> 안쪽 여백(padding)을 정리 대상에서 통째로 제외해 <b>선택 전후 크기 불변</b>을 보장했다.<br><b>재검증</b> — 카드 선택 전후 크기 동일 · 제휴카드 목록 높이 4회 선택 불변 · <b>44px 미만 컨트롤 0건</b> · 가로 넘침 0 · 18조합 PASS. 실측 갱신 — 카드 높이 <b>325.8 → 323.7px</b> · 제휴카드 목록 <b>420.7 → 418.6px</b> · 하단 고정 영역 <b>123.4 → 121.6px</b></td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">05 개선안 · 01 F · 부록 6 · 03 기능정의 · 06</td><td><b>C-50 ↔ C-65 역할 분리 · 중복 제거</b> — 두 코드가 같은 사실을 두 곳에서 다르게 말하고 있었다. <b>C-50 = 팝업을 쓰는 기준과 버튼 귀결(단일 출처)</b>, <b>C-65 = 팝업 구성</b>으로 나누고 C-65의 귀결 재서술을 참조로 바꿨다.<br><b>발견한 불일치 2건</b> — ① 같은 대상을 <b>「실손약정」과 「더 알뜰플랜」 두 이름</b>으로 부르고 있었다. 「실손약정」은 원본 Page ID에만 있는 내부 명칭이고 <b>화면 문구·상위요금제 코드는 CONTRACT</b>이므로 <b>「약정형(CONTRACT)」으로 통일</b>했다. ② 귀결 건수가 <b>C-50 세 경우 / C-65 네 경우</b>로 어긋나 있었다(C-65에 Esc를 더하며 C-50을 갱신하지 않음). <b>네 경우(동의 · 동의 안함 · 닫기 · Esc)로 통일</b>하고 반영처를 전수 갱신 — 01 F 확정 후 분기 SYS · 03 STEP 13b · 부록 6 확정 시점 · 06 TC-F-29 전제</td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind add">추가</span></td><td class="tg">02 프로토타입 · E · 부록 6 · 05 개선안 · 06</td><td><b>약정 안내 팝업 2종 신설</b> <span class="cid">C-65</span> — 원본 <b>87p 더 알뜰플랜(CONTRACT)</b> · <b>88p 더 알뜰플랜2(CONTRACT2)</b> 전문을 프로토타입에 반영했다. 원문은 손대지 않고 <b>위계 5단</b>으로 재구성 — 히어로 → <b>이 요금제의 정상가 → 약정가</b> → 핵심 3칸 → 번호 섹션 → <b>반환금 비율 표</b>. 원본은 한 덩어리 텍스트여서 동의 버튼까지 스크롤하는 동안 무엇에 동의하는지가 흐려진다. 반환금 비율은 한 줄 나열을 <b>표</b>로 되돌렸다.<br><b>요금제 ↔ 약정 매핑 정정</b> — 원본 기준으로 <b>LTE (1GB+/통화기본)를 CONTRACT2 → CONTRACT</b>로 바로잡고, <b>LTE (7GB+/통화기본)에 CONTRACT2</b>를 부여했다. 요금제명에 <b>[약정형] · [더알뜰플랜2]</b> 표기를 붙이고 <b>카드 배지</b>를 신설해 <b>선택 전부터</b> 약정 조건이 보이게 했다 <span class="cid">C-49</span>와 같은 원칙. 시나리오 <b>12 → 13건</b>(C-65 추가), 테스트 케이스 <b>TC-F-31</b> 신설.<br><b>확인 필요</b> — 원본 반환금 비율의 <b>17~20개월 −20% · 21~24개월 −40%</b>에 음수 부호가 붙어 있어 원본 표기 그대로 옮겼다. <b>부호 확인 대상</b></td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">02 프로토타입 · 부록 6 · 05 개선안 · 06</td><td><b>휴대폰번호 입력 서식 자동 적용</b> <span class="cid">C-64</span> — 망내 1회선 번호 칸에서 숫자를 넣는 동안 화면이 구분자를 넣는다(10자리 3-3-4 · 11자리 3-4-4). 커서는 <b>앞에 있는 숫자 개수</b>로 되짚어 제자리에 남고, <b>구분자 바로 뒤에서 지우면 숫자 한 자리가 지워진다</b>. 최대 11자리 제한. 안내 문구를 「- 없이 숫자만 입력」에서 <b>예시 형식</b>으로 교체. 검증은 종전대로 숫자만 추출해 판정하므로 결과가 바뀌지 않는다.<br><b>NPay 인증 완료 단계 제거</b> <span class="cid">C-63</span> — 인증 결과는 인증 완료 후 <b>시스템 간 동기화로 반영</b>되므로 신청서에 확인 단계를 두지 않는다. 「네이버 ID 확인」을 누르면 <b>인증 페이지를 호출하면서 다음 단계로 진행</b>한다. 시트에는 <b>「이동할 페이지」 그룹을 본문에 두어</b> 누르기 전에 어디로 가는지 먼저 보이게 했다 — 누르고 나서 알면 계정 정보 입력처를 오인할 수 있기 때문</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">F · 부록 5 · 부록 6 · 02 프로토타입 · 03 기능정의 · 05 개선안 · 06</td><td><b>제휴카드 일체를 S-02 밖으로 이관</b> <span class="cid">C-62</span> — 진입 · 선택 · 결과 확인을 <b>가입신청서 작성 내용 확인(마지막 단계)</b>으로 옮겼다. 근거는 카드 할인액이 <b>요금제와 무관한 고정액</b>이라 요금제 비교에 쓰이지 않는다는 점, 그리고 하단 고정 영역이 <b>123.4 → 226.8px</b>로 늘며 첫 화면 카드 노출이 <b>1.48 → 1.17개</b>로 줄어든다는 실측(394×704). <b>Sticky를 2행으로 고정</b>하고 스크롤 축약 장치를 제거 <span class="cid">C-51</span>. 05 개선안에 <b>「S-02 범위 밖 — 가입신청서 작성 완료 단계」 그룹(바) 신설</b>하고 <span class="cid">C-52</span> · <span class="cid">C-60</span> · <span class="cid">C-61</span>을 이관. F 영역 선택 상태 콜아웃 <b>5 → 2</b>로 재정렬(명세 행 동시 갱신), PC 상태의 제휴카드 레이어 SYS 행 삭제, 부록 6 「요금제 화면 밖에서 수행」에 항목 추가, <b>TC-U-46</b>을 미노출 검증으로 대체. <span class="cid d">O-23</span>(제휴카드 유지 + 축약) 대체</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">02 프로토타입 · 부록 6 · 05 개선안 · 06</td><td><b>NPay 네이버인증을 외부 인증 호출로 정정</b> <span class="cid">C-63</span> — 원본 93p(<code class="k">MO9_0301_L03</code>) 대조 결과 시트에는 <b>입력 칸이 없고</b> 「네이버 ID 확인」 단일 버튼이 <b>네이버 로그인 페이지를 호출</b>한다. 원본 슬라이드 우측의 ID · 비밀번호 칸을 신청서 입력 폼으로 옮겨 적은 것은 <b>오독</b>이었다. 신청서는 계정 정보를 받지도 저장하지도 않으며, 외부 페이지임을 <b>구역 라벨 · 호출 주소 · 파선 테두리</b>로 표기한다. 더불어 <b>C-53 세 시트에 공통 스타일 가이드 적용</b> — 골격(리드 → 본문 그룹 → 유의사항 그룹 → 액션) · 여섯 단 타입 스케일 · 8의 배수 세로 리듬을 고정하고, 케이스별 차이는 <b>그룹의 유무로만</b> 표현. 부록 6 상태·접근성에 <b>「공통 골격」 · 「타입 · 리듬」 2행 신설</b></td><td class="wr">허지원 책임</td></tr>
@@ -2222,11 +2332,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 
 <div class="fs-row">
 <div class="fs-no">02</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON [Bottom Button-ON]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>사용 여부 재검증 → S-03 상품 정보 입력으로 이동 <span class="cid">C-19</span></p></dd></div><div><dt>Value</dt><dd><p>신청서 작성하기 (Abled)</p></dd></div><div><dt>Memo</dt><dd><p>활성 상태 제공</p></dd></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON [Bottom Button-ON]</p></dd></div><div><dt>Interaction</dt><dd><p>CLICK</p></dd></div><div><dt>Action</dt><dd><p>사용 여부 재검증 → S-03 상품 정보 입력으로 이동 <span class="cid">C-19</span></p></dd></div><div><dt>Value</dt><dd><p>신청서 작성하기 (Abled)</p></dd></div><div><dt>Memo</dt><dd><p>활성 상태 제공</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Action</dt><dd><p>선택 요금제를 신청서 세션에 승계 <span class="cid">C-36</span></p></dd></div><div><dt>Memo</dt><dd><p>S-03에서 뒤로가기 복귀 시 직전 선택 복원 <span class="cid">C-43</span></p><p>첫 페이지 재진입은 미복원 <span class="cid">C-32</span> — 별도 경로</p><p>선택 변경 시 최종 선택으로 갱신</p></dd></div></div>
-</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Action</dt><dd><p>선택 요금제를 신청서 세션에 승계 <span class="cid">C-36</span></p></dd></div><div><dt>Memo</dt><dd><p>S-03에서 뒤로가기 복귀 시 직전 선택 복원 <span class="cid">C-43</span></p><p>첫 페이지 재진입은 미복원 <span class="cid">C-32</span> — 별도 경로</p><p>선택 변경 시 최종 선택으로 갱신</p></dd></div></div></div>
 </div></div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:360px"><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">01</b>요금제를 먼저 선택해 주세요</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">02</b>카드에서 비교할 요금제를 담아 주세요 (최대 2개)</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">03</b>1개 더 담으면 비교할 수 있습니다</div><div style="height:8px"></div><div class="toast on" style="position:relative;left:auto;right:auto;bottom:auto"><b class="fs-cal o">04</b>비교는 최대 2개까지 담을 수 있습니다</div><div style="height:12px"></div><div class="ph-sticky" style="border-radius:14px;border:1px solid var(--line);box-shadow:none"><div class="sum idle" style="position:relative">요금제를 선택해 주세요.</div><button type="button" tabindex="-1" class="cta off" style="position:relative">신청서 작성하기 <span>&#8594;</span></button></div></div></div>
@@ -2262,7 +2371,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (금액 명세)</p></dd></div><div><dt>Memo</dt><dd><p>구성 · 문구 · 동작은 <b>모바일과 동일</b> — 모바일 상태의 01 행 참조 <span class="cid">C-51</span></p><p>PC는 좌우 여백이 넓어 요금제명과 금액이 한 줄에 여유 있게 들어감 — <b>행 수는 모바일과 같은 2행</b> <span class="cid d">O-18</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (확정 후 분기)</p></dd></div><div><dt>Action</dt><dd><p>약정 동의 팝업 <span class="cid">C-50</span> → 요금제 종속 입력 시트 <span class="cid">C-53</span> → S-03 이동</p></dd></div><div><dt>Memo</dt><dd><p>약정 동의 — 실손약정 · 더알뜰플랜2. 동의 / 동의 안함 / 닫기 <b>세 경우 모두 목록으로 복귀</b>하며 동의 상태만 세션에 기록 <span class="cid">C-12</span></p><p>요금제 종속 입력 — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보. <b>기존 기능 · 화면 재구성</b>이며 요소 명세는 부록 6 「요금제 종속 입력 시트」 참조 <span class="cid">C-53</span></p><p>버튼 귀결 — <b>확인/다음</b> 입력하고 진행 · <b>나중에 입력</b> 건너뛰고 진행(건너뛸 수 있는 시트만) · <b>닫기</b> 진행 중단 후 목록 복귀(선택 유지)</p><p><b>사은품 선택은 본 화면이 아니다</b> — 가입 방법 확정 직후로 이동 <span class="cid">C-48</span></p><p><b>동일 IP 다회선 제한도 본 화면이 아니다</b> — 판정에 가입유형이 필요 <span class="cid">C-54</span> <span class="cid x">EX-04</span></p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM (확정 후 분기)</p></dd></div><div><dt>Action</dt><dd><p>약정 동의 팝업 <span class="cid">C-50</span> → 요금제 종속 입력 시트 <span class="cid">C-53</span> → S-03 이동</p></dd></div><div><dt>Memo</dt><dd><p>약정 동의 — 약정형(CONTRACT) · 더알뜰플랜2(CONTRACT2). 동의 / 동의 안함 / 닫기(X) / Esc <b>네 경우 모두 목록으로 복귀</b>하며 동의 상태만 세션에 기록 <span class="cid">C-12</span></p><p>요금제 종속 입력 — 망내 1회선 번호지정 · NPay 인증 · 쿠팡 회원정보. <b>기존 기능 · 화면 재구성</b>이며 요소 명세는 부록 6 「요금제 종속 입력 시트」 참조 <span class="cid">C-53</span></p><p>버튼 귀결 — <b>확인/다음</b> 입력하고 진행 · <b>나중에 입력</b> 건너뛰고 진행(건너뛸 수 있는 시트만) · <b>닫기</b> 진행 중단 후 목록 복귀(선택 유지)</p><p><b>사은품 선택은 본 화면이 아니다</b> — 가입 방법 확정 직후로 이동 <span class="cid">C-48</span></p><p><b>동일 IP 다회선 제한도 본 화면이 아니다</b> — 판정에 가입유형이 필요 <span class="cid">C-54</span> <span class="cid x">EX-04</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p>미선택 상태 · 비활성 CTA · Worning / Error Message 토스트는 <b>모바일과 동일</b></p><p>토스트도 팝업 기준 하단 고정 바 상단에 노출</p></dd></div></div></div>
@@ -2594,7 +2703,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
   <table class="r-t">
     <thead><tr><th>ID</th><th>대상</th><th>형태</th><th>동작</th></tr></thead>
     <tbody>
-      <tr><td><span class="cid">C-50</span></td><td>실손약정 · 더알뜰플랜2 요금제</td><td>동의 팝업</td><td>동의 / 동의 안함 / 닫기 <b>세 경우 모두 목록으로 복귀</b>하며 <b>동의 상태만</b> 세션에 기록 <span class="cid">C-12</span></td></tr>
+      <tr><td><span class="cid">C-50</span> <span class="cid">C-65</span></td><td>약정형(<code class="k">CONTRACT</code>) · 더알뜰플랜2(<code class="k">CONTRACT2</code>) 요금제</td><td>동의 팝업 — 구성은 <span class="cid">C-65</span></td><td>동의 / 동의 안함 / 닫기(X) / <b>Esc</b> <b>네 경우 모두 목록으로 복귀</b>하며 <b>동의 상태만</b> 세션에 기록 <span class="cid">C-12</span>. 약정 조건은 <b>선택 전부터 카드 배지</b>로 노출 <span class="cid">C-65</span></td></tr>
       <tr><td><span class="cid">C-53</span></td><td>망내 1회선 · NPay · 쿠팡 요금제</td><td>bottomsheet — 하단 시트(PC 중앙 모달)</td><td>요금제 종속 정보 입력 후 상품 정보 입력으로 이동. <b>기존 기능을 그대로 쓰되 화면을 재구성</b>했다 — 아래 「요금제 종속 입력 시트」 참조. 버튼 라벨을 <b>실제 귀결에 맞춰</b> 두고, 검증 실패는 <b>Alert이 아니라 인라인 오류</b>로 돌려준다</td></tr>
     </tbody>
   </table>
@@ -2606,7 +2715,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
     <thead><tr><th>대상</th><th>입력 항목</th><th>형식 · 검증</th><th>안내</th></tr></thead>
     <tbody>
       <tr><td><b>망내 1회선 번호지정</b><br>망내 1회선 요금제</td><td>무제한으로 통화할 번호 <b>1개</b> — <b>구분자 자동 입력</b> <span class="cid">C-64</span></td><td><b>형식</b> — 숫자만, 10~11자리. 구분자는 표시하지 않고 입력받는다<br><b>조회</b> — 유플러스망 가입 여부. <b>제출 시점</b>에만 판정 가능하므로 CTA는 형식만 충족하면 활성</td><td>번호 변경 수단(홈페이지 · 고객센터, 월 1회) · 유플러스 가입 번호가 아니면 지정 불가</td></tr>
-      <tr><td><b>네이버인증</b><br>NPay 요금제</td><td><b>없음</b> — 입력 칸을 두지 않는다 <span class="cid">C-63</span></td><td><b>검증 없음</b> — 「네이버 ID 확인」이 <b>네이버 로그인 페이지를 호출</b>한다(ID 로그인 · 일회용 번호 · QR코드). 인증은 <b>전적으로 외부</b>에서 이뤄지며 신청서는 계정 정보를 받지도 저장하지도 않는다. <b>확인 단계 없음</b> — 인증 결과는 인증 완료 후 <b>동기화로 반영</b>되므로 신청서로 돌아와 다시 확인하지 않는다. 버튼을 누르면 인증 페이지를 호출하며 <b>다음 단계로 진행</b>한다</td><td>통신료 NPay 포인트 환급 · 미인증 시 혜택 미제공. 외부 페이지임을 <b>구역 라벨 · 호출 주소 · 파선 테두리</b>로 표기 — 계정 정보 입력처를 오인하면 피싱 위험</td></tr>
+      <tr><td><b>네이버인증</b><br>NPay 요금제</td><td><b>없음</b> — 입력 칸을 두지 않는다 <span class="cid">C-63</span></td><td><b>검증 없음</b> — 「네이버 ID 확인」이 <b>네이버 로그인 페이지를 호출</b>한다(ID 로그인 · 일회용 번호 · QR코드). 인증은 <b>전적으로 외부</b>에서 이뤄지며 신청서는 계정 정보를 받지도 저장하지도 않는다. <b>확인 단계 없음</b> — 인증 결과는 인증 완료 후 <b>동기화로 반영</b>되므로 신청서로 돌아와 다시 확인하지 않는다. 버튼을 누르면 인증 페이지를 호출하며 <b>다음 단계로 진행</b>한다</td><td>통신료 NPay 포인트 환급 · 미인증 시 혜택 미제공. 외부 페이지임을 <b>파선 테두리</b>와 <b>목적지를 밝힌 안내 문장</b>으로 표기 — 계정 정보 입력처를 오인하면 피싱 위험. 인증 수단 3종은 <b>아이콘 카드</b>로 펼친다</td></tr>
       <tr><td><b>쿠팡 회원정보</b><br>쿠팡 요금제</td><td>쿠팡 계정 이름 · 쿠팡 ID</td><td><b>형식</b> — 이름 필수, ID는 <b>이메일 형식</b>. 형식 충족 시 CTA 활성(원본 : 형식 입력 + 포커스 아웃)</td><td>쿠팡 캐시 월 지급 · 정보가 틀리면 혜택 미제공</td></tr>
     </tbody>
   </table>
@@ -2677,18 +2786,62 @@ var CARDS = [
    tiers:[{need:'전월실적 30만원 이상', off:12000}], off:12000}
 ];
 
-/* 약정 안내 본문 C-50 — 반환금·기간은 약정 조건이므로 카피 확정 시 원문으로 교체 */
+/* C-65 약정 안내 팝업 — 원본 87p(CONTRACT) · 88p(CONTRACT2) 전문.
+   원문은 약관 성격이라 문장을 손대지 않는다. 대신 읽는 순서를 만들어 준다 —
+   히어로(무엇인가) → 이 요금제의 금액 변화 → 핵심 3칸 → 번호 섹션 → 반환금 비율 표.
+   원본은 한 덩어리 텍스트라 동의 버튼까지 스크롤하는 동안 무엇에 동의하는지가 흐려진다.
+   반환금 비율의 음수 부호(-20% · -40%)는 원본 표기 그대로다 — 원본 확인 대상. */
 var AGREE = {
-  contract: {t:'더 알뜰플랜 안내', b:[
-    '<b>24개월</b> 동안 함께하면 기본요금을 할인받는 약정 플랜입니다.',
-    '약정 설정일부터 <b>매월 2,200원</b> 할인 (월 중 개통 시 사용일수만큼 계산)',
-    '약정 기간 — 가입 익일부터 <b>24개월</b>',
-    '약정 기간 내 해지 · 타 요금제 변경 · 명의변경 시 <b>반환금이 발생</b>할 수 있습니다.']},
-  contract2: {t:'더 알뜰플랜2 가입 안내', b:[
-    '<b>24개월</b> 동안 매월 기본요금 할인과 <b>N pay 3천원</b>을 함께 받는 약정 플랜입니다.',
-    '매월 3천원 N pay 지급 + 약정 설정일부터 매월 2,200원 할인',
-    '약정 기간 — 가입 익일부터 <b>24개월</b>',
-    '약정 기간 내 해지 · 타 요금제 변경 · 명의변경 시 <b>반환금이 발생</b>할 수 있습니다.']}
+  contract: {
+    t:'더 알뜰플랜 안내',
+    hero:'오래 쓸수록 더 알뜰하게',
+    sub:'통신비 <b>최대 20%</b> 할인 받는 유모바일 실속 약정 플랜',
+    key:[{k:'매월 할인', v:'2,200원'}, {k:'약정 기간', v:'24개월'}, {k:'중도 해지', v:'반환금 발생'}],
+    sec:[
+      {n:'1', t:'"더 알뜰플랜"이란',
+       p:['24개월동안 유모바일과 함께하면 기본요금을 할인받을 수 있는 유모바일의 실속 약정 플랜입니다.']},
+      {n:'2', t:'할인 금액',
+       p:['약정 설정일부터 <b>매월 2,200원 할인</b>', '(월 중 개통 시, 사용일수만큼 계산하여 청구)']},
+      {n:'3', t:'약정 기간',
+       p:['가입 익일부터 <b>24개월</b> (공휴일일 경우 다음 영업일 설정)']},
+      {n:'4', t:'할인 반환금 안내',
+       p:['아래와 같은 경우 반환금이 발생될 수 있으며 약정기간이 종료되면 반환금은 소멸됩니다.'],
+       li:['약정 기간 내 해지', '약정할인 미적용 타 요금제로 변경', '명의변경 (약정 미승계)']},
+      {n:'5', t:'유의사항',
+       p:['반환금 산정 기준은 \'해당 기간까지 받은 요금할인액\'을 기준으로 차등 적용되며, 각 이용 기간대별 반환금액을 누적 합산하여 청구됩니다.'],
+       tbl:{h:['이용 기간','요금할인액 대비'],r:[['0~6개월','100%'],['7~12개월','50%'],['13~16개월','30%'],['17~20개월','-20%'],['21~24개월','-40%']]},
+       li:['약정형 요금제간 요금제 변경이 가능합니다. (단, 할인금액은 요금제별 사용 일수를 일할 계산하여 제공하며 잔여 약정기간은 계속 유지됩니다)',
+           '약정기간 만료 시점에 재약정이 가능하며 약정기간이 만료되면 일반 LTE 요금제로 자동 전환됩니다.']}
+    ]
+  },
+  contract2: {
+    t:'더 알뜰플랜2 가입 안내',
+    hero:'오래 쓸수록 더 알뜰하게',
+    sub:'24개월간 매월 <b>N pay 3천원</b> 받는 유모바일 실속 약정 플랜',
+    key:[{k:'매월 지급', v:'N pay 3천원'}, {k:'매월 할인', v:'2,200원'}, {k:'약정 기간', v:'24개월'}],
+    sec:[
+      {n:'1', t:'더 알뜰플랜2',
+       p:['24개월동안 유모바일과 함께하면 매월 기본요금 할인과 Npay 3천원 혜택 받는 실속 약정 플랜입니다.']},
+      {n:'2', t:'혜택',
+       p:['매월 3천원 N pay 지급 및 약정 설정일부터 <b>매월 2,200원 할인</b>'],
+       li:['24개월간 지급되며, 가입 익월부터 20일 경에 문자를 통해 발송됩니다.', '월 중 개통 시, 사용일수만큼 계산하여 청구']},
+      {n:'3', t:'약정 기간',
+       p:['가입 익일부터 <b>24개월</b> (공휴일일 경우 다음 영업일 설정)']},
+      {n:'4', t:'할인 반환금 안내',
+       p:['아래와 같은 경우 반환금이 발생될 수 있으며 약정기간이 종료되면 반환금은 소멸됩니다.'],
+       li:['약정 기간 내 해지', '더알뜰플랜 외 타 요금제로 변경', '명의변경 (약정 미승계)']},
+      {n:'5', t:'N pay 3천원 발송 관련 유의사항',
+       li:['사은품은 가입 익월부터 매월 20일 경에 문자를 통해 발송됩니다.',
+           '쿠폰 발송 시점에 [더알뜰플랜2] 요금제를 이용중인 고객에게만 혜택 제공하며, 요금제 일시정지 시 혜택은 제공되지 않습니다. (단, 일시정지 기간에도 혜택 횟수는 차감됩니다.)',
+           '[더알뜰플랜2] 요금제 외로 변경 / 명의 변경 / 해지 / 일시 정지 시 혜택이 종료됩니다.',
+           '단, [더알뜰플랜] 요금제간 변경 시 혜택은 유지되며 혜택 제공 기간은 유효한 [더알뜰플랜] 혹은 [더알뜰플랜2]의 최초 가입 시점의 약정 기간을 따릅니다. (예: 2025년 3월 더 알뜰플랜 가입 → 약정 2025.03~2027.03 설정. 이후 2025년 9월 더 알뜰플랜2로 변경하더라도 혜택은 2027년 3월까지만 제공됩니다.)']},
+      {n:'6', t:'유의사항',
+       p:['반환금 산정 기준은 \'해당 기간까지 받은 요금할인액\'을 기준으로 차등 적용되며, 각 이용 기간대별 반환금액을 누적 합산하여 청구됩니다.'],
+       tbl:{h:['이용 기간','요금할인액 대비'],r:[['0~6개월','100%'],['7~12개월','50%'],['13~16개월','30%'],['17~20개월','-20%'],['21~24개월','-40%']]},
+       li:['약정형 요금제간 요금제 변경이 가능합니다. (단, 할인금액은 요금제별 사용 일수를 일할 계산하여 제공하며 잔여 약정기간은 계속 유지됩니다)',
+           '약정기간 만료 시점에 재약정이 가능하며 약정기간이 만료되면 일반 LTE 요금제로 자동 전환됩니다.']}
+    ]
+  }
 };
 
 var PLANS = [
@@ -2696,13 +2849,14 @@ var PLANS = [
   {dep:'npay', pnote:'가입 7개월 후 39,900원', code:'P02', name:'LTE 스페셜', net:'LTE', sale:49390, promo:32990, data:'11GB+일2GB', dataV:71, voice:'기본제공', sms:'기본제공', speed:'최대 3M bps 속도로 데이터 무제한', badges:['BEST','U+인터넷결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:2},
   {dep:'line1', code:'P03', name:'LTE (15GB+/통화기본)', net:'LTE', sale:48400, promo:20900, data:'15GB', dataV:15, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST','랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:3},
   {dep:'coupang', code:'P04', name:'LTE (10GB+/통화기본)', net:'LTE', sale:41950, promo:18900, data:'10GB', dataV:10, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:5},
-  {code:'P05', name:'LTE (7GB+/통화기본)', net:'LTE', sale:39800, promo:15900, data:'7GB', dataV:7, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST','랜덤결합'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:4},
-  {agree:'contract2', pnote:'가입 7개월 후 13,800원', code:'P06', name:'LTE (1GB+/통화기본)', net:'LTE', sale:25300, promo:9900, data:'1GB', dataV:1, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['BEST'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:6},
+  {agree:'contract2', code:'P05', name:'LTE (7GB+/통화기본) [더알뜰플랜2]', net:'LTE', sale:39800, promo:15900, data:'7GB', dataV:7, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['더알뜰플랜2','BEST'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:4},
+  {agree:'contract', pnote:'가입 7개월 후 13,800원', code:'P06', name:'LTE (1GB+/통화기본) [약정형]', net:'LTE', sale:25300, promo:9900, data:'1GB', dataV:1, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['약정형','BEST'], benefit:'매월 다이소 5천원 혜택 (24개월)', open:['self','agent'], sub:['adult','foreigner'], use:true, rank:6},
   {code:'P07', name:'LTE 스페셜 프로', net:'LTE', sale:45900, promo:38200, data:'일5GB', dataV:150, voice:'기본제공', sms:'기본제공', speed:'최대 5M bps 속도로 데이터 무제한', badges:['U+인터넷결합','랜덤결합'], benefit:null, open:['self','agent'], sub:['adult'], use:true, rank:8},
-  {agree:'contract', pnote:'가입 7개월 후 21,800원', code:'P08', name:'LTE (4.5GB+/통화기본)', net:'LTE', sale:36600, promo:13900, data:'(4.5+10)GB', dataV:14.5, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:[], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:7},
+  {agree:'contract', pnote:'가입 7개월 후 21,800원', code:'P08', name:'LTE (4.5GB+/통화기본) [약정형]', net:'LTE', sale:36600, promo:13900, data:'(4.5+10)GB', dataV:14.5, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['약정형'], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:7},
   {code:'P09', name:'LTE 데이터 세이브', net:'LTE', sale:21450, promo:null, data:'3GB', dataV:3, voice:'기본제공', sms:'기본제공', speed:'소진 시 차단', badges:['프로모션 없음'], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:null},
   {limit:'만 19세 미만 고객만 가입 가능', selfBlock:true, pnote:null, code:'P10', name:'LTE 청소년 안심 요금제', net:'LTE', sale:29700, promo:19800, data:'6GB', dataV:6, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['청소년 전용'], benefit:null, open:['self','agent'], sub:['youth'], use:true, rank:9},
   {limit:'데이터 미제공 — 셀프개통 신청 불가', selfBlock:true, pnote:null, code:'P11', name:'LTE 통화 전용', net:'LTE', sale:12100, promo:8800, data:'데이터 제로', dataV:0, voice:'기본제공', sms:'기본제공', speed:'데이터 미제공', badges:[], benefit:null, open:['self','agent'], sub:['adult','foreigner'], use:true, rank:10},
+  {limit:'만 19세 이상 ~ 만 29세 이하 고객만 가입 가능', pnote:null, code:'P15', name:'LTE 이십세 요금제', net:'LTE', sale:31900, promo:23100, data:'20GB', dataV:20, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['이십세 전용'], benefit:null, open:['self','agent'], sub:['adult'], use:true, rank:null},
   {limit:'만 65세 이상 고객만 가입 가능', pnote:null, code:'P12', name:'LTE 알뜰 300분', net:'LTE', sale:9900, promo:6600, data:'1.5GB', dataV:1.5, voice:'300분', sms:'100건', speed:'소진 시 차단', badges:[], benefit:null, open:['agent'], sub:['adult'], use:true, rank:null},
   {code:'P13', name:'LTE 상담사 전용 프로', net:'LTE', sale:44000, promo:29700, data:'50GB', dataV:50, voice:'기본제공', sms:'기본제공', speed:'최대 3M bps 속도로 데이터 무제한', badges:['상담사 전용'], benefit:null, open:['agent'], sub:['adult'], use:true, rank:null},
   {code:'P14', name:'LTE 한정 요금제', net:'LTE', sale:33000, promo:24200, data:'8GB', dataV:8, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps 속도로 데이터 무제한', badges:['한정'], benefit:null, open:['self','agent'], sub:['adult'], use:true, rank:null},
@@ -2715,7 +2869,9 @@ var PLANS = [
   {code:'X01', name:'LTE 종료 요금제 (미사용)', net:'LTE', sale:30800, promo:22000, data:'5GB', dataV:5, voice:'기본제공', sms:'기본제공', speed:'최대 1M bps', badges:[], benefit:null, open:['self','agent'], sub:['adult'], use:false, rank:null}
 ];
 
-var BADGE_CLASS = {'BEST':'best','U+인터넷결합':'combo','랜덤결합':'combo','청소년 전용':'combo','상담사 전용':'combo'};
+/* C-65 — 약정 조건은 선택 전부터 카드에서 보여야 한다. 확정 시점에 팝업으로 처음 알리면
+   되돌릴 수 없는 조건을 마지막에 통보하는 셈이다 (C-49 제약 라인과 같은 원칙) */
+var BADGE_CLASS = {'BEST':'best','U+인터넷결합':'combo','랜덤결합':'combo','청소년 전용':'combo','이십세 전용':'combo','상담사 전용':'combo','약정형':'ctr','더알뜰플랜2':'ctr'};
 var OPEN_LABEL = {self:'셀프 개통', agent:'상담사 개통'};
 
 /* =========================================================
@@ -2892,7 +3048,53 @@ function alertHtml(st, key){
   }
   if(!st.alert) return '';
   var a = st.alert;
-  /* 2버튼 유형 — 약정 동의(C-50) · 경로 전환 확인(EX-03) */
+  /* C-65 약정 안내 — 원문은 그대로 두고 읽는 순서를 만든다.
+     히어로 → 이 요금제의 금액 변화 → 핵심 3칸 → 번호 섹션(표 · 목록) → 동의 2버튼 */
+  if(a.agree && AGREE[a.agree]){
+    var G = AGREE[a.agree], gp = a.plan ? find(a.plan) : null;
+    var g = '<div class="alert agpane" id="agdlg-' + key + '" role="dialog" aria-modal="true"'
+      + ' aria-labelledby="agtl-' + key + '" onkeydown="agKey(event,\'' + key + '\')">'
+      + '<div class="aghead"><h2 class="ttl" id="agtl-' + key + '">' + esc(G.t) + '</h2>'
+      + '<button type="button" class="ccx" aria-label="' + esc(G.t) + ' 닫기"'
+      + ' onclick="agreeNo(\'' + key + '\')">&#215;</button></div>'
+      + '<div class="aghero"><b>&ldquo;' + esc(G.hero) + '&rdquo;</b><p>' + G.sub + '</p></div>';
+    /* 원본 1-A — 약정할인을 반영한 금액을 보여 준다. 동의 대상이 곧 금액이므로 맨 위에 둔다 */
+    if(gp && gp.promo != null){
+      g += '<div class="agplan"><span class="agpn">' + esc(gp.name) + '</span>'
+        +  '<span class="agpv"><s>' + won(gp.sale) + '</s>'
+        +  '<em aria-hidden="true">&#8594;</em><b>' + won(gp.promo) + '</b></span></div>';
+    }
+    g += '<ul class="agkey">';
+    for(var gk = 0; gk < G.key.length; gk++){
+      g += '<li><span>' + esc(G.key[gk].k) + '</span><b>' + esc(G.key[gk].v) + '</b></li>';
+    }
+    g += '</ul><div class="body">';
+    for(var gs = 0; gs < G.sec.length; gs++){
+      var S2 = G.sec[gs];
+      g += '<section class="agsec"><h3 class="agst"><span class="agsn">' + esc(S2.n) + '</span>'
+        +  esc(S2.t) + '</h3>';
+      if(S2.p) for(var gpp = 0; gpp < S2.p.length; gpp++) g += '<p>' + S2.p[gpp] + '</p>';
+      if(S2.tbl){
+        g += '<table class="agtbl"><caption class="a11y">기간별 요금할인액 대비 반환금 비율</caption><thead><tr>'
+          +  '<th scope="col">' + esc(S2.tbl.h[0]) + '</th><th scope="col">' + esc(S2.tbl.h[1]) + '</th></tr></thead><tbody>';
+        for(var gt = 0; gt < S2.tbl.r.length; gt++){
+          g += '<tr><th scope="row">' + esc(S2.tbl.r[gt][0]) + '</th><td>' + esc(S2.tbl.r[gt][1]) + '</td></tr>';
+        }
+        g += '</tbody></table>';
+      }
+      if(S2.li){
+        g += '<ul class="agli">';
+        for(var gl = 0; gl < S2.li.length; gl++) g += '<li>' + esc(S2.li[gl]) + '</li>';
+        g += '</ul>';
+      }
+      g += '</section>';
+    }
+    g += '</div><div class="btns">'
+      +  '<button class="gh" onclick="agreeNo(\'' + key + '\')">' + esc(a.no) + '</button>'
+      +  '<button onclick="agreeYes(\'' + key + '\')">' + esc(a.yes) + '</button></div></div>';
+    return g;
+  }
+  /* 2버튼 유형 — 경로 전환 확인(EX-03) */
   if(a.yes){
     var b = '<div class="alert" role="alertdialog">';
     if(a.ttl) b += '<div class="ttl">' + esc(a.ttl) + '</div>';
@@ -2985,6 +3187,18 @@ function paintCardPick(key){
     items[i].setAttribute('tabindex', on ? '0' : '-1');
   }
   paintSticky(key);
+}
+
+/* C-65 접근성 — 약정 안내 팝업 키보드 모델. Esc 는 '동의 안함'과 같은 귀결(미동의 후 목록 복귀)이다 */
+function agKey(ev, key){
+  if(ev.key === 'Escape'){ ev.preventDefault(); agreeNo(key); return; }
+  if(ev.key !== 'Tab') return;
+  var dlg = document.getElementById('agdlg-' + key); if(!dlg) return;
+  var f = dlg.querySelectorAll('button');
+  if(!f.length) return;
+  var first = f[0], last = f[f.length - 1];
+  if(ev.shiftKey && document.activeElement === first){ ev.preventDefault(); last.focus(); }
+  else if(!ev.shiftKey && document.activeElement === last){ ev.preventDefault(); first.focus(); }
 }
 
 /* C-60 접근성 — 레이어 키보드 모델.
@@ -3324,6 +3538,13 @@ function viewS03(st, key){
 /* =========================================================
    C-53 요금제 종속 입력 시트 — 기존 기능 · 화면 재구성
    ========================================================= */
+/* C-63 — 인증 수단 아이콘. 글자만 있는 칩은 세 가지가 '무엇이 다른지' 한눈에 안 잡힌다 */
+var WAY_ICON = {
+  user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 19.5a6.5 6.5 0 0 1 13 0"/></svg>',
+  otp: '<svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="2.5"/><circle cx="8.5" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="12" r="1.1" fill="currentColor" stroke="none"/></svg>',
+  qr:  '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.4"/><rect x="14" y="4" width="6" height="6" rx="1.4"/><rect x="4" y="14" width="6" height="6" rx="1.4"/><path d="M14 14h3M20 14v3M14 20h6"/></svg>'
+};
+
 var DEP = {
   line1: {
     t:'마음껏 통화 1회선 번호지정',
@@ -3333,20 +3554,20 @@ var DEP = {
           '유플러스 가입 번호가 아니면 지정할 수 없습니다.'],
     skip:'나중에 입력', ok:'확인'
   },
-  /* C-63 — NPay 는 자체 입력 폼이 아니라 외부 인증 호출이다 (원본 93p · MO9_0301_L03).
+
+/* C-63 — NPay 는 자체 입력 폼이 아니라 외부 인증 호출이다 (원본 93p · MO9_0301_L03).
      원본 시트에는 입력 칸이 없고 「네이버 ID 확인」 단일 버튼만 있으며,
      그 버튼이 네이버 로그인 페이지를 호출한다. 우측 캡처의 ID·비밀번호 칸은
      신청서가 아니라 네이버 로그인 페이지의 것이다 — 신청서는 계정 정보를 받지 않는다. */
   npay: {
     t:'네이버인증',
     ext:true,
-    lead:'통신료를 <b>NPay 포인트</b>로 돌려받습니다 — 매월 10% 포인트 혜택.<br>혜택 받으실 고객 정보를 확인해 주세요.',
+    lead:'<b>매월 통신료의 10%</b>를 NPay 포인트로 돌려받는 혜택',
     extUrl:'nid.naver.com/nidlogin.login',
-    extLead:'네이버 로그인 페이지로 이동합니다. 인증은 그 페이지에서 끝나고, <b>신청서는 다음 단계로 진행</b>됩니다.',
-    extWays:['ID 로그인', '일회용 번호', 'QR코드'],
-    note:['계정 정보는 <b>네이버 인증 페이지에서만</b> 입력합니다 — 신청서는 ID·비밀번호를 받지 않습니다.',
-          '인증 결과는 <b>인증을 마치는 즉시 자동으로 반영</b>됩니다 — 신청서로 돌아와 다시 확인할 필요가 없습니다.',
-          '인증하지 않으면 NPay 포인트 혜택이 제공되지 않을 수 있습니다.'],
+    extLead:'네이버 로그인 페이지에서 <b>로그인을 마치면</b> 신청서 다음 단계로 진행됩니다.',
+    extWays:[{t:'ID 로그인', i:'user'}, {t:'일회용 번호', i:'otp'}, {t:'QR코드', i:'qr'}],
+    /* 앞 두 항목은 「이동할 페이지」 그룹이 이미 말하고 있어 삭제했다 — 같은 사실을 두 번 적지 않는다 */
+    note:['인증하지 않으면 NPay 포인트 혜택이 제공되지 않을 수 있습니다.'],
     ok:'네이버 ID 확인'
   },
   coupang: {
@@ -3465,12 +3686,15 @@ function depHtml(st, key){
   /* C-63 — 외부 인증 호출형은 입력 칸 대신 「어디로 이동하는지」를 먼저 보여 준다.
      누르고 나서 알게 되면 계정 정보를 어디에 넣는지 오인할 수 있다 */
   if(D.ext){
-    h += '<div class="dep-grp ext"><span class="dep-gt">이동할 페이지</span>'
-      +  '<div class="dep-exth"><span class="dep-extb">외부 페이지</span>'
-      +  '<code>' + esc(D.extUrl) + '</code></div>'
+    /* 구역 라벨을 두지 않는다 — 안내 문장이 이미 「어디로 가는지」를 말한다.
+       외부 페이지 신호는 파선 테두리 + 목적지를 밝힌 문장 두 가지가 담당한다 */
+    h += '<div class="dep-grp ext">'
       +  '<p class="dep-extl">' + D.extLead + '</p>'
       +  '<ul class="dep-extw">';
-    for(var w = 0; w < D.extWays.length; w++) h += '<li>' + esc(D.extWays[w]) + '</li>';
+    for(var w = 0; w < D.extWays.length; w++){
+      h += '<li><span class="dep-exti" aria-hidden="true">' + WAY_ICON[D.extWays[w].i] + '</span>'
+        +  '<span class="dep-extt">' + esc(D.extWays[w].t) + '</span></li>';
+    }
     h += '</ul></div>';
   }
   if(!D.ext){
@@ -3969,9 +4193,12 @@ function confirmPlan(key){
      동의 / 동의 안함 / 닫기 세 경우 모두 목록으로 복귀하므로 여기서 진행을 멈춘다 (C-50) */
   if(p.agree && st.agreed[p.agree] === undefined){
     var a = AGREE[p.agree];
-    st.alert = {ttl:a.t, body:a.b, agree:p.agree, yes:'동의', no:'동의 안함'};
+    st.alert = {ttl:a.t, agree:p.agree, plan:p.code, yes:'동의', no:'동의 안함'};
     logStep(key, 'STEP 13b', 'i', '약정 안내 팝업 — ' + p.agree);
     render(key);
+    /* C-65 접근성 — 열릴 때 다이얼로그 안으로 포커스를 옮긴다. 닫기가 첫 번째 정지점이다 */
+    var agd = document.getElementById('agdlg-' + key);
+    if(agd){ var af = agd.querySelector('button'); if(af) af.focus(); }
     return;
   }
   if(p.agree) logStep(key, 'STEP 13b', 'p', '약정 동의 상태 = ' + (st.agreed[p.agree] ? '동의' : '미동의'));
@@ -4043,7 +4270,8 @@ var SCN = [
   {id:'C49', kind:'c', t:'C-49 자격 제한 요금제', d:'제약 라인 상시 표기 · 목록에서 사전 필터링하지 않음 (Alert 없음)'},
   {id:'C58', kind:'c', t:'C-58 속도 안내 레이어', d:'카드 스펙 면의 안내 버튼 → QoS 상세 레이어 (44px 타깃)'},
   {id:'C60', kind:'c', t:'C-60 제휴카드 선택 (작성 내용 확인 단계)', d:'S-02가 아니라 가입신청서 마지막 단계에서 진입 · 목록 전개 · 실적 구간별 할인액 병기 · 확인 Alert 없음'},
-  {id:'C50', kind:'c', t:'C-50 약정 동의 팝업', d:'약정 요금제 확정 시 STEP 13b — 동의 / 동의 안함 모두 목록 복귀'},
+  {id:'C50', kind:'c', t:'C-50 · C-65 더 알뜰플랜 안내', d:'약정형 요금제 확정 시 STEP 13b — 원본 87p 전문 · 동의 / 동의 안함 / 닫기 모두 목록 복귀'},
+  {id:'C65', kind:'c', t:'C-65 더 알뜰플랜2 가입 안내', d:'더알뜰플랜2 요금제 확정 시 — 원본 88p 전문 · N pay 3천원 혜택 조건 포함'},
   {id:'C53a', kind:'c', t:'C-53 종속 입력 — 망내 1회선 번호지정', d:'건너뛸 수 있는 시트. 형식 검증 + 유플러스망 조회 · 나중에 입력 / 확인 / 닫기'},
   {id:'C53b', kind:'c', t:'C-53 종속 입력 — NPay 인증', d:'네이버 ID · 비밀번호 두 칸 모두 입력해야 CTA 활성. 건너뛰기 없음'},
   {id:'C53c', kind:'c', t:'C-53 종속 입력 — 쿠팡 회원정보', d:'이름 + 이메일 형식 ID. 형식 충족 시 CTA 활성 · 포커스 아웃 시 형식 오류'},
@@ -4145,13 +4373,18 @@ function runScn(id){
     logStep('sim','INFO','i','목록 컨트롤은 개수 · 정렬만 유지 · 대상 2건 미만이면 비교 비활성');
   }
   else if(id === 'C49'){
-    logHead('C-49 자격 제한 요금제');
+    logHead('C-49 자격 제한 요금제 — 원본 78p 제한 케이스 4건');
     logStep('sim','STEP 3','p','openMethodCd = agent');
     st.caseType='B'; st.openMethod='agent'; st.tab='all'; st.sort='price';
     var qn = tabList(st).length;
     logStep('sim','STEP 4','p','목록 조회 ' + qn + '건 — 자격 제한 요금제도 사전 필터링하지 않음 (C-28)');
-    logStep('sim','STEP 6','p','카드 스펙 면 하단에 제약 라인 렌더 — 예: 만 65세 이상 가입');
-    logStep('sim','INFO','i','선택 시 Alert을 띄우지 않는다 — 선택 피드백의 즉시성 보존 (C-18 · C-26). 실제 자격 검증은 가입자 유형 선택에서 수행 (C-28)');
+    logStep('sim','STEP 6','p','자격 제한 3종을 카드 제약 라인으로 렌더 — 시니어 · 이십세 · 청소년');
+    logStep('sim','C-49','p','① 시니어 — 만 65세 이상 고객만 가입 가능 (원본: 선택 시 alert)');
+    logStep('sim','C-49','p','② 이십세 — 만 19세 이상 ~ 만 29세 이하 고객만 가입 가능 (원본: 선택 시 alert)');
+    logStep('sim','C-49','p','③ 청소년 — 만 19세 미만 고객만 가입 가능 (원본: 선택 시 alert)');
+    logStep('sim','C-49','i','세 건은 진행을 막지 않는 안내이므로 Alert을 쓰지 않고 제약 라인으로 흡수한다 — 선택 피드백의 즉시성 보존 (C-18 · C-26)');
+    logStep('sim','C-50','i','④ 셀프개통 + 청소년 요금제 — 개통 방식이 바뀌는 분기이므로 확인 팝업으로 남긴다. 시나리오 EX-03 에서 확인');
+    logStep('sim','INFO','i','실제 자격 검증은 가입자 유형 선택의 현행 예외처리를 준용 (C-28)');
   }
   else if(id === 'C58'){
     logHead('C-58 속도 안내 레이어');
@@ -4180,6 +4413,18 @@ function runScn(id){
     logStep('sim','INFO','i','카드를 눌러 보세요 — 레이어를 닫지 않고 선택 표시가 즉시 갱신됩니다 (확인 Alert 없음)');
     logStep('sim','C-51','p','부가세포함 월 납부 금액은 요금제 기준 — 제휴카드 할인을 합산하지 않음');
   }
+  else if(id === 'C65'){
+    logHead('C-65 더 알뜰플랜2 가입 안내');
+    logStep('sim','STEP 3','p','openMethodCd = agent');
+    st.caseType='B'; st.openMethod='agent'; st.tab='all'; st.selected='P05';
+    var ap2 = find('P05');
+    logStep('sim','STEP 12','p','selectedPlan = P05 (' + ap2.name + ') — 상위요금제 CONTRACT2');
+    logStep('sim','STEP 13','p','사용여부 = 사용');
+    st.alert = {ttl:AGREE.contract2.t, agree:'contract2', plan:'P05', yes:'동의', no:'동의 안함'};
+    logStep('sim','STEP 13b','i','더알뜰플랜2 요금제 — 확정 전 동의 팝업 (원본 88p)');
+    logStep('sim','C-65','i','원문은 그대로 두고 읽는 순서를 만든다 — 히어로 → 이 요금제의 금액 변화 → 핵심 3칸 → 번호 섹션 → 반환금 비율 표');
+    logStep('sim','INFO','i','반환금 비율의 음수 부호(-20% · -40%)는 원본 표기 그대로입니다 — 원본 확인 대상');
+  }
   else if(id === 'C50'){
     logHead('C-50 약정 동의 팝업');
     logStep('sim','STEP 3','p','openMethodCd = agent');
@@ -4187,8 +4432,9 @@ function runScn(id){
     var ap = find('P08');
     logStep('sim','STEP 12','p','selectedPlan = P08 (' + ap.name + ')');
     logStep('sim','STEP 13','p','사용여부 = 사용');
-    st.alert = {ttl:AGREE[ap.agree].t, body:AGREE[ap.agree].b, agree:ap.agree, yes:'동의', no:'동의 안함'};
-    logStep('sim','STEP 13b','i','약정 요금제 — 확정 전 동의 팝업');
+    st.alert = {ttl:AGREE[ap.agree].t, agree:ap.agree, plan:ap.code, yes:'동의', no:'동의 안함'};
+    logStep('sim','STEP 13b','i','약정형 요금제 — 확정 전 동의 팝업 (원본 87p · 상위요금제 CONTRACT)');
+    logStep('sim','C-65','i','약정 조건은 카드 배지로 선택 전부터 노출된다 — 확정 시점에 처음 알리지 않는다');
     logStep('sim','INFO','i','동의 / 동의 안함 / 닫기 세 경우 모두 목록으로 복귀하며 동의 상태만 세션에 기록 (C-12)');
   }
   else if(id === 'C53a' || id === 'C53b' || id === 'C53c'){
@@ -4251,6 +4497,11 @@ function runScn(id){
     st.tab='lte'; st.forceEmpty=true; st.filterOpen=false; st.fPrice='a'; st.fData='a';
   }
   render('sim');
+  /* C-65 접근성 — 시나리오로 바로 띄운 다이얼로그에도 포커스를 넣어 준다.
+     포커스가 밖에 있으면 Esc·Tab 이 다이얼로그에 닿지 않는다 */
+  var scd = document.getElementById('agdlg-sim') || document.getElementById('ccdlg-sim')
+         || document.getElementById('depsheet-sim');
+  if(scd){ var scf = scd.querySelector('input') || scd.querySelector('button'); if(scf) scf.focus(); }
 }
 
 /* =========================================================
