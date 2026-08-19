@@ -675,6 +675,27 @@ body{background:linear-gradient(180deg,#F3F3F8 0%,#EBEBF2 240px,#F3F3F8 100%)}
 .r-view{display:none}
 .r-view.on{display:block;animation:fadeIn .26s ease}
 
+/* ── 탭 상단 (7탭 공통 골격) ─────────────────────────────
+   탭바에는 번호가 있는데 본문 제목에는 없어, 스크롤한 뒤 어느 탭인지 다시
+   위로 올라가 확인해야 했다. 번호 배지를 제목에 붙여 탭바와 본문을 잇는다.
+   골격은 제목 → 역할 한 문장 → (있으면) KPI 순서로 모든 탭이 같다. */
+.r-top{margin-bottom:26px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.r-top h1{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800;
+  letter-spacing:-.025em;color:var(--text);line-height:1.3;margin-bottom:8px}
+.r-top h1 .no{flex:0 0 auto;font-size:12px;font-weight:800;color:var(--main);
+  background:var(--main-weak);border-radius:8px;padding:4px 9px;letter-spacing:.02em}
+.r-top p{font-size:13px;color:var(--muted);line-height:1.7;max-width:900px}
+.r-top p b{color:var(--text);font-weight:800}
+.r-top+.r-grid{margin-top:-2px}
+/* 원본 바로 가기 — 문서와 피그마를 왕복하는 동선이 실제로 가장 잦다 */
+.fs-figma{margin-left:auto;display:inline-flex;align-items:center;gap:7px;min-height:44px;
+  padding:9px 15px;border-radius:10px;border:1px solid var(--main-mid);background:var(--main-ghost);
+  font-size:12.5px;font-weight:800;color:var(--main-deep);text-decoration:none;transition:all .15s}
+.fs-figma:hover{background:var(--main-weak);border-color:var(--main);box-shadow:0 6px 16px rgba(91,75,225,.18)}
+.fs-figma svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fs-figma em{font-style:normal;font-weight:700;color:var(--muted);font-size:11.5px}
+@media(max-width:700px){.fs-figma{margin-left:0;width:100%;justify-content:center}.fs-figma em{display:none}}
+
 .r-sec{margin-bottom:44px}
 .r-sec[hidden],#rt-spec [data-r][hidden]{display:none}
 .r-sec>h2{font-size:19px;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;margin-bottom:6px}
@@ -1158,6 +1179,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 
 <main class="r-main">
   <section id="rt-proto" class="r-view on">
+<div class="r-top"><h1><span class="no">01</span>프로토타입</h1><p>실제로 <b>동작하는 화면</b>입니다. 탭 전환 · 필터 · 정렬 · 카드 선택 · 비교 · 확정까지 눌러 볼 수 있고, <b>시나리오 시뮬레이터</b>에서는 조건부 케이스와 예외를 STEP 단위 PASS/FAIL 로 확인합니다. 명세와 어긋나는 것이 보이면 <b>이 화면이 기준</b>입니다 — 02 화면설계 · 03 기능정의는 여기서 확인된 동작을 옮겨 적은 것입니다.</p></div>
 <div class="refbar">
   <span><b>자유 조작</b> — 탭 전환 · 필터 · 정렬 · 카드 선택 · 비교 담기 · 확정까지 실제 동작합니다.</span>
   <span>선택 시 <span class="kbd">스크롤 유지 C-18</span> 필터·정렬 <span class="kbd">클라이언트 처리</span> 목록 <span class="kbd">점진 렌더 C-39</span> 가격 <span class="kbd">C-30</span> 배지 <span class="kbd">상위 2개 C-37</span> 비교 <span class="kbd">탭 간 유지 C-35</span></span>
@@ -1211,6 +1233,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div>
 </section>
   <section id="rt-plan" class="r-view">
+<div class="r-top"><h1><span class="no">04</span>개선안</h1><p>이 탭은 <b>근거와 확정</b>을 다룹니다 — 무엇이 문제였고(개선 배경) 그래서 무엇을 어떻게 바꾸기로 했는가. <b>확정 사항 C-nn 의 상세 정의 60건이 여기</b> 있으며, 다른 탭은 정의를 두지 않고 ID 로 참조만 합니다. 그룹은 <b>가 전제 · 나 현황 · 다 프로세스 · 라 화면 · 마 데이터 · 바 S-02 범위 밖</b> 여섯입니다.</p></div>
 <div class="r-sec">
   <h2><span class="no">1</span>개선 배경</h2>
   <p class="d">요금제 선택 화면은 가입 여정에서 유일하게 <b>비교·판단</b>을 요구하는 지점입니다. 나머지 단계는 모두 2~3개 선택지의 단순 분기이므로, 인지 부하가 이 화면에 집중됩니다. 가입 후 요금 부담을 결정하는 지점이라 재검토 욕구도 구조적으로 강합니다.</p>
@@ -1472,7 +1495,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div>
 </section>
   <section id="rt-func" class="r-view">
-<div class="r-lead"><h1>기능정의</h1><p>이 탭은 <b>판정</b>을 다룹니다 — 무엇을, 어떤 순서로, 어떤 조건으로 판단하는가. 화면의 <b>영역별 요소 명세는 02 화면설계</b>(A~G 영역 · 부록 4 접근성 · 부록 5 데이터 매핑), <b>개선 근거와 확정 사항은 04 개선안</b>이 단일 출처이며 <b>여기서 다시 적지 않습니다.</b> 각 STEP은 01 프로토타입의 시나리오 시뮬레이터에서 PASS/FAIL로 확인할 수 있습니다.</p></div>
+<div class="r-top"><h1><span class="no">03</span>기능정의</h1><p>이 탭은 <b>판정</b>을 다룹니다 — 무엇을, 어떤 순서로, 어떤 조건으로 판단하는가. 화면의 <b>영역별 요소 명세는 02 화면설계</b>(A~G 영역 · 부록 4 접근성 · 부록 5 데이터 매핑), <b>개선 근거와 확정 사항은 04 개선안</b>이 단일 출처이며 <b>여기서 다시 적지 않습니다.</b> 각 STEP은 01 프로토타입의 시나리오 시뮬레이터에서 PASS/FAIL로 확인할 수 있습니다.</p></div>
 
 <div class="r-sec">
   <h2><span class="no">1</span>화면 · 개발 범위</h2>
@@ -1584,14 +1607,15 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div>
 </section>
   <section id="rt-req" class="r-view">
+
+<div class="r-top"><h1><span class="no">05</span>요구사항 정의서</h1><p>이 탭은 <b>기준</b>을 다룹니다 — 왜 고치는가(문제) · 무엇을 지키는가(원칙) · 화면 전체에 걸리는 공통 규칙 · 무엇으로 개선을 판정하는가. <b>확정 사항의 상세 정의는 04 개선안</b>(가 ~ 바 그룹 60건)이, <b>영역별 요소 명세는 02 화면설계</b>가 단일 출처이며 <b>여기서 다시 적지 않습니다.</b> 본 탭은 <b>어느 그룹에도 속하지 않는 공통 기준 6건</b>과 문제 · 원칙 · 문구 · 측정만 정의합니다.</p></div>
+
 <div class="r-grid r-g3" style="margin-bottom:30px">
   <div class="r-kpi ok"><div class="v">66</div><div class="l">확정 사항 (C-01 ~ C-66) — 상세 정의 <b>60건은 04 개선안</b> · 6건은 본 탭 3장</div></div>
   <div class="r-kpi"><div class="v">0</div><div class="l">결정 대기 — O-17 · O-19 ~ O-27 <b>전건 해소</b> · <b>O-18 이월 1건</b></div></div>
   <div class="r-kpi"><div class="v">5</div><div class="l">핵심 페인포인트 (P1 ~ P5) — 전건 해소</div></div>
   <div class="r-kpi"><div class="v">6</div><div class="l">개선 원칙 (G-01 ~ G-06)</div></div>
 </div>
-
-<div class="r-lead"><h1>요구사항 정의서</h1><p>이 탭은 <b>기준</b>을 다룹니다 — 왜 고치는가(문제) · 무엇을 지키는가(원칙) · 화면 전체에 걸리는 공통 규칙 · 무엇으로 개선을 판정하는가. <b>확정 사항의 상세 정의는 04 개선안</b>(가 ~ 바 그룹 60건)이, <b>영역별 요소 명세는 02 화면설계</b>가 단일 출처이며 <b>여기서 다시 적지 않습니다.</b> 본 탭은 <b>어느 그룹에도 속하지 않는 공통 기준 6건</b>과 문제 · 원칙 · 문구 · 측정만 정의합니다.</p></div>
 
 <div class="r-sec">
   <h2><span class="no">1</span>핵심 문제 정의</h2>
@@ -1706,7 +1730,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div>
 </section>
 <section id="rt-tc" class="r-view">
-<div class="r-lead"><h1>테스트 케이스</h1><p>요금제 선택 화면(S-02)의 검증 케이스입니다. <b>검증 시퀀스 · 예외 처리 · 영역별 요소 명세 · 접근성 명세 · 부록 6 팝업·분기 정의</b>에서 도출했으며, 각 케이스의 <b>근거</b> 열에 해당 확정 사항과 기준을 달아 두었습니다 — 코드에 커서를 올리면 정의가 뜨고 클릭하면 정의 위치로 이동합니다.</p></div>
+<div class="r-top"><h1><span class="no">06</span>테스트 케이스</h1><p>요금제 선택 화면(S-02)의 검증 케이스입니다. <b>검증 시퀀스 · 예외 처리 · 영역별 요소 명세 · 접근성 명세 · 부록 6 팝업·분기 정의</b>에서 도출했으며, 각 케이스의 <b>근거</b> 열에 해당 확정 사항과 기준을 달아 두었습니다 — 코드에 커서를 올리면 정의가 뜨고 클릭하면 정의 위치로 이동합니다.</p></div>
 <div class="r-grid r-g3" style="margin-bottom:30px">
   <div class="r-kpi main"><div class="v">106</div><div class="l">전체 케이스 — 기능 30 · 예외 9 · 화면 46 · 접근성 13 · PC 8</div></div>
   <div class="r-kpi warn"><div class="v">65</div><div class="l">우선순위 High — 배포 전 필수 확인</div></div>
@@ -1756,7 +1780,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div>
 </section>
 <section id="rt-log" class="r-view">
-<div class="r-lead"><h1>변경 이력</h1><p>이 문서의 <b>변경 이력 단일 출처</b>입니다. 작성일자 <b>역순</b>으로 고정되어 있으며, 검색과 더보기로 탐색합니다. 영역별 이력은 각 프레임 하단 <b>HISTORY</b>에, 문서 단위 이력은 <b>화면설계 &gt; 문서정보 &gt; PAGE INFORMATION</b>에 별도로 표기합니다.</p></div>
+<div class="r-top"><h1><span class="no">07</span>변경 이력</h1><p>이 문서의 <b>변경 이력 단일 출처</b>입니다. 작성일자 <b>역순</b>으로 고정되어 있으며, 검색과 더보기로 탐색합니다. 영역별 이력은 각 프레임 하단 <b>HISTORY</b>에, 문서 단위 이력은 <b>화면설계 &gt; 문서정보 &gt; PAGE INFORMATION</b>에 별도로 표기합니다.</p></div>
 <details class="fs-frame" id="fs-log" open><summary class="fs-fhead"><div class="fs-fname"><i></i>변경 이력<em class="fs-fix" id="fs-log-cnt">—</em><em class="fs-hint" id="fs-log-hint">—</em></div><div class="fs-fcode"><span>범위</span><b>문서 전체</b></div><div class="fs-fold"><span class="f-o">접기</span><span class="f-c">펼치기</span><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></div></summary>
 <div class="fs-fbody">
 <div class="fs-fmain">
@@ -1766,6 +1790,8 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <thead>
 <tr><th>일자</th><th>구분</th><th>대상 영역</th><th>변경 내용</th><th>작성자</th></tr></thead>
 <tbody>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">02 화면설계 — E · 부록 3 · 부록 6</td><td><b>화면설계를 프로토타입 현재 버전으로 맞춤</b><br><b>E 상태 2 — 제약 라인 2줄</b> — 프로토타입은 자격 제한과 셀프개통 불가를 <b>각각 한 줄</b>로 표기하고 둘 다 걸리면 두 줄이 되는데, 목업은 <b>시니어 1줄</b>만 있었다. 목업을 <b>청소년 안심 요금제</b>(만 19세 미만 + 셀프개통 신청 불가)로 교체해 두 줄 케이스를 보이게 하고, 명세를 <b>01 자격 라인 · 02 경로 라인 · 03 비교 담기</b> 3행으로 재정렬했다. 01 Value 에 <b>자격 문구 3종</b>(시니어 · 이십세 · 청소년)을 열거하고, <b>요금제명을 반복하지 않는다</b>는 원칙을 명시했다 <span class="cid">C-49</span>.<br><b>E 배지 · 요금제명</b> — <b>약정형 · 더알뜰플랜2</b> 배지와 명칭 표기를 명세에 넣고, <b>약정 조건 배지는 앞자리에 둔다</b>는 규칙을 더했다 — 2개 제한에 밀려 가려지면 선택 전 인지가 무너진다 <span class="cid">C-65</span>.<br><b>부록 6 — EX-03 을 「선택 시점」에서 「확정 시점」으로 이동</b>. 프로토타입은 이미 확정 시점(STEP 13a)에 판정하고 버튼 라벨도 <b>「상담사 개통하기」</b>이며 확인 시 <b>확정을 이어서 진행</b>하는데, 화면설계는 선택 시점으로 서술하고 있었다.<br><b>부록 3</b> — 규칙 표에 <b>셀프개통 가능 여부</b> · <b>약정 요금제</b> 2행을 신설하고, 가입자 유형 제약 행을 <b>제약 라인 표기</b> 기준으로 고쳤다. 해소된 <span class="cid d">O-17</span>이 <b>「기획·법무 결정 대기」로 남아 있어</b> 해소 표기로 정정 <span class="cid">C-45</span></td><td class="wr">허지원 책임</td></tr>
+<tr><td class="dt">26.08.19</td><td><span class="fs-kind add">추가</span></td><td class="tg">전체 7탭 상단 · 02 화면설계 툴바</td><td><b>탭 상단 골격 통일 · 피그마 원본 바로 가기</b><br><b>상단이 탭마다 달랐다</b> — 03 · 05 · 06 · 07 은 제목 + 설명이 있었고 <b>01 · 02 · 04 는 없었다.</b> KPI 위치도 05 는 제목 위, 06 은 제목 아래로 <b>서로 반대</b>였다. 일곱 탭 모두 <b>제목 → 역할 한 문장 → (있으면) KPI</b> 순서로 맞추고, 01 · 02 · 04 에 상단 블록을 신설했다.<br><b>제목에 탭 번호 배지를 붙였다</b> — 탭바에는 번호가 있는데 본문 제목에는 없어, 스크롤한 뒤 어느 탭인지 위로 올라가 확인해야 했다. 번호가 <b>탭바와 본문을 잇는다.</b><br><b>피그마 원본 바로 가기</b> — 02 화면설계 툴바 우측에 <b>새 창으로 열리는</b> 원본 링크를 뒀다(<code class="k">node-id=40005698-6576</code>). 문서와 피그마를 왕복하는 동선이 실제로 가장 잦은데 <b>주소를 따로 찾아야</b> 했다. 터치 타깃 44px · 접근 가능한 이름 · <code class="k">rel="noopener"</code> 적용 <span class="cid">C-38</span> <span class="cid">C-41</span></td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">05 요구사항 정의서 전면 · 문서 헤더</td><td><b>요구사항 정의서를 기능정의와 같은 규칙으로 정리</b> — 4장 108줄 → <b>5장 122줄</b>. 절이 늘어난 건 <b>흩어져 있던 표준 문구 · 측정 기준을 독립 절로 올렸기</b> 때문이고, 중복 서술은 걷어냈다.<br><b>역할을 「기준」으로 좁혔다</b> — 왜 고치는가(문제) · 무엇을 지키는가(원칙) · 화면 전체에 걸리는 공통 규칙 · 무엇으로 판정하는가. 확정 사항 상세는 04, 요소 명세는 02가 단일 출처임을 리드에 명시.<br><b>그룹 라벨 충돌 해소 ★</b> — <b>「바」가 두 탭에서 서로 다른 그룹을 가리키고 있었다.</b> 04의 바는 <b>제휴카드</b>, 05의 바는 <b>상태 · 예외 정책</b>이었다. 05를 <b>사 상태 · 예외 정책 → 아 구현 규칙 · 접근성</b>으로 재부여했다. 종전에는 05 안에서도 <b>사 → 바</b> 역순이었다.<br><b>죽은 코드 칩 해소 ★</b> — <span class="cid d">O-23</span>이 문서에서 2회 참조되는데 <b>정의가 없었다.</b> 미확정 표에 「제휴카드 유지 여부 → C-62로 대체」로 추가해 해소. <b>전 문서 죽은 칩 0건.</b><br><b>KPI 정정 3건</b> — 확정 사항 <b>59 → 66건</b>, 정의 위치 <b>「44건 중 38건」 → 「66건 중 60건」</b>, 문서 헤더 확정 상태 <b>47 → 66</b>. 세 곳 모두 코드가 늘어난 뒤 갱신되지 않은 값이었다.<br><b>정합 정정 · 중복 제거</b> — 표준 문구의 하단 고정 영역 표기가 구식(<b>「{요금제명} 월 {프로모션가}원」</b>)이었다 → <b>「요금제명 + 부가세포함 월 {금액}원」 한 행</b>으로 <span class="cid">C-51</span>. 미확정 표의 긴 배경 서술은 <code class="k">docs/DECISIONS.md</code>가 단일 출처이므로 <b>ID와 결과만</b> 남기고 <b>해소 6건을 한 행으로</b> 묶었다. <span class="cid">C-41</span>의 접근성 구현 나열은 <b>02 부록 4와 통째로 겹쳐</b> 원칙 수준으로 줄이고 부록 4를 단일 출처로 지정. 3절 말미의 「가·나·다·라·마 그룹은 개선안 탭에」 문장은 <b>같은 절 상단 안내와 중복</b>이라 삭제.<br><b>추가</b> — 표준 문구에 <b>목록 컨트롤</b> 행을 넣고, <b>카피 확정 대기 2건</b>(진입 안내 · 약정 안내)을 경고 블록으로 올렸다 — 원본 반환금 비율의 음수 부호 확인 건을 여기에 함께 적어 <b>카피 확정의 단일 창구</b>로 만들었다</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">03 기능정의 전면 · 05 요구사항 정의서</td><td><b>기능정의를 프로토타입 · 개선안 현재 버전으로 재구성</b> — 5장 200줄 → <b>4장 112줄</b>. 내용은 줄지 않고 <b>중복만 걷어냈다.</b><br><b>역할을 「판정」으로 좁혔다</b> — 이 탭이 답할 질문은 <b>무엇을 · 어떤 순서로 · 어떤 조건으로 판단하는가</b>다. 영역별 요소 명세(02 A~G · 부록 4 접근성 · 부록 5 데이터 매핑)와 개선 근거(04 개선안)는 다른 탭이 단일 출처이므로 <b>참조만</b> 한다.<br><b>삭제한 중복 3건</b> — ① 1장의 「S-02 영역 구성」 표는 02의 <b>화면 구성 · INDEX</b>와 같은 내용이었다. ② 3장 「노출 데이터」 전체(카드 · 컨트롤/Sticky · 비교 시트 · S-01 추가 영역 4표)는 02의 <b>A~G 요소 명세</b>와 겹쳤다. ③ 5장 데이터 연동 표의 <b>표기용 데이터</b>는 02 <b>부록 5</b>와 겹쳤다.<br><b>살려서 옮긴 고유 요건</b> — 「주간 순위는 요금제 고유값이라 필터 · 정렬 후에도 불변(목록 인덱스가 아님)」을 <b>STEP 5</b>로, 「비교 최대 2개 · 탭 이동 시 유지」를 <b>STEP 11b</b>로 신설해 담았다. 데이터 표는 <b>판정에 쓰는 값만</b> 남겨 9행으로 줄이고 <b>신규 연동 1건을 첫 행에 강조</b>했다.<br><b>정합 정정 3건</b> — ① 3장 Sticky 행에 남아 있던 구식 표기(「{요금제명} 월 {요금}원」 + 별도 금액 행)를 걷어냈다 — STEP 10과 모순이었다. ② S-02 개발 범위의 코드 열거(C-13~C-59)를 <b>「04 개선안 다 · 라 · 마 그룹 전건」</b>으로 바꿨다 — 코드가 늘 때마다 낡는 표기였고 이미 C-62~C-66이 빠져 있었다. ③ 「범위 밖」 항목(제휴카드 · 사은품 · 동일 IP)을 1장 하단에 <b>한 곳으로 모았다</b> — 종전에는 세 절에 흩어져 있었다.<br><b>구조</b> — 1 화면 · 개발 범위 / 2 판정 시퀀스(진입 · 선택 · 확정) / 3 예외 처리 / 4 판정 데이터 조달. 선택 구간에 <b>「제약 판정 없음」</b>을 소제목으로 명시해 판정이 진입(표기)과 확정(분기)으로 나뉘어 있다는 설계 의도를 구조로 드러냈다. 05 요구사항 정의서의 「노출 데이터」 참조 1건을 02 화면설계로 정정. <b>죽은 코드 칩 0건</b>(참조 31종 전건 정의 존재)</td><td class="wr">허지원 책임</td></tr>
 <tr><td class="dt">26.08.19</td><td><span class="fs-kind mod">수정</span></td><td class="tg">문서 구조 · 전체</td><td><b>메뉴 구조 재편</b> — 「변경 이력」을 화면설계 안에서 꺼내 <b>1뎁스 탭으로 분리</b>(07)하고, 탭 순서를 <b>01 프로토타입 · 02 화면설계 · 03 기능정의 · 04 개선안 · 05 요구사항 정의서 · 06 테스트 케이스 · 07 변경 이력</b>으로 재배열. 동작하는 화면을 먼저 보고 명세 → 기능 → 근거(개선안 · 요구사항) → 검증 순으로 읽도록 순서를 맞춘 것. 변경 이력은 문서 전체를 대상으로 하므로 특정 문서 아래 두지 않는다. 이에 따라 본문의 <b>탭 번호 표기 49건</b>과 코드 칩 이동 라벨을 새 번호로 갱신했고, 화면설계 「영역 이동」에서 변경 이력 링크를 제거했다. <b>id는 종전대로 유지</b>(<code class="k">rt-*</code> · <code class="k">fs-log</code>) — 앵커 · CSS가 id 기준</td><td class="wr">허지원 책임</td></tr>
@@ -1809,7 +1835,8 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </section>
 
   <section id="rt-spec" class="r-view">
-<div class="fs-toolbar" data-sub="design"><div class="fs-subtabs" role="tablist" aria-label="문서 구성"><button type="button" role="tab" data-sub="design" class="on" aria-selected="true" onclick="fsSub('design')">화면설계</button><button type="button" role="tab" data-sub="info" aria-selected="false" onclick="fsSub('info')">문서정보</button><button type="button" role="tab" data-sub="appendix" aria-selected="false" onclick="fsSub('appendix')">부록</button></div>
+<div class="r-top"><h1><span class="no">02</span>화면설계</h1><p>요금제 선택 화면(S-02)의 <b>영역별 요소 명세</b>입니다. <b>A~G 일곱 영역</b>을 상태별로 나누고 각 상태에 목업 · 노출 조건 · 요소 명세를 붙였습니다. 문서정보에는 페이지 정보와 표기 규칙, 부록에는 레이아웃 규격 · 상태 정의 · 노출 규칙 · 접근성 명세 · 데이터 매핑 · 팝업 분기가 있습니다. <b>목업은 프로토타입 렌더이며 디자인 확정안이 아닙니다.</b></p></div>
+<div class="fs-toolbar" data-sub="design"><div class="fs-subtabs" role="tablist" aria-label="문서 구성"><button type="button" role="tab" data-sub="design" class="on" aria-selected="true" onclick="fsSub('design')">화면설계</button><button type="button" role="tab" data-sub="info" aria-selected="false" onclick="fsSub('info')">문서정보</button><button type="button" role="tab" data-sub="appendix" aria-selected="false" onclick="fsSub('appendix')">부록</button><a class="fs-figma" href="https://www.figma.com/design/SRasUqBc8lp9g0VT5mvjCu/2026.03-%EA%B0%80%EC%9E%85%EC%8B%A0%EC%B2%AD%EC%84%9C?node-id=40005698-6576&amp;t=5qE020HGCaQUwiiZ-1" target="_blank" rel="noopener noreferrer" aria-label="원본 피그마 화면설계서 새 창으로 열기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6"/><path d="M20 4l-8.5 8.5"/><path d="M18 14v5a1.8 1.8 0 0 1-1.8 1.8H5.8A1.8 1.8 0 0 1 4 19V7.8A1.8 1.8 0 0 1 5.8 6H11"/></svg>피그마 원본<em>새 창</em></a></div>
 <div class="fs-nav" role="navigation" aria-label="영역 이동"><a href="#fs-index">화면 구성</a><a href="#fs-full">전체 화면</a><a href="#fs-a"><i>A</i>헤더</a><a href="#fs-b"><i>B</i>타이틀</a><a href="#fs-c"><i>C</i>TAB</a><a href="#fs-d"><i>D</i>목록 컨트롤</a><a href="#fs-e"><i>E</i>요금제 목록 카드</a><a href="#fs-f"><i>F</i>FOOT STICKY</a><a href="#fs-g"><i>G</i>Modal Bottom Sheet</a></div></div><div class="fs-sub" id="fs-sub-info"><div class="r-sec">
   <h2><span class="no">0</span>문서 사용 안내</h2>
   <p class="d">본 화면설계서는 <b>영역(FRAME) 단위</b>로 작성했습니다. 각 영역은 <b>PAGE CODE · SCREEN(목업) · 노출 조건 · 요소 명세</b>를 한 화면에 담아, 피그마 화면설계서와 동일한 구조로 대조할 수 있습니다.</p>
@@ -2147,10 +2174,10 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BADGE (순위)</p></dd></div><div><dt>Value</dt><dd><p>주간 순위 1 ~ 10</p></dd></div><div><dt>Memo</dt><dd><p>주간 BEST 탭 전용 — 그 외 탭 미노출</p><p>필터·정렬 후에도 순위 값 유지</p><p>숫자만으로는 의미가 전달되지 않으므로 보조기술용 라벨 필요 — aria-label="주간 N위"</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">02</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>BADGE (혜택)</p></dd></div><div><dt>Value</dt><dd><p>BEST / U+인터넷결합 / 랜덤결합 / 청소년 전용 등</p></dd></div><div><dt>Memo</dt><dd><p>최대 2개 <span class="cid">C-15</span> · 등록 순서 기준 앞의 2개 <span class="cid">C-37</span></p><p>3개 이상 등록되어도 3번째부터 미노출</p><p>없으면 배지 영역 자체 미노출</p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>BADGE (혜택)</p></dd></div><div><dt>Value</dt><dd><p>혜택 · 대상 — BEST / U+인터넷결합 / 랜덤결합 / 청소년 전용 / 이십세 전용 / 상담사 전용 등</p><p><b>약정 조건 — 약정형 / 더알뜰플랜2</b> <span class="cid">C-65</span></p></dd></div><div><dt>Memo</dt><dd><p>최대 2개 <span class="cid">C-15</span> · 등록 순서 기준 앞의 2개 <span class="cid">C-37</span></p><p>3개 이상 등록되어도 3번째부터 미노출</p><p>없으면 배지 영역 자체 미노출</p><p><b>약정 조건 배지는 앞자리에 둔다</b> — 되돌리기 어려운 조건을 확정 시점에 처음 알리지 않기 위함이며, 2개 제한에 밀려 가려지면 안 된다 <span class="cid">C-65</span> <span class="cid">C-49</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">03</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (요금제명)</p></dd></div><div><dt>Value</dt><dd><p>요금제 마스터 명칭</p></dd></div><div><dt>Memo</dt><dd><p>가입자 유형 제약은 요금제명에 내재 <span class="cid">C-34</span> — 사전 필터링하지 않음 <span class="cid">C-28</span></p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (요금제명)</p></dd></div><div><dt>Value</dt><dd><p>요금제 마스터 명칭 — 약정 요금제는 명칭에 <b>[약정형] · [더알뜰플랜2]</b>가 포함된다</p></dd></div><div><dt>Memo</dt><dd><p>가입자 유형 제약은 요금제명에 내재 <span class="cid">C-34</span> — 사전 필터링하지 않음 <span class="cid">C-28</span></p><p>명칭 표기와 <b>배지는 함께</b> 쓴다 — 명칭은 원본 마스터 값이고 배지는 <b>선택 전 인지</b>를 위한 강조다 <span class="cid">C-65</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">04</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (가격)</p></dd></div><div><dt>Value</dt><dd><p>판매가 (취소선) + 프로모션가 / 월</p></dd></div><div><dt>Memo</dt><dd><p>프로모션가 없으면 판매가만 노출 — 할인율·할인액 표기 없음 <span class="cid">C-30</span></p><p>프로모션 지급 개월은 <b>배너로 표기</b> — 적용 기간 · 종료 후 금액 등 추가 정보 없음 <span class="cid">C-45</span></p><p>안내 문구는 <b>등록된 경우에만</b> 노출하되 미등록 시에도 <b>가격 영역 높이를 유지</b> — 등록 유무로 카드 높이가 달라지면 선택 전후 크기 불변과 PC 2열 행 정렬이 깨짐 <span class="cid">C-59</span></p></dd></div></div></div>
@@ -2179,18 +2206,21 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 <div class="fs-no">12</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (점진 렌더 안내)</p></dd></div><div><dt>Action</dt><dd><p>목록 하단에 노출 — 아직 표시되지 않은 건이 남아 있음을 알림</p><p>다음 묶음이 붙으면 진행 수치가 갱신되고, 전부 표시되면 <b>영역 자체가 사라짐</b></p></dd></div><div><dt>Value</dt><dd><p>스크롤하면 이어서 표시됩니다 ({표시된 건수}/{전체 건수})</p></dd></div><div><dt>Memo</dt><dd><p>목록 끝이 아니라는 신호 — 이 표기가 없으면 남은 요금제가 있어도 목록이 끝난 것으로 읽힘</p><p>페이징 · 무한스크롤 UI가 아니므로 <b>조작 요소가 아님</b> — 버튼 · 링크로 만들지 않음</p><p>주간 BEST 탭은 TOP 10 고정이라 미노출</p><p>진행 수치 갱신이 보조기술에도 전달되어야 함 — 목록 하단 상태 안내로 처리</p></dd></div></div></div></div></div>
 <div class="fs-state sp more">
-<div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="badges" style="position:relative"></span><span class="radio" style="position:relative"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 알뜰 300분</span><span class="prices" style="position:relative"><span class="p-old">9,900원</span><span class="p-new">6,600원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>1.5GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>300분</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">소진 시 차단</span></span></button><div class="lim" style="position:relative"><b class="fs-cal o">01</b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>만 65세 이상 고객만 가입 가능</div><div class="cmprow" style="position:relative"><b class="fs-cal o">02</b><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
-<div class="fs-cond"><dt>노출 조건</dt><ul><li>가입 자격이 제한된 요금제 (시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단)</li></ul></div>
+<div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="badges" style="position:relative"><span class="bdg combo">청소년 전용</span></span><span class="radio" style="position:relative"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 청소년 안심 요금제</span><span class="prices" style="position:relative"><span class="p-old">29,700원</span><span class="p-new">19,800원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>6GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">최대 1M bps 속도로 데이터 무제한</span></span></button><div class="lim" style="position:relative"><b class="fs-cal o">01</b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>만 19세 미만 고객만 가입 가능</div><div class="lim" style="position:relative"><b class="fs-cal o">02</b><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12" y2="16"/></svg>셀프개통 신청 불가 — 상담사 개통으로 작성</div><div class="cmprow" style="position:relative"><b class="fs-cal o">03</b><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
+<div class="fs-cond"><dt>노출 조건</dt><ul><li>가입 자격이 제한된 요금제 — 시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단(0GB)</li><li><b>셀프개통으로 신청할 수 없는 요금제</b> — 개통 방식과 무관하게 요금제 자체의 사실이므로 상시 표기</li><li><b>둘 다 걸리면 두 줄로 표기</b> — 예시 목업이 이 경우다</li></ul></div>
 <div class="fs-rows">
 <div class="fs-row">
 <div class="fs-no">01</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (제약 라인)</p></dd></div><div><dt>Value</dt><dd><p>만 65세 이상 고객만 가입 가능 / 만 19세 미만 · 만 19~29세 등 요금제별 자격 문구</p></dd></div><div><dt>Memo</dt><dd><p>가입 자격이 제한된 요금제에만 노출 — <b>선택 전부터 상시 표기</b> <span class="cid">C-49</span></p><p><b>Alert을 띄우지 않는다</b> — 선택 즉시 Alert이 뜨면 스크롤 위치 유지 <span class="cid">C-18</span>와 즉시 피드백 <span class="cid">C-26</span>이 깨짐</p><p>실제 자격 검증은 가입자 유형 선택 단계의 현행 예외처리 준용 <span class="cid">C-28</span> — 본 화면은 표기만 담당</p><p>요금제명에 유형이 내재된 경우에도 <b>제약 라인은 별도로 노출</b> <span class="cid">C-34</span></p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (제약 라인)</p></dd></div><div><dt>Value</dt><dd><p>요금제별 자격 문구 — 시니어 「만 65세 이상 고객만 가입 가능」 / 이십세 「만 19세 이상 ~ 만 29세 이하 고객만 가입 가능」 / 청소년 「만 19세 미만 고객만 가입 가능」</p></dd></div><div><dt>Memo</dt><dd><p>가입 자격이 제한된 요금제에만 노출 — <b>선택 전부터 상시 표기</b> <span class="cid">C-49</span></p><p><b>Alert을 띄우지 않는다</b> — 선택 즉시 Alert이 뜨면 스크롤 위치 유지 <span class="cid">C-18</span>와 즉시 피드백 <span class="cid">C-26</span>이 깨짐</p><p>실제 자격 검증은 가입자 유형 선택 단계의 현행 예외처리 준용 <span class="cid">C-28</span> — 본 화면은 표기만 담당</p><p>요금제명에 유형이 내재된 경우에도 <b>제약 라인은 별도로 노출</b> <span class="cid">C-34</span></p><p><b>요금제명을 반복하지 않는다</b> — 카드 안에 있어 대상이 이미 분명하다. 원본은 팝업이라 요금제명 치환이 필요했다</p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no">02</div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>TEXT (제약 라인 — 경로)</p></dd></div><div><dt>Value</dt><dd><p>셀프개통 신청 불가 — 상담사 개통으로 작성</p></dd></div><div><dt>Memo</dt><dd><p>자격 제한과 <b>같은 성격</b>이므로 같은 형태로 선택 전부터 표기 <span class="cid">C-49</span></p><p>개통 방식과 무관한 <b>요금제 자체의 사실</b>이라 상시 노출한다 — 셀프개통이 아닌 진입에서도 표기</p><p><b>확인 팝업은 확정 시점에만</b> 뜬다 <span class="cid x">EX-03</span> — 선택 시점에는 판정하지 않는다</p></dd></div></div></div>
+<div class="fs-row">
+<div class="fs-no">03</div>
 <div class="fs-dl"><div><dt>Component</dt><dd><p>BUTTON (Toggle)</p></dd></div><div><dt>Value</dt><dd><p>비교 담기</p></dd></div><div><dt>Memo</dt><dd><p>자격 제한 요금제도 <b>비교 대상에서 제외하지 않는다</b> — 비교 후 판단할 수 있어야 함 <span class="cid">C-35</span></p></dd></div></div></div>
 <div class="fs-row">
 <div class="fs-no sys">SYS</div>
-<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p>자격 제한 요금제도 <b>목록에 노출</b>한다 — 사전 필터링하지 않음 <span class="cid">C-28</span></p><p>셀프개통 불가 요금제를 셀프개통 상태에서 선택하면 <b>상담사 개통 전환 확인</b> <span class="cid">C-50</span> <span class="cid x">EX-03</span></p></dd></div></div></div>
+<div class="fs-dl"><div><dt>Component</dt><dd><p>SYSTEM</p></dd></div><div><dt>Memo</dt><dd><p>자격 제한 요금제도 <b>목록에 노출</b>한다 — 사전 필터링하지 않음 <span class="cid">C-28</span></p><p>셀프개통 불가 요금제도 <b>목록에 노출</b>하고 <b>선택도 그 자리에서 완결</b>된다 — 상담사 개통 전환 확인은 <b>확정 시점</b>에만 뜬다 <span class="cid">C-50</span> <span class="cid x">EX-03</span></p></dd></div></div></div>
 </div></div>
 <div class="fs-state sp more">
 <div class="fs-screen"><div class="fs-dev">MOBILE <em>394</em></div><div class="fs-mock" style="width:340px"><div class="card" style="position:relative"><button class="card-main" type="button" tabindex="-1"><span class="card-top"><span class="rank" style="position:relative">1</span><span class="badges" style="position:relative"><b class="fs-cal">01</b><span class="bdg best">BEST</span><span class="bdg combo">U+인터넷결합</span></span><span class="radio" style="position:relative"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="hit"></span></span></span><span class="pname" style="position:relative">LTE 스페셜 플러스</span><span class="prices" style="position:relative"><span class="p-old">46,600원</span><span class="p-new">38,200원</span><span class="per">/월</span></span><span class="info" style="position:relative"><span class="chips" style="position:relative"><span><svg viewBox="0 0 24 24" aria-hidden="true"><line x1="6" y1="20" x2="6" y2="14"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="10"/></svg>100GB</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 16.9v2.6a1.5 1.5 0 0 1-1.6 1.5 18.5 18.5 0 0 1-8-2.9 18.2 18.2 0 0 1-5.6-5.6A18.5 18.5 0 0 1 2.9 4.5 1.5 1.5 0 0 1 4.4 3H7a1.5 1.5 0 0 1 1.5 1.3c.1.9.3 1.7.6 2.5a1.5 1.5 0 0 1-.4 1.6L7.6 9.5a15 15 0 0 0 5.6 5.6l1.1-1.1a1.5 1.5 0 0 1 1.6-.4c.8.3 1.6.5 2.5.6A1.5 1.5 0 0 1 21 16.9z"/></svg>기본제공</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><polyline points="21 6 12 12.5 3 6"/></svg>기본제공</span></span><span class="sp" style="position:relative">최대 5M bps 속도로 데이터 무제한</span></span></button><div class="cmprow" style="position:relative"><b class="fs-cal o">02</b><button class="cmpbox" type="button" tabindex="-1" style="position:relative"><span class="cb">&#10003;</span>비교 담기</button></div></div></div></div>
@@ -2262,6 +2292,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
 </div></div></div></div>
 <div class="fs-fside">
 <div class="fs-hist"><dt>HISTORY</dt>
+<div class="fs-hrow"><span>26.08.19</span><b>허지원 책임</b><em>제약 라인 2줄 케이스 반영 · 약정 조건 배지/명칭 표기 (C-49 · C-65)</em></div>
 <div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>자격 제한 요금제 상태 신설 · 카드에 프로모션 문구 · 속도 안내 버튼 구성 (콜아웃 재정렬)</em></div>
 <div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>자격 제한 표기 · 속도 안내 · 프로모션 문구 높이 · 단독 노출 모드 정의 (C-49 · C-57 ~ C-59)</em></div>
 <div class="fs-hrow"><span>26.08.17</span><b>허지원 책임</b><em>선택 상태 명세에 C-26 추적성 태그 부착</em></div>
@@ -2534,13 +2565,17 @@ details.fs-frame:not([open])>summary{border-radius:19px}
         
 <tr><td>혜택</td><td>등록된 경우에만 카드 하단 면으로 노출</td><td>없으면 영역 자체 미생성</td></tr>
         
-<tr><td>가입자 유형 제약</td><td>사전 필터링하지 않음 — <b>요금제명에 유형 표기</b></td><td>가입자 유형 단계의 <b>현행 예외처리 준용</b> <span class="cid">C-28</span></td></tr>
+<tr><td>가입자 유형 제약</td><td>사전 필터링하지 않음 — <b>카드 제약 라인으로 선택 전부터 표기</b>. 요금제명에 유형이 내재된 경우에도 <b>라인은 별도로</b> 노출 <span class="cid">C-49</span> <span class="cid">C-34</span></td><td>가입자 유형 단계의 <b>현행 예외처리 준용</b> <span class="cid">C-28</span> — 본 화면은 표기만 담당</td></tr>
+        
+<tr><td>셀프개통 가능 여부</td><td>셀프개통으로 신청할 수 없는 요금제도 <b>목록에 노출</b>하고, <b>제약 라인으로 상시 표기</b>한다 — 개통 방식과 무관한 요금제 자체의 사실 <span class="cid">C-49</span>. 자격 제한과 <b>둘 다 걸리면 두 줄</b></td><td>확인 팝업은 <b>확정 시점에만</b> — 상담사 개통하기 / 취소 <span class="cid">C-50</span> <span class="cid x">EX-03</span></td></tr>
+        
+<tr><td>약정 요금제</td><td>약정형(<code class="k">CONTRACT</code>) · 더알뜰플랜2(<code class="k">CONTRACT2</code>)는 <b>배지와 요금제명 표기로 선택 전부터</b> 알린다 <span class="cid">C-65</span></td><td>확정 시점에 <b>동의 팝업</b> — 동의 상태만 세션에 기록 <span class="cid">C-50</span> <span class="cid">C-12</span></td></tr>
       
 </tbody>
     
 </table>
   </div>
-  <div class="r-note" style="margin-top:12px"><b>미확정</b> <span class="cid d">O-17</span> <b>프로모션 적용 기간 표기</b> — 현재 가격에는 적용 기간과 종료 후 금액이 없습니다. 혜택 면에는 "(24개월)"이 표기되어 기준이 어긋나며, 표시·광고 규제 검토가 필요합니다. <b>기획·법무 결정 대기.</b></div>
+  <div class="r-note" style="margin-top:12px"><b>해소</b> <span class="cid d">O-17</span> <b>프로모션 적용 기간 표기</b> — 가격에 적용 기간과 종료 후 금액을 붙이는 대신 <b>배너 형태로 지급 개월만 표기</b>하는 것으로 확정했습니다 <span class="cid">C-45</span>. 추가 정보는 두지 않습니다. <b>결정 대기 0건 · <span class="cid d">O-18</span>만 이월</b>입니다.</div>
 </div>
 <div class="r-sec">
   <h2><span class="no">4</span>접근성 명세</h2>
@@ -2657,7 +2692,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
     <thead><tr><th>ID</th><th>대상</th><th>형태</th><th>동작</th></tr></thead>
     <tbody>
       <tr><td><span class="cid">C-49</span></td><td>시니어 · 이십세 · 청소년 · 유독할인 결합 · 데이터차단(0GB)</td><td><b>카드 제약 라인</b></td><td>선택 전부터 상시 표기. Alert 없음 — 선택은 그 자리에서 완결된다. 실제 자격 검증은 가입자 유형 선택 단계 <span class="cid">C-28</span></td></tr>
-      <tr><td><span class="cid">C-50</span></td><td>셀프개통 + <b>셀프개통 불가 요금제</b> — 목록에는 노출됨</td><td>확인 팝업 <span class="cid x">EX-03</span></td><td><b>확인</b> → 상담사 개통으로 신청서 작성 · 선택 유지 / <b>취소</b> → 셀프개통 유지 · 선택 해제 후 "다른 요금제를 선택해 주세요" 안내</td></tr>
+      
     </tbody>
   </table>
 
@@ -2665,6 +2700,7 @@ details.fs-frame:not([open])>summary{border-radius:19px}
   <table class="r-t">
     <thead><tr><th>ID</th><th>대상</th><th>형태</th><th>동작</th></tr></thead>
     <tbody>
+      <tr><td><span class="cid">C-50</span> <span class="cid x">EX-03</span></td><td>셀프개통 <b>AND</b> 셀프개통 불가 요금제 — 목록에는 노출되고 <b>선택도 완결된다</b></td><td>확인 팝업 — 취소 / <b>상담사 개통하기</b></td><td><b>선택 시점이 아니라 확정 시점에 판정한다</b> — 제약은 이미 카드 제약 라인이 선택 전에 알렸고 <span class="cid">C-49</span>, 개통 방식이 바뀌는 분기는 <b>확정 직전에 한 번만</b> 확인한다.<br><b>상담사 개통하기</b> → 개통 방식을 전환하고 <b>확정을 이어서 진행</b>한다 — 사용자가 확정 버튼을 다시 누르게 하지 않는다 / <b>취소</b> → 셀프개통 유지 · <b>선택 해제</b> 후 "다른 요금제를 선택해 주세요" 안내</td></tr>
       <tr><td><span class="cid">C-50</span> <span class="cid">C-65</span></td><td>약정형(<code class="k">CONTRACT</code>) · 더알뜰플랜2(<code class="k">CONTRACT2</code>) 요금제</td><td>동의 팝업 — 구성은 <span class="cid">C-65</span></td><td>동의 / 동의 안함 / 닫기(X) / <b>Esc</b> <b>네 경우 모두 목록으로 복귀</b>하며 <b>동의 상태만</b> 세션에 기록 <span class="cid">C-12</span>. 약정 조건은 <b>선택 전부터 카드 배지</b>로 노출 <span class="cid">C-65</span></td></tr>
       <tr><td><span class="cid">C-53</span></td><td>망내 1회선 · NPay · 쿠팡 요금제</td><td>bottomsheet — 하단 시트(PC 중앙 모달)</td><td>요금제 종속 정보 입력 후 상품 정보 입력으로 이동. <b>기존 기능을 그대로 쓰되 화면을 재구성</b>했다 — 아래 「요금제 종속 입력 시트」 참조. 버튼 라벨을 <b>실제 귀결에 맞춰</b> 두고, 검증 실패는 <b>Alert이 아니라 인라인 오류</b>로 돌려준다</td></tr>
     </tbody>
