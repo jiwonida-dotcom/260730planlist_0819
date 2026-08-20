@@ -3,6 +3,32 @@
 > 최신 항목이 위에 옵니다.
 > `index.html` 내부의 "변경 이력" 표(`#fs-log`)와는 별개입니다. 그쪽도 역순 고정이며 행 추가 시 맨 위에 넣습니다.
 
+## [2026-08-20] playwright 설치 완료 — Edge 폴백 실증 · 절대 치수 판정 원칙
+```text
+Commit: —
+Type: docs · chore
+Target: package.json · package-lock.json (playwright 1.62.1 devDependency) /
+        docs/VALIDATION.md 3절 / docs/STATUS.md
+        **index.html 무변경**
+Change: 1) 사용자 PC 에 playwright 1.62.1 설치. node_modules 18MB · 180파일 —
+           .gitignore:13 에 걸려 git 이 잡지 않는 것을 확인했다(push.ps1 이 git add -A 를 쓴다).
+        2) **npx playwright install chromium 없이 --full 21항목 전건 PASS.**
+           브라우저 탐색 순서의 Edge 폴백(channel msedge)이 실제로 동작했다 —
+           Chromium 내려받기가 필요 없었다. B1 행에 「Edge (channel msedge)」로 찍힌다.
+        3) **절대 치수는 환경에 따라 다르다** — 같은 파일 · 같은 검사에서 카드 높이가
+           클라우드 Chromium 360×325.94 / Windows Edge 360×320.94 로 5px 달랐다.
+           폰트 렌더링 차이이며 결함이 아니다. VALIDATION 3절에 원칙을 명시했다 —
+           판정은 「선택 전 = 선택 후」 같은 **불변량**으로 하고(D15 가 그렇게 본다),
+           문서의 절대 px 은 「그 값을 측정한 환경에서의 기록」으로 읽는다.
+           새 기준값을 적을 때는 측정 환경을 함께 적는다.
+Reason: 문서 곳곳에 절대 px 기준값이 적혀 있다(카드 324.78 · 하단 고정 122.2 · 목록 418.6 …).
+        환경이 둘 이상이 된 이상, 그 값을 환경 표기 없이 비교하면 없는 결함을 만들어낸다.
+Note:   불변량 판정을 처음부터 그렇게 설계한 것이 결과적으로 맞았다 —
+        절대값을 기대값으로 박아 두었다면 Edge 에서 전건 FAIL 이 났을 것이다.
+검증:   Windows Edge 로 --full **21항목 전건 PASS** (사용자 실행) ·
+        클라우드 Chromium 으로도 21항목 전건 PASS. 두 환경 결과 일치(치수 표기만 다름).
+```
+
 ## [2026-08-20] playwright 로컬 설치 경로 마련 — 브라우저 탐색 순서 · node_modules 제외
 ```text
 Commit: —
