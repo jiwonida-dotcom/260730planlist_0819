@@ -9,11 +9,15 @@
 ## 0. 먼저 이 한 줄
 
 ```
-node tools/check.mjs --status
+node tools/check.mjs --status        # 레포 루트에서 실행 (cd 필요)
 ```
 
 HEAD · 파일 규모 · 확정 건수 · 물량을 실측해 `docs/STATUS.md`에 씁니다. **그 값을 씁니다.**
 작업 규칙은 `CLAUDE.md`에서 시작합니다.
+
+사람이 손으로 돌릴 때는 레포 루트의 **`check.cmd`** 를 더블클릭해도 됩니다(`push.cmd` 와 같은 방식).
+인자 없이 실행하면 `--status`, 레이아웃 18조합까지 보려면 `check.cmd --full` — 단 `--full` 은
+`playwright` 가 있는 환경에서만 동작하고, 없으면 정적 검사만 하고 그 사실을 출력합니다.
 
 ## 1. 지금 할 일
 
