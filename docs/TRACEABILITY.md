@@ -1,70 +1,81 @@
 # TRACEABILITY — 추적성 모델
 
+> 2026-08-20 전면 갱신. 종전 문서는 `C-01~C-59` · `TC 106건` · `rt-plan` 기준으로 낡아 있었습니다.
+> **건수는 이 문서에 적지 않습니다** — `docs/STATUS.md`가 단일 출처입니다.
+
 ## 목표
 이 프로젝트를 향후 AI-native workflow로 확장하기 위한 연결 구조입니다.
 현재는 문서와 HTML 내부 ID를 중심으로 추적합니다.
 
 ## 권장 관계
 ```text
-Problem
-  ↓
-Evidence
-  ↓
-Decision
-  ↓
-Requirement
-  ↓
-Screen / Area
-  ↓
-Prototype / Component
-  ↓
-Test Case
-  ↓
-Validation
-  ↓
-Release
-  ↓
-Post-release Evidence
+Problem → Evidence → Decision → Requirement → Screen/Area
+        → Prototype/Component → Test Case → Validation → Release → Post-release Evidence
 ```
 
-**Test Case 단계까지 실체가 있습니다** — 06 테스트 케이스 탭 106건이 각 케이스의 근거 열에 C-nn과 STEP을 달고 있습니다.
+**Test Case 단계까지 실체가 있습니다** — 테스트 케이스 탭의 각 케이스가 근거 열에 `C-nn`과 `STEP`을 답니다.
+**Validation 단계는 2026-08-20 에 자동화되었습니다** — `tools/check.mjs` 가 판정하고 `docs/STATUS.md`에 기록합니다.
 
 ## 현재 사용 중인 식별자
-| 종류 | 형식 | 범위 |
+
+| 종류 | 형식 | 범위 · 비고 |
 |---|---|---|
-| Problem | `P-n` | P1 ~ P5 (전건 해소) |
-| Confirmed requirement | `C-nn` | C-01 ~ C-59 |
-| Open item | `O-nn` | O-17 ~ O-27 (O-18 이월 · O-27 범위 밖, 나머지 해소) |
-| Screen / Area | `S-02_X` | S-02_A ~ S-02_G |
-| Report section | `rt-*` | rt-spec / rt-proto / rt-func / rt-req / rt-plan / rt-tc |
-| 프레임 앵커 | `fs-*` | fs-info / fs-log / fs-index / fs-full / fs-a ~ fs-g |
-| Test case | `TC-*` | 기능 `TC-F-nn` 등, 총 106건 |
-| 검증 시퀀스 | `STEP n` | STEP 1 ~ 14 (03 기능정의) |
+| Problem | `P-n` | P1 ~ P5 — 전건 해소 |
+| Confirmed requirement | `C-nn` | C-01 ~ (현재 최대) · 정의는 **요구사항 정의서 탭 한 곳** |
+| Open item | `O-nn` | **`O-18`만 이월** · `O-27`은 범위 밖 · 나머지 해소 (`DECISIONS.md` 3절) |
+| Exception | `EX-nn` | 기능정의 탭 예외 처리 |
+| Screen / Area | `S-02_X` | `S-02_A` ~ `S-02_G` (+ **H = 레이어 · 팝업**) |
+| Report section | `rt-*` | `R_TABS` 배열이 노출 순서, `FS_TIP_TAB` 이 이름 — **여기에 옮겨 적지 않습니다** |
+| 프레임 앵커 | `fs-*` | `fs-info` · `fs-log` · `fs-index` · `fs-full` · `fs-a` ~ **`fs-h`** |
+| Test case | `TC-*` | `TC-F`(기능) · `TC-E`(예외) · `TC-U`(화면) · **`TC-L`(레이어 · 팝업)** · `TC-A`(접근성) · `TC-P`(PC) |
+| 검증 시퀀스 | `STEP n` | 기능정의 판정 시퀀스 (`13a` · `13b` · `13c` 같은 파생 단계 포함) |
+| WCAG 기준 | `WCAG n.n.n` | 부록 4 접근성 명세 — 한 기준에 적용 지점이 여럿 |
+
+> **코드는 부여 후 재부여 · 재사용 · 폐지하지 않습니다** — `RULES.md` 6절.
 
 ## 코드 칩 — 문서 내 자동 추적
-`C-nn` · `O-nn` 표기는 **코드 칩**으로 렌더되어, 커서를 올리면(키보드는 Tab 포커스) 정의가 뜨고 클릭하면(Enter) 정의가 있는 탭·구성으로 이동합니다. `fsTipBuild()`가 정의를 수집합니다.
 
-따라서 **새 코드의 정의는 반드시 04 또는 05 탭의 `span.cid` 행**에 둬야 자동 수집됩니다. 다른 위치에 두면 칩이 죽습니다.
+`C-nn` · `O-nn` · `EX-nn` · `WCAG n.n.n` 표기는 **코드 칩**으로 렌더되어, 커서를 올리면
+(키보드는 Tab 포커스) 정의가 뜨고 클릭하면(Enter) 정의가 있는 탭 · 구성으로 이동합니다.
+
+수집 규칙 — `fsTipBuild()` 가 **`td.id > span.cid`** 셀을 훑습니다.
+따라서 **새 코드의 정의는 반드시 요구사항 정의서 탭의 정의 표 행**에 둬야 합니다.
+다른 위치에 두면 칩이 죽습니다(호버 · 이동이 동작하지 않음).
+부록 4는 예외로, **기준 칸이 `WCAG n.n` 인 행**을 코드별로 모아 별도 수집합니다.
+
+프로토타입 탭에서도 같은 칩이 동작합니다 — `fsTipWrap()` 이 시나리오 목록 · 검증 로그 · 기기 배지의
+코드 표기를 런타임에 감싸고, `fsTipMark()` 가 재마킹합니다.
+
+**죽은 칩 · 결번 · 중복 정의는 `tools/check.mjs` 의 `D10` · `D11` 항목이 잡습니다.** 손으로 세지 않습니다.
 
 ## 현재 알려진 추적성 결함
+
 | 항목 | 상태 |
 |---|---|
-| ~~`C-26`~~ | **2026-08-17 해소** — E 영역 · 부록 2 · 부록 4 3곳에 칩 부착 |
-| `C-41` | 정의 탭(04) 외 05에도 표기 |
-| 참조 0건 | C-02 · C-05 · C-06 · C-44 — 배경·범위 서술 성격, 결함 아님 |
+| `C-41` | 통합 전 두 탭에 걸쳐 표기되어 있던 잔재 — 정리 대상 (`NEXT_ACTIONS`) |
+| 참조 0건 | `C-02` · `C-05` · `C-06` · `C-44` — 배경 · 범위 서술 성격이며 **결함이 아닙니다** |
+
+> `C-26`(선택 상태 3중 단서) 추적 태그 누락은 **2026-08-17 해소** — E 영역 선택 상태 명세 ·
+> 부록 2 상태 정의 · 부록 4 접근성 명세 3곳에 칩을 부착했습니다.
 
 전체 매트릭스는 `docs/REQUIREMENTS.md` 4절에 있습니다.
 
 ## 변경 영향 분석 절차
-예) `C-26` 변경 시
+
+예) `C-26` 을 고칠 때
 
 1. `docs/REQUIREMENTS.md` 4절에서 참조 위치 확인
 2. 관련 S-02 영역 확인 (E 영역 카드 선택 상태)
-3. 관련 Prototype 확인 (`.card` `.radio` 선택 상태)
-4. 06 테스트 케이스 탭에서 근거 열에 `C-26`이 달린 케이스 확인
-5. `docs/VALIDATION.md` 검증 재실행
+3. 관련 프로토타입 확인 (`.card` · `.radio` 선택 상태)
+4. 테스트 케이스 탭에서 근거 열에 `C-26` 이 달린 케이스 확인
+5. **`node tools/check.mjs --full --status --record` 실행** — 정의 결번 · 죽은 칩 · 콜아웃 정합 · 레이아웃까지 한 번에 판정
 6. `docs/CHANGELOG.md` · `HANDOFF.md` · 외부 수행 기록 시트 A~I열 갱신
 
 ## 다음 단계
+
 현재 HTML을 즉시 JSON/DB로 전환하지 않습니다.
 먼저 문서에서 위 관계를 안정적으로 유지한 뒤, **반복적으로 필요한 항목만** 구조화합니다.
+
+> 2026-08-20 판단 — 구조화의 첫 대상은 **검증**이었고 이미 코드로 옮겼습니다(`tools/check.mjs`).
+> 그다음 후보는 **목업**입니다. H 프레임처럼 목업을 프로토타입 렌더 함수에서 파생시키면
+> 「명세가 프로토타입과 갈라진다」는 문제가 원리적으로 사라집니다 (`docs/PROCESS_REVIEW.md` S-3).
