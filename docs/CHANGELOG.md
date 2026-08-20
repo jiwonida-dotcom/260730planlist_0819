@@ -5,7 +5,7 @@
 
 ## [2026-08-20] 프로세스 개편 — 검증 자동화 · 실측 단일 출처 · 진입 문서 정정
 ```text
-Commit: —
+Commit: 50b698f · a3c1d74 · daf2f2f
 Type: feat(tools) · docs
 Target: tools/check.mjs · tools/tagcheck.py (신설) / docs/STATUS.md (자동 생성) /
         docs/OPEN_QUESTIONS.md · docs/PROCESS_REVIEW.md (신설) /
