@@ -1,0 +1,11 @@
+{
+  "name": "planlist-report",
+  "version": "0.0.0",
+  "private": true,
+  "description": "U+유모바일 S-02 요금제 선택 화면 개선 — 통합 리포트 검증 도구",
+  "scripts": {
+    "check": "node tools/check.mjs",
+    "check:full": "node tools/check.mjs --full --status --record",
+    "check:static": "node tools/check.mjs --static"
+  }
+}

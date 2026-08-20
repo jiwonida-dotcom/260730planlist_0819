@@ -327,16 +327,32 @@ async function run() {
     try { chromium = require('playwright-core').chromium; } catch { /* noop */ }
   }
   if (!chromium) {
-    info('B0', '브라우저 검사', 'playwright 를 찾지 못해 건너뜀 — 정적 검사만 수행 (docs/ENVIRONMENT.md)');
+    info('B0', '브라우저 검사',
+      'playwright 없음 — 정적 검사만 수행. 설치: npm i -D playwright && npx playwright install chromium (docs/ENVIRONMENT.md 4절)');
     return finish();
   }
 
-  const launch = {};
-  const guess = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium/chrome-linux/chrome';
-  if (existsSync(guess)) launch.executablePath = guess;
-  let browser;
-  try { browser = await chromium.launch(launch); }
-  catch { browser = await chromium.launch(); }
+  /* 브라우저 확보 — 환경마다 다른 경로를 순서대로 시도한다.
+     내려받은 Chromium 이 없어도 Windows 에 항상 있는 Edge 로 돌 수 있게 둔다 */
+  const attempts = [];
+  if (process.env.PW_CHROMIUM) attempts.push(['PW_CHROMIUM', { executablePath: process.env.PW_CHROMIUM }]);
+  const linuxPath = '/opt/pw-browsers/chromium/chrome-linux/chrome';
+  if (existsSync(linuxPath)) attempts.push(['/opt/pw-browsers', { executablePath: linuxPath }]);
+  attempts.push(['playwright 내려받은 Chromium', {}]);
+  attempts.push(['Edge (channel msedge)', { channel: 'msedge' }]);
+  attempts.push(['Chrome (channel chrome)', { channel: 'chrome' }]);
+
+  let browser = null, via = '', tried = [];
+  for (const [label, opts] of attempts) {
+    try { browser = await chromium.launch(opts); via = label; break; }
+    catch (e) { tried.push(`${label} → ${String(e).split('\n')[0].slice(0, 90)}`); }
+  }
+  if (!browser) {
+    add('B1', '브라우저 실행', false,
+      '실행 가능한 브라우저를 찾지 못했습니다 — ' + tried.join(' | '));
+    return finish();
+  }
+  info('B1', '브라우저', via);
 
   const page = await browser.newPage({ viewport: { width: 1400, height: 1000 } });
   const errs = [];

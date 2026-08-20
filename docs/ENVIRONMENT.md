@@ -45,18 +45,43 @@ node tools/check.mjs --status
 
 ## 4. 실행 환경
 
-| 도구 | 상태 |
-|---|---|
-| `node` | 사용 가능 |
-| `python3` | **쓰지 않습니다** — Windows 에서 스토어 스텁으로 잡혀 실행이 실패했습니다(2026-08-20). 태그 검사는 Node 구현입니다 |
-| `git` | 사용 가능 (**커밋까지 가능 · push 불가** — 네트워크 없음) |
-| `playwright` + Chromium | 클라우드 세션에서 사용 가능 (`/opt/pw-browsers/chromium`). 로컬에는 없을 수 있음 |
+**두 환경을 구분해야 합니다.** 종전 문서가 이 둘을 섞어 「로컬은 네트워크 없음」으로 적어 두어
+Windows 에서도 패키지 설치가 안 되는 것처럼 읽혔습니다(2026-08-20 정정).
+
+| | Windows PowerShell (사용자 PC) | Cowork 세션 샌드박스 |
+|---|---|---|
+| 네트워크 | **있음** — `git push` · `npm install` 가능 | **없음** — 설치 · push 불가 |
+| 파일 삭제 | 가능 | **불가** — `_to_delete/`로 이동 |
+| `node` | 있음 | 있음 |
+| `git` | 있음 (push 까지) | 있음 (커밋까지) |
+| `python3` | **쓰지 않습니다** — 스토어 스텁으로 잡혀 실행 실패(2026-08-20). 태그 검사는 Node 구현 | 있으나 쓰지 않음 |
+| `playwright` | 아래 절차로 설치 | 클라우드 세션에는 있음 (`/opt/pw-browsers/chromium`) |
 
 - 로컬 폴더는 세션에 연결되어 있어 직접 읽기 · 쓰기 가능합니다.
-- **네트워크가 없습니다.** `git push` · 패키지 설치는 로컬에서 불가하며, push 는 사용자가 `push.cmd`를 실행합니다.
-- **파일 삭제 불가** — 삭제 대상은 `_to_delete/`로 이동합니다.
-- `playwright` 가 없는 환경에서는 `node tools/check.mjs --static` 이 정적 검사(파일 규모 · 태그 정합 · 탭 구성)만 수행하고,
-  브라우저 검사를 건너뛴 사실을 출력합니다 — **조용히 통과하지 않습니다.**
+- push 는 사용자가 `push.cmd`를 실행합니다(샌드박스에서 불가).
+- `playwright` 가 없으면 `check.mjs` 는 **정적 검사만** 수행하고 그 사실을 출력합니다 —
+  **조용히 통과하지 않습니다.**
+
+### playwright 설치 (Windows · 1회)
+
+레포 루트에서 실행합니다.
+
+```powershell
+cd "$HOME\Desktop\요금제 개편"
+npm install --save-dev playwright
+npx playwright install chromium
+node tools/check.mjs --full --status
+```
+
+- `npm install` 이 만드는 `node_modules/` 는 **`.gitignore` 대상**입니다.
+  `push.ps1` 이 `git add -A` 를 쓰므로 제외하지 않으면 수만 개 파일이 커밋됩니다.
+- `package.json` · `package-lock.json` 은 추적합니다(버전 고정).
+- Chromium 내려받기가 막힌 환경(프록시 · 정책)이라면 **설치를 생략해도 됩니다.**
+  `check.mjs` 는 브라우저를 이 순서로 찾습니다 — `PW_CHROMIUM` 환경변수 →
+  `/opt/pw-browsers` → 내려받은 Chromium → **Edge(`msedge`)** → Chrome.
+  Windows 에는 Edge 가 항상 있으므로 `npm install --save-dev playwright` 만으로도 `--full` 이 돕니다.
+  어느 경로로 열렸는지는 출력의 `B1 브라우저` 행에 찍힙니다.
+- npm 스크립트도 있습니다 — `npm run check` / `npm run check:full` / `npm run check:static`.
 
 ## 5. 알려진 함정 — `.git/index.lock` 잔존
 

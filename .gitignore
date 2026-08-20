@@ -8,6 +8,16 @@ _to_delete/
 *.pptx
 *.potx
 
+# Node 의존 — playwright 설치 시 생성.
+# push.ps1 이 `git add -A` 를 쓰므로 반드시 제외해야 한다 (수만 개 파일이 커밋된다).
+node_modules/
+
+# playwright 산출물 · 캐시
+playwright-report/
+test-results/
+.playwright/
+ms-playwright/
+
 # 임시 · 백업
 *.tmp
 *.bak

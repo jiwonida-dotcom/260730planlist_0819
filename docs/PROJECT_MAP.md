@@ -16,7 +16,9 @@
 | `tools/tagcheck.mjs` | 태그 정합 (여는/닫는 태그 스택 대조) — `check.mjs` 가 import | 추적 |
 | `check.cmd` | 검증 실행 진입점 (더블클릭 · `cd` 를 스크립트가 처리) | 추적 |
 | `push.cmd` · `push.ps1` | 커밋 · push (`git add -A`) · push 후 원격과 대조 | 추적 |
-| `.gitattributes` · `.gitignore` | LF 정규화(`*.ps1`만 CRLF) / 임시 파일 제외 | 추적 |
+| `package.json` | npm 스크립트 (`check` · `check:full` · `check:static`) · playwright devDependency | 추적 |
+| `.gitattributes` · `.gitignore` | LF 정규화(`*.ps1`만 CRLF) / 임시 파일 · **`node_modules/`** 제외 | 추적 |
+| `node_modules/` | playwright 설치분 | **제외** |
 | `Storage/` | 구 버전 보관 (`HANDOFF.md` · `testcase.csv` · `testcase_paste.tsv`) | 추적 |
 | `현재 기획 문서/` | 원본 화면설계서 PPTX (v27.6) | 제외(`*.pptx`) |
 | `_to_delete/` | 삭제 대기 — 세션에서 직접 지울 수 없어 모아 둔 것 | **제외** |

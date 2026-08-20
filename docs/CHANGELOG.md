@@ -3,6 +3,32 @@
 > 최신 항목이 위에 옵니다.
 > `index.html` 내부의 "변경 이력" 표(`#fs-log`)와는 별개입니다. 그쪽도 역순 고정이며 행 추가 시 맨 위에 넣습니다.
 
+## [2026-08-20] playwright 로컬 설치 경로 마련 — 브라우저 탐색 순서 · node_modules 제외
+```text
+Commit: —
+Type: feat(tools)
+Target: package.json (신설) / .gitignore / tools/check.mjs / docs/ENVIRONMENT.md 4절 · PROJECT_MAP.md
+        **index.html 무변경**
+Change: 1) **브라우저를 순서대로 찾는다** — PW_CHROMIUM 환경변수 → /opt/pw-browsers →
+           playwright 가 내려받은 Chromium → **Edge(channel msedge)** → Chrome.
+           Windows 에는 Edge 가 항상 있으므로 Chromium 내려받기가 막힌 환경에서도
+           `npm i -D playwright` 만으로 --full 이 돈다. 어느 경로로 열렸는지는
+           출력의 B1 행에 찍는다 — 무엇으로 검증했는지 모르는 채 PASS 를 믿지 않기 위해서다.
+           전건 실패 시에는 시도한 경로와 오류를 함께 출력하고 FAIL 로 끝난다.
+        2) **.gitignore 에 node_modules/ 추가** — push.ps1 이 git add -A 를 쓰므로
+           제외하지 않으면 npm install 직후 수만 개 파일이 커밋된다. playwright 산출물
+           (playwright-report/ · test-results/ · ms-playwright/)도 함께 제외했다.
+           package.json · package-lock.json 은 추적한다(버전 고정).
+        3) **package.json 신설** — npm run check / check:full / check:static.
+        4) **ENVIRONMENT 4절 정정** — 종전에 「로컬 환경에는 네트워크가 없습니다」로 적혀
+           Windows 에서도 설치가 불가한 것처럼 읽혔다. 네트워크가 없는 것은
+           **Cowork 세션 샌드박스**이고 사용자 PC 는 push 가 되는 환경이다.
+           두 환경을 표로 갈라 적고 설치 절차를 넣었다.
+Reason: --full 21항목 중 18항목이 브라우저를 요구한다. 사용자 PC 에서 정적 3항목만 도는 상태로는
+        「검증했다」고 말할 수 없다. 설치 경로를 열어 두고, 설치가 막히면 Edge 로 우회한다.
+검증:   클라우드에서 --full 21항목 전건 PASS · B1 = 「playwright 내려받은 Chromium」 표기 확인.
+```
+
 ## [2026-08-20] 검증 실행 편의 · Python 의존 제거 · push 확인 강화
 ```text
 Commit: —
