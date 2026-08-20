@@ -20,7 +20,7 @@
 요금제 개편/
 ├ index.html                      ← 주 산출물 (규모는 STATUS.md)
 ├ CLAUDE.md · HANDOFF.md · README.md · MIGRATION.md
-├ tools/check.mjs · tools/tagcheck.py   검증 자동화
+├ check.cmd · tools/check.mjs · tools/tagcheck.mjs   검증 자동화
 ├ push.cmd / push.ps1             커밋 · push (git add -A)
 ├ .gitignore / .gitattributes
 ├ docs/                           지식 문서 + origin-slides/
@@ -48,7 +48,7 @@ node tools/check.mjs --status
 | 도구 | 상태 |
 |---|---|
 | `node` | 사용 가능 |
-| `python3` | 사용 가능 (`tools/tagcheck.py` 가 씀) |
+| `python3` | **쓰지 않습니다** — Windows 에서 스토어 스텁으로 잡혀 실행이 실패했습니다(2026-08-20). 태그 검사는 Node 구현입니다 |
 | `git` | 사용 가능 (**커밋까지 가능 · push 불가** — 네트워크 없음) |
 | `playwright` + Chromium | 클라우드 세션에서 사용 가능 (`/opt/pw-browsers/chromium`). 로컬에는 없을 수 있음 |
 

@@ -13,8 +13,9 @@
 | `README.md` | 사람용 프로젝트 설명 | 추적 |
 | `MIGRATION.md` | 문서 구조 재구성 범위와 이력 | 추적 |
 | `tools/check.mjs` | **검증 자동화** — 정적 · DOM · 18조합 · `STATUS.md` 생성 | 추적 |
-| `tools/tagcheck.py` | 태그 정합 (html.parser) — `check.mjs` 가 호출 | 추적 |
-| `push.cmd` · `push.ps1` | 커밋 · push (`git add -A`) | 추적 |
+| `tools/tagcheck.mjs` | 태그 정합 (여는/닫는 태그 스택 대조) — `check.mjs` 가 import | 추적 |
+| `check.cmd` | 검증 실행 진입점 (더블클릭 · `cd` 를 스크립트가 처리) | 추적 |
+| `push.cmd` · `push.ps1` | 커밋 · push (`git add -A`) · push 후 원격과 대조 | 추적 |
 | `.gitattributes` · `.gitignore` | LF 정규화(`*.ps1`만 CRLF) / 임시 파일 제외 | 추적 |
 | `Storage/` | 구 버전 보관 (`HANDOFF.md` · `testcase.csv` · `testcase_paste.tsv`) | 추적 |
 | `현재 기획 문서/` | 원본 화면설계서 PPTX (v27.6) | 제외(`*.pptx`) |

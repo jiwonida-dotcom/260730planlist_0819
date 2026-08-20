@@ -3,6 +3,36 @@
 > 최신 항목이 위에 옵니다.
 > `index.html` 내부의 "변경 이력" 표(`#fs-log`)와는 별개입니다. 그쪽도 역순 고정이며 행 추가 시 맨 위에 넣습니다.
 
+## [2026-08-20] 검증 실행 편의 · Python 의존 제거 · push 확인 강화
+```text
+Commit: —
+Type: fix(tools)
+Target: check.cmd (신설) / tools/tagcheck.mjs (신설 · tagcheck.py 대체) / tools/check.mjs /
+        push.ps1 / HANDOFF.md 0절 / docs/VALIDATION.md · PROJECT_MAP.md · ENVIRONMENT.md
+        **index.html 무변경**
+Change: 1) **check.cmd 신설** — 레포 루트가 아닌 곳에서 node tools/check.mjs 를 실행하면
+           MODULE_NOT_FOUND 가 난다. push.cmd 와 같은 방식으로 cd 를 스크립트가 처리한다.
+           인자 없이 실행하면 --status. node 가 없으면 그 사실을 알리고 멈춘다.
+        2) **태그 검사를 Node 로 이관** — Windows 에서 `python3` 이 스토어 스텁으로 잡혀
+           "Python" 만 출력하고 exit 1 로 끝났다(S2 FAIL). 런타임을 하나로 줄이는 편이
+           안전하므로 html.parser 구현을 tools/tagcheck.mjs 로 옮겼다.
+           같은 파일 · 같은 결함 주입에서 결과가 동일함을 대조 확인했다
+           (여분 </div> → stray 3 · mismatch 2 · 줄 번호까지 일치).
+           이제 정적 검사는 **node 만으로** 돈다.
+        3) **push.ps1** — 성공 안내 URL 이 구 저장소(_3)를 가리켜, push 에 성공해도
+           옛 화면을 보게 됐다. URL 을 _0819 로 정정하고, push 후 fetch 해서
+           로컬 HEAD 와 origin/main 을 대조해 같을 때만 완료로 보고한다.
+           올릴 커밋이 0건이면 그 사실을 명시하고 캐시(?v=2)를 안내한다.
+           커밋 실패(user.name 미설정 등)를 성공으로 보고하던 문제도 고쳤다.
+Reason: 자동화의 값은 **정확하게 동작할 때만** 생긴다. 검증 스크립트가 실행 위치 때문에
+        못 돌고, 태그 검사가 런타임 문제로 FAIL 을 내고, push 스크립트가 잘못된 URL 을
+        안내하면, 도구가 오히려 판단을 흐린다.
+Note:   tools/tagcheck.py 는 추적에서 제외하고 _to_delete/ 로 옮겼다 —
+        같은 검사를 두 언어로 두면 갈라진다(RULES 단일 출처 원칙).
+검증:   node tools/check.mjs --full **21항목 전건 PASS** · S2 태그 정합 0건 ·
+        로컬 Windows 에서 python 없이 --status 동작 확인.
+```
+
 ## [2026-08-20] 프로세스 개편 — 검증 자동화 · 실측 단일 출처 · 진입 문서 정정
 ```text
 Commit: 50b698f · a3c1d74 · daf2f2f

@@ -11,6 +11,8 @@
  *   node tools/check.mjs --record     VALIDATION.md 5절 기록 블록 출력
  *   node tools/check.mjs --static     브라우저 없이 정적 검사만
  *
+ * 의존 — Node 만 있으면 정적 검사가 돕니다. --full 의 레이아웃 검사에만 playwright 가 필요합니다.
+ *
  * 설계 원칙 — 판정 로직을 다시 쓰지 않는다.
  *   정의 수집은 페이지의 fsTipBuild(), 도면 생성은 fsPopPaint() 를 그대로 호출해
  *   검사와 구현이 갈라지지 않게 합니다. (H 프레임이 프로토타입 렌더 함수를
@@ -21,6 +23,7 @@
 
 import { readFileSync, writeFileSync, existsSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
+import { checkTags } from './tagcheck.mjs';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -57,29 +60,13 @@ function staticChecks() {
   facts.lines = lines;
   info('S1', '파일 규모', `${facts.kb}KB · ${lines.toLocaleString()}줄`);
 
-  /* 태그 정합 — 브라우저는 어긋난 태그를 자동 교정하므로 파서로 따로 본다 */
-  const py = path.join(HERE, 'tagcheck.py');
-  if (existsSync(py)) {
-    let out = '', code = 0;
-    try {
-      out = execFileSync('python3', [py, FILE], { encoding: 'utf8' });
-    } catch (e) {
-      out = (e.stdout || '').toString();
-      code = 1;
-    }
-    let j = null;
-    try { j = JSON.parse(out); } catch { /* ignore */ }
-    if (j) {
-      const n = j.stray.length + j.unclosed.length + j.mismatch.length;
-      const first = [...j.stray, ...j.unclosed, ...j.mismatch][0];
-      add('S2', '태그 정합 (html.parser)', n === 0,
-        n === 0 ? '0건' : `${n}건 — 첫 건 ${JSON.stringify(first)}`);
-    } else {
-      add('S2', '태그 정합 (html.parser)', false, `파서 실행 실패 (exit ${code})`);
-    }
-  } else {
-    info('S2', '태그 정합', 'tools/tagcheck.py 없음 — 건너뜀');
-  }
+  /* 태그 정합 — 브라우저는 어긋난 태그를 자동 교정하므로 따로 본다.
+     2026-08-20: python3 + html.parser 에서 Node 구현으로 이관 —
+     Windows 에서 python3 이 스토어 스텁으로 잡혀 실행이 실패했다. 런타임은 하나로 둔다 */
+  const t = checkTags(src);
+  const bad = [...t.stray, ...t.unclosed, ...t.mismatch];
+  add('S2', '태그 정합', bad.length === 0,
+    bad.length === 0 ? '0건' : `${bad.length}건 — 첫 건 ${JSON.stringify(bad[0])}`);
 
   /* 탭 구성 — R_TABS 와 FS_TIP_TAB 라벨, 섹션 존재가 어긋나면 이동·툴팁이 깨진다 */
   const mTabs = src.match(/var\s+R_TABS\s*=\s*\[([^\]]+)\]/);
